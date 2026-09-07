@@ -1543,8 +1543,8 @@ function downloadAsMarkdown(type, id){
 }
 function doHeaderSearch(){
   const v = document.getElementById('headerSearchInput').value.trim();
-  if(!v){go('#/section/all');return;}
-  go('#/section/all?q='+encodeURIComponent(v));
+  if(!v){go('#/search');return;}
+  go('#/search?q='+encodeURIComponent(v));
 }
 
 window.addEventListener('hashchange', render);
@@ -1610,6 +1610,16 @@ function renderHome(){
     <div class="eyebrow">creative-industries.su · база знаний</div>
     <h1>База знаний об оценке<br>творческих проектов</h1>
     <p class="lead">Кейсы, инструменты, шаблоны, методики и банк результатов, которые помогают понять, какие изменения создаёт проект, как их оценивать и как использовать выводы.</p>
+    <details style="margin:14px 0 4px;max-width:640px;">
+      <summary style="cursor:pointer;font-size:13.5px;color:var(--ink-soft);text-decoration:underline;">Хотите понять, что происходит с вашим проектом и какое влияние он оказывает? Какие вопросы решает оценка ↓</summary>
+      <ul style="font-size:13.5px;line-height:1.7;color:var(--ink-soft);margin:10px 0 0;padding-left:20px;">
+        <li>Как реализуется проект — что получается, а что мешает?</li>
+        <li>Что меняется у участников?</li>
+        <li>Что меняется шире самого проекта — в сообществах, организациях, культурной среде?</li>
+        <li>Почему происходят эти изменения и что именно в проекте на них влияет?</li>
+        <li>Сохраняются ли изменения со временем?</li>
+      </ul>
+    </details>
     <div class="audience-btns">
       <a class="audience-btn" data-nav="#/start"><span class="ab-icon">→</span><div><b>С чего начать</b><span>Ориентирующий путь для первого знакомства с оценкой</span></div></a>
       <a class="audience-btn" data-nav="#/section/tools"><span class="ab-icon">⚙</span><div><b>Для экспертов / оценщиков</b><span>Инструменты, шаблоны, методики и кейсы</span></div></a>
@@ -1653,7 +1663,7 @@ function renderHome(){
   <div class="wrap fade-in" style="padding:36px 0 8px;">
     <div class="hr"></div>
     <div style="padding-top:36px;">
-      <h2 style="font-size:22px;">Как это использовать</h2>
+      <h2 style="font-size:22px;">Как здесь всё устроено</h2>
       <div class="scenario-list" style="margin-top:16px;">
         <div class="scenario"><div class="num">01</div><h4>Найти похожий проект</h4><p>Отфильтруйте <a data-nav="#/section/cases" style="text-decoration:underline">кейсы</a> по типу проекта или аудитории, откройте карточку и посмотрите, как проект оценивали.</p></div>
         <div class="scenario"><div class="num">02</div><h4>Взять готовый инструмент</h4><p>Найдите <a data-nav="#/section/tools" style="text-decoration:underline">анкету или гайд</a> под свою аудиторию, скачайте файл и инструкцию по применению.</p></div>
@@ -1668,9 +1678,9 @@ function renderHome(){
     <div style="padding-top:36px;">
       <h2 style="font-size:22px;">Когда база может помочь</h2>
       <div class="use-grid" style="margin-top:18px;">
-        <div class="use-item"><div class="use-num">01</div><h4>Вы готовите проект или пишете заявку</h4><p>Сформулировать ожидаемые результаты, выбрать приоритеты оценки и собрать черновик плана.</p><a data-nav="#/start" style="font-size:13px;color:var(--navy);text-decoration:underline;cursor:pointer;">Начать с проекта на старте →</a></div>
-        <div class="use-item"><div class="use-num">02</div><h4>Проект уже идёт</h4><p>Понять, какие данные уже есть, чего не хватает и что ещё можно успеть собрать.</p><a data-nav="#/start" style="font-size:13px;color:var(--navy);text-decoration:underline;cursor:pointer;">Разобраться с текущим проектом →</a></div>
-        <div class="use-item"><div class="use-num">03</div><h4>Нужно подвести итоги</h4><p>Понять, что можно сказать по имеющимся данным, какие есть ограничения и как использовать выводы.</p><a data-nav="#/start" style="font-size:13px;color:var(--navy);text-decoration:underline;cursor:pointer;">Подготовить итоги →</a></div>
+        <div class="use-item"><div class="use-num">01</div><h4>Вы готовите проект или пишете заявку</h4><p>Сформулировать ожидаемые результаты, выбрать приоритеты оценки и собрать черновик плана.</p><a data-nav="#/start?open=1" style="font-size:13px;color:var(--navy);text-decoration:underline;cursor:pointer;">Начать с проекта на старте →</a></div>
+        <div class="use-item"><div class="use-num">02</div><h4>Проект уже идёт</h4><p>Понять, какие данные уже есть, чего не хватает и что ещё можно успеть собрать.</p><a data-nav="#/start?open=2" style="font-size:13px;color:var(--navy);text-decoration:underline;cursor:pointer;">Разобраться с текущим проектом →</a></div>
+        <div class="use-item"><div class="use-num">03</div><h4>Нужно подвести итоги</h4><p>Понять, что можно сказать по имеющимся данным, какие есть ограничения и как использовать выводы.</p><a data-nav="#/start?open=3" style="font-size:13px;color:var(--navy);text-decoration:underline;cursor:pointer;">Подготовить итоги →</a></div>
         <div class="use-item"><div class="use-num">04</div><h4>Вы оцениваете чужой проект</h4><p>Найти методики, инструменты, шаблоны и похожие кейсы для профессиональной оценки.</p><a data-nav="#/section/all" style="font-size:13px;color:var(--navy);text-decoration:underline;cursor:pointer;">Подобрать материалы для оценки →</a></div>
         <div class="use-item"><div class="use-num">05</div><h4>Нужно понять результаты и вклад проекта</h4><p>Посмотреть, какие изменения создают творческие проекты и с какими ценностями они связаны.</p><a data-nav="#/results" style="font-size:13px;color:var(--navy);text-decoration:underline;cursor:pointer;">Исследовать результаты и ценности →</a></div>
       </div>
@@ -1743,7 +1753,7 @@ function renderHome(){
 /* ============================================================
    РЕНДЕР: СТРАНИЦА «С ЧЕГО НАЧАТЬ»
    ============================================================ */
-function renderStart(){
+function renderStart(openParam){
   buildNav(null);
   const path = state.startPath || 'newbie';
   const scenario = state.startScenario || 'plan';
@@ -1765,7 +1775,7 @@ function renderStart(){
       <h2 style="font-size:20px;margin-bottom:6px;">Четыре стадии оценки — простым языком</h2>
       <p style="font-size:14px;color:var(--ink-soft);max-width:640px;margin-bottom:20px;">Не обязательно разбираться во всей базе. Достаточно понимать четыре стадии — и знать, какие материалы нужны на каждой.</p>
 
-      <div style="display:flex;flex-direction:column;gap:16px;">
+      <div id="startStages" style="display:flex;flex-direction:column;gap:16px;">
         <details style="background:var(--paper-raised);border:1px solid var(--line);border-radius:var(--radius);padding:0;" open>
           <summary style="cursor:pointer;padding:16px 18px;display:flex;align-items:center;gap:10px;font-weight:700;font-size:15px;">
             <span style="background:var(--blue-bg);color:var(--blue);width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;">01</span>
@@ -1963,6 +1973,10 @@ function renderStart(){
     <div class="audience-note" style="margin-top:30px;max-width:640px;">Не перегружайте себя сразу всеми деталями — на каждой стадии открывайте только то, что нужно прямо сейчас. Если встретится незнакомое слово — загляните в <a data-nav="#/glossary" style="text-decoration:underline">глоссарий</a>.</div>
     <div style="margin:36px 0 60px;"><a class="btn btn-primary" data-nav="#/card/case/muzeinyi-eksperiment">Посмотреть готовый пример кейса →</a></div>
   </div>`;
+  const oi = ['1','2','3','4'].includes(String(openParam)) ? parseInt(openParam) : (path==='newbie' ? 1 : 0);
+  if(oi>=1){
+    document.querySelectorAll('#startStages details').forEach((d,i)=>{ d.open = (i===oi-1); });
+  }
 }
 function setStartScenario(s){ state.startScenario=s; renderStart(); }
 
@@ -1998,7 +2012,7 @@ function renderSection(key){
 
     app.innerHTML = `
     <div class="wrap fade-in">
-      <div class="crumbs"><a href="#/">База знаний</a><span class="sep">/</span><span>${s.label}</span></div>
+      <div class="crumbs"><a href="#/">База знаний</a><span class="sep">/</span><a href="#/section/all">Все материалы</a><span class="sep">/</span><span>${s.label}</span></div>
       <div class="catalog-head">
         <h1 style="margin-top:0;">${s.label}</h1>
       </div>
@@ -2229,7 +2243,7 @@ function filterPanelCases(){
       ${VALUES.map(v=>`<option value="${v.id}" ${f.value===v.id?'selected':''}>${v.title}</option>`).join('')}
     </select></div>
   <div class="actions">
-    <button class="btn btn-ghost btn-sm" onclick="state.filters.cases={};renderSection('cases')">Сбросить</button>
+    <button class="btn btn-ghost btn-sm" onclick="state.filters.cases={};renderSection('cases')">Сбросить фильтры</button>
   </div>`;
 }
 function filterPanelTools(){
@@ -2251,7 +2265,7 @@ function filterPanelTools(){
       ${VALUES.map(v=>`<option value="${v.id}" ${f.value===v.id?'selected':''}>${v.title}</option>`).join('')}
     </select></div>
   <div class="actions">
-    <button class="btn btn-ghost btn-sm" onclick="state.filters.tools={};renderSection('tools')">Сбросить</button>
+    <button class="btn btn-ghost btn-sm" onclick="state.filters.tools={};renderSection('tools')">Сбросить фильтры</button>
   </div>`;
 }
 function filterPanelMethodology(){
@@ -2269,7 +2283,7 @@ function filterPanelMethodology(){
       ${VALUES.map(v=>`<option value="${v.id}" ${f.value===v.id?'selected':''}>${v.title}</option>`).join('')}
     </select></div>
   <div class="actions">
-    <button class="btn btn-ghost btn-sm" onclick="state.filters.methodology={};renderSection('methodology')">Сбросить</button>
+    <button class="btn btn-ghost btn-sm" onclick="state.filters.methodology={};renderSection('methodology')">Сбросить фильтры</button>
   </div>`;
 }
 function filterPanelTemplates(){
@@ -2292,7 +2306,7 @@ function filterPanelTemplates(){
       ${allFormats.map(fmt=>`<option ${f.format===fmt?'selected':''}>${fmt}</option>`).join('')}
     </select></div>
   <div class="actions">
-    <button class="btn btn-ghost btn-sm" onclick="state.filters.templates={};renderSection('templates')">Сбросить</button>
+    <button class="btn btn-ghost btn-sm" onclick="state.filters.templates={};renderSection('templates')">Сбросить фильтры</button>
   </div>`;
 }
 function filterPanelAssessmentDocs(){
@@ -2586,7 +2600,7 @@ function renderToolDetail(id){
   if(!t){ app.innerHTML = notFound(); return; }
   app.innerHTML = `
   <div class="wrap fade-in">
-    <div class="crumbs"><a href="#/">База знаний</a><span class="sep">/</span><a href="#/section/tools">Инструменты</a><span class="sep">/</span><span>${t.title}</span></div>
+    <div class="crumbs"><a href="#/">База знаний</a><span class="sep">/</span><a href="#/section/all">Все материалы</a><span class="sep">/</span><a href="#/section/tools">Инструменты</a><span class="sep">/</span><span>${t.title}</span></div>
     <div class="detail-head">
       <span class="badge" style="background:${SECTIONS.tools.bg};color:${SECTIONS.tools.color}">${t.type}</span>
       <div class="detail-titlebar">
@@ -2633,7 +2647,7 @@ function renderMethodologyDetail(id){
   if(!m){ app.innerHTML = notFound(); return; }
   app.innerHTML = `
   <div class="wrap fade-in">
-    <div class="crumbs"><a href="#/">База знаний</a><span class="sep">/</span><a href="#/section/methodology">Методики</a><span class="sep">/</span><span>${m.title}</span></div>
+    <div class="crumbs"><a href="#/">База знаний</a><span class="sep">/</span><a href="#/section/all">Все материалы</a><span class="sep">/</span><a href="#/section/methodology">Методики</a><span class="sep">/</span><span>${m.title}</span></div>
     <div class="detail-head">
       <span class="badge" style="background:${SECTIONS.methodology.bg};color:${SECTIONS.methodology.color}">${m.sub}</span>
       <div class="detail-titlebar"><div><h1>${m.title}</h1><p class="detail-sub">${m.shortDesc}</p></div>
@@ -2667,7 +2681,7 @@ function renderTemplateDetail(id){
   if(!t){ app.innerHTML = notFound(); return; }
   app.innerHTML = `
   <div class="wrap fade-in">
-    <div class="crumbs"><a href="#/">База знаний</a><span class="sep">/</span><a href="#/section/templates">Шаблоны и образцы</a><span class="sep">/</span><span>${t.title}</span></div>
+    <div class="crumbs"><a href="#/">База знаний</a><span class="sep">/</span><a href="#/section/all">Все материалы</a><span class="sep">/</span><a href="#/section/templates">Шаблоны и образцы</a><span class="sep">/</span><span>${t.title}</span></div>
     <div class="detail-head">
       <span class="badge" style="background:${SECTIONS.templates.bg};color:${SECTIONS.templates.color}">Шаблон</span>
       <div class="detail-titlebar"><div><h1>${t.title}</h1><p class="detail-sub">${t.shortDesc}</p></div>
@@ -2702,7 +2716,7 @@ function renderAssessmentDocDetail(id){
   const linkedCase = byId(CASES,d.caseId);
   app.innerHTML = `
   <div class="wrap fade-in">
-    <div class="crumbs"><a href="#/">База знаний</a><span class="sep">/</span><a href="#/section/assessmentDocs">Документы оценки</a><span class="sep">/</span><span>${d.title}</span></div>
+    <div class="crumbs"><a href="#/">База знаний</a><span class="sep">/</span><a href="#/section/all">Все материалы</a><span class="sep">/</span><a href="#/section/assessmentDocs">Документы оценки</a><span class="sep">/</span><span>${d.title}</span></div>
     <div class="detail-head">
       <span class="badge" style="background:${SECTIONS.assessmentDocs.bg};color:${SECTIONS.assessmentDocs.color}">${d.docType}</span>
       <div class="detail-titlebar">
@@ -3029,14 +3043,18 @@ function renderSearch(q, type){
   TEMPLATES.forEach(t=>{ if(match(t.title+t.shortDesc+t.when)) results.push({type:'templates', obj:t, route:'template'}); });
   GLOSSARY.forEach(g=>{ if(match(g.term+g.def)) results.push({type:'glossary', obj:{title:g.term, shortDesc:g.def, id:g.term}, route:'glossary'}); });
   VALUES.forEach(v=>{ if(match(v.title+v.desc)) results.push({type:'values', obj:{title:v.title, shortDesc:v.desc, id:v.id}, route:'value'}); });
+  RESULTS_TREE.forEach((appr,ai)=>{ appr.influenceAreas.forEach((area,ari)=>{ area.results.forEach((r,ri)=>{
+    if(match(r.text+' '+appr.approach+' '+area.name)) results.push({type:'results', obj:{title:r.text, shortDesc:appr.approach+' → '+area.name}, ai, ari, ri});
+  }); }); });
 
   if(resolvedType!=='all') results = results.filter(r=>r.type===resolvedType);
 
-  const tabs = ['all',...CATALOG_SECTIONS,'values','glossary'];
+  const tabs = ['all',...CATALOG_SECTIONS,'values','results','glossary'];
   document.getElementById('app').innerHTML = `<div class="wrap fade-in">
     <div class="crumbs"><a href="#/">База знаний</a><span class="sep">/</span><span>Поиск</span></div>
     <div class="catalog-head">
       <h1 style="font-size:26px;">Результаты поиска${q?': «'+esc(q)+'»':''}</h1>
+      <p style="font-size:13px;color:var(--ink-soft);max-width:640px;">Область поиска — вся база знаний: материалы, ценности, результаты, справочник. Поиск по всему сайту — в шапке основного сайта. Внутри разделов (кейсы, инструменты и т. п.) работает свой локальный поиск.</p>
       <div class="unisearch" style="margin-top:18px;max-width:640px;">
         <div class="unisearch-main">
           <div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></div>
@@ -3052,6 +3070,11 @@ function renderSearch(q, type){
     <div class="card-list">
       ${results.length ? results.map(r=>{
         const s = SECTIONS[r.type];
+        if(r.type==='results') return `<a class="item-card" data-nav="#/result/${r.ai}/${r.ari}/${r.ri}" style="text-decoration:none;">
+          <div class="spine" style="background:${s.color}"></div>
+          <div class="row1"><h3>${r.obj.title}</h3><span class="badge" style="background:${s.bg};color:${s.color}">${s.short}</span></div>
+          <div class="desc">${r.obj.shortDesc}</div>
+        </a>`;
         const routeKey = r.type==='cases'?'case':r.type;
         return `<a class="item-card" data-nav="#/card/${routeKey}/${encodeURIComponent(r.obj.id||r.obj.title)}" style="text-decoration:none;">
           <div class="spine" style="background:${s.color}"></div>
@@ -3064,8 +3087,8 @@ function renderSearch(q, type){
 }
 function searchPageGo(){
   const v = document.getElementById('searchPageInput').value.trim();
-  if(!v){go('#/section/all');return;}
-  go('#/section/all?q='+encodeURIComponent(v));
+  if(!v){go('#/search');return;}
+  go('#/search?q='+encodeURIComponent(v));
 }
 
 /* ============================================================
@@ -3164,7 +3187,7 @@ function renderResultDetail(apprIdx,areaIdx,resultIdx){
             ${otherFormulations.map(r=>`<div style="padding:8px 0;border-bottom:1px solid var(--line);font-size:13px;">${r.text}</div>`).join('')}
           </div>
         </details>` : ''}
-        ${result.indicators&&result.indicators.length ? `<details style="margin-top:16px;background:var(--paper-raised);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;" open>
+        ${result.indicators&&result.indicators.length ? `<details style="margin-top:16px;background:var(--paper-raised);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;">
           <summary style="cursor:pointer;padding:14px 18px;font-size:14px;font-weight:600;">Показатели (${result.indicators.length})</summary>
           <div style="padding:0 18px 14px;">
             <ul style="font-size:13.5px;line-height:1.7;color:var(--ink-soft);padding-left:18px;">
@@ -3174,7 +3197,7 @@ function renderResultDetail(apprIdx,areaIdx,resultIdx){
         </details>` : ''}
         ${relatedCases.length ? `<div style="margin-top:32px;">
           <div class="subhead" style="font-size:16px;margin-bottom:12px;">Связанные кейсы</div>
-          <div class="card-list">${renderCardList('cases',relatedCases)}</div>
+          <div class="card-list">${renderCardList('cases',relatedCases.slice(0,5))}</div>
           <div style="margin-top:12px;"><a class="btn btn-ghost btn-sm" href="#/section/all?type=cases">Все кейсы →</a></div>
         </div>` : ''}
         ${relatedTools.length ? `<div style="margin-top:32px;">
@@ -3199,7 +3222,7 @@ function renderResultDetail(apprIdx,areaIdx,resultIdx){
 
   if(parts.length===0){ renderHome(); return; }
   const [a,b,c] = parts;
-  if(a==='start') return renderStart();
+  if(a==='start') return renderStart(query.open);
   if(a==='section' && (b==='all' || CATALOG_SECTIONS.includes(b))) return renderSection(b);
   if(a==='card'){
     if(b==='case') return renderCaseDetail(c);
