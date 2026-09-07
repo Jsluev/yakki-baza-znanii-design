@@ -46,6 +46,10 @@ img{max-width:100%;display:block;}
 .topbar{background:var(--navy-deep);color:#F3F0E8;font-family:var(--font-mono);font-size:12px;padding:6px 0;}
 .topbar .wrap{display:flex;justify-content:space-between;align-items:center;gap:12px;}
 .topbar .tag{background:#3A4570;color:#fff;padding:2px 8px;border-radius:20px;font-size:11px;}
+.topbar a{color:var(--c-values);text-decoration:none;font-weight:600;}
+.topbar a:hover{text-decoration:underline;color:#fff;}
+.site-back{font-size:12.5px;color:var(--ink-soft);border:1.5px solid var(--line);border-radius:20px;padding:4px 12px;text-decoration:none;display:inline-flex;align-items:center;gap:5px;white-space:nowrap;transition:border-color .15s,color .15s;flex-shrink:0;}
+.site-back:hover{border-color:var(--navy);color:var(--navy);}
 header.main{background:var(--paper-raised);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50;}
 header.main .wrap{display:flex;align-items:center;gap:20px;padding-top:12px;padding-bottom:12px;}
 .brand{display:flex;align-items:center;gap:10px;flex-shrink:0;cursor:pointer;}
@@ -451,6 +455,7 @@ footer a:hover{color:#fff;}
 /* --- Mobile header & nav --- */
 @media (max-width:980px){
   .hamburger{display:block;}
+  .site-back{display:none;}
   header.main .wrap{position:relative;}
   nav.mainnav{
     display:none;
@@ -746,7 +751,7 @@ footer a:hover{color:#fff;}
 </head>
 <body>
 
-<div class="topbar"><div class="wrap"><span>creative-industries.su · раздел «База знаний»</span><span class="tag">кликабельный прототип · навигация и структура</span></div></div>
+<div class="topbar"><div class="wrap"><a href="https://creative-industries.su/" target="_blank" rel="noopener">← creative-industries.su</a><span class="tag">кликабельный прототип · навигация и структура</span></div></div>
 
 <header class="main">
   <div class="wrap">
@@ -754,6 +759,7 @@ footer a:hover{color:#fff;}
       <div class="mark"><span></span></div>
       <div class="word"><b>ЯККИ</b><small>База знаний</small></div>
     </div>
+    <a href="https://creative-industries.su/" target="_blank" rel="noopener" class="site-back">← Основной сайт</a>
     <div class="header-search">
       <div class="header-search-inner">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
