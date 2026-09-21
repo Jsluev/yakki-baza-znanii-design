@@ -17,6 +17,7 @@
   --navy:#4F2B85; --navy-deep:#2A1650; --navy-soft:#F0E9F9;
   --yakki-violet:#4F2B85; --yakki-ink:#2A1650; --yakki-purple:#A038B0; --yakki-purple-deep:#7E2A8A;
   --yakki-orange:#F78E45; --yakki-orange-deep:#D96C1E; --yakki-peach:#FFDDBE;
+  --accent:#A038B0; --accent-light:#F3E7F7;
   --yakki-pink:#C2437F; --yakki-blue:#2E7FC2; --yakki-teal:#1C8798;
   --c-cases:#9C3FB0; --c-cases-bg:#F6E9FA;
   --c-tools:#C25E14; --c-tools-bg:#FDEEDF;
@@ -33,7 +34,7 @@
   --font-display:'Georgia','Times New Roman',serif; --font-body:'Museo Sans Cyrl','Nunito Sans','Segoe UI',system-ui,-apple-system,'Helvetica Neue',Roboto,Arial,sans-serif; --font-mono:'Museo Sans Cyrl','Nunito Sans','Segoe UI',system-ui,-apple-system,sans-serif;
 }
 *{box-sizing:border-box;}
-html{scroll-behavior:smooth;}
+html{scroll-behavior:smooth;overflow-x:clip;}
 body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font-body);line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:clip;}
 h1,h2,h3,h4{font-family:var(--font-display);font-weight:600;margin:0;letter-spacing:-.005em;}
 h1{font-weight:600;}
@@ -72,12 +73,18 @@ nav.mainnav .dd-btn.active{color:var(--yakki-purple);}
 .dd:hover .dd-menu, .dd:focus-within .dd-menu{display:block;}
 .dd-menu a{display:flex;align-items:center;gap:8px;padding:8px 10px;font-size:13.5px;border-radius:6px;}
 .dd-menu a:hover{background:var(--paper-sunk);}
+nav.mainnav .dd:last-child .dd-menu{left:auto;right:0;}
 .swatch{width:8px;height:8px;border-radius:2px;flex-shrink:0;}
 .searchbox{display:flex;align-items:center;background:var(--paper-sunk);border:1px solid var(--line);border-radius:10px;padding:3px 4px 3px 12px;gap:4px;min-width:200px;transition:border-color .12s;}
 .searchbox:focus-within{border-color:var(--navy);}
 .searchbox input{border:none;background:none;font-family:var(--font-body);font-size:13px;outline:none;width:140px;color:var(--ink);}
 .searchbox input::placeholder{color:var(--ink-faint);}
 .searchbox button{background:var(--navy);color:#fff;border:none;border-radius:7px;padding:6px 14px;font-size:12.5px;font-weight:600;transition:background .12s;}
+@media (max-width:1180px){
+  header.main .wrap{gap:12px;}
+  nav.mainnav a, nav.mainnav .dd-btn{font-size:13.5px;padding:7px 9px;}
+  .site-back{font-size:12.5px;padding:6px 10px;}
+}
 @media (max-width:1100px){
   nav.mainnav a, nav.mainnav .dd-btn{font-size:13px;padding:6px 8px;}
   nav.mainnav{gap:0;}
@@ -90,15 +97,15 @@ nav.mainnav .dd-btn.active{color:var(--yakki-purple);}
 .hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(4px,-4px);}
 
 .header-search{flex:1;display:flex;justify-content:flex-end;min-width:0;}
-.hsearch{display:flex;align-items:center;}
+.hsearch{position:relative;display:flex;align-items:center;}
 .hsearch-toggle{width:42px;height:42px;border-radius:50%;border:none;background:var(--yakki-orange);color:#fff;display:flex;align-items:center;justify-content:center;transition:background .18s;flex-shrink:0;}
 .hsearch-toggle:hover{background:var(--yakki-orange-deep);border-color:var(--yakki-orange-deep);color:#fff;}
-.hsearch-expand{display:flex;align-items:center;background:#fff;border:solid var(--line);border-width:0;border-radius:12px;overflow:hidden;max-width:0;opacity:0;transition:max-width .25s ease,opacity .2s ease,border-color .15s;white-space:nowrap;}
-.hsearch.open .hsearch-expand{max-width:340px;opacity:1;border-width:1.5px;margin-left:8px;}
-.hsearch-expand:focus-within{border-color:var(--navy);}
-.hsearch-expand input{border:none;outline:none;font-family:var(--font-body);font-size:14px;padding:10px 4px 10px 14px;width:200px;color:var(--ink);background:transparent;}
+.hsearch-expand{position:absolute;top:calc(100% + 10px);right:0;display:flex;align-items:center;background:#fff;border:1.5px solid var(--line-strong);border-radius:12px;box-shadow:var(--shadow);padding:3px;opacity:0;visibility:hidden;transform:translateY(-6px);transition:opacity .18s ease,transform .18s ease;white-space:nowrap;z-index:80;}
+.hsearch-expand::before{content:'';position:absolute;top:-6px;right:15px;width:10px;height:10px;background:#fff;border-left:1.5px solid var(--line-strong);border-top:1.5px solid var(--line-strong);transform:rotate(45deg);}
+.hsearch.open .hsearch-expand{opacity:1;visibility:visible;transform:none;}
+.hsearch-expand input{border:none;outline:none;font-family:var(--font-body);font-size:14px;padding:10px 4px 10px 14px;width:210px;color:var(--ink);background:transparent;}
 .hsearch-expand input::placeholder{color:var(--ink-faint);}
-.hsearch-expand button{background:var(--navy);color:#fff;border:none;margin:3px 4px 3px 0;padding:8px 18px;border-radius:8px;font-weight:600;font-size:13px;font-family:var(--font-body);cursor:pointer;white-space:nowrap;transition:background .15s;}
+.hsearch-expand button{background:var(--navy);color:#fff;border:none;margin:0;padding:9px 18px;border-radius:8px;font-weight:600;font-size:13px;font-family:var(--font-body);cursor:pointer;white-space:nowrap;transition:background .15s;}
 .hsearch-expand button:hover{background:var(--navy-deep);}
 
 /* ---------- buttons/chips ---------- */
@@ -428,7 +435,7 @@ table.qtable td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-al
 .value-card::after{content:'↗';position:absolute;right:8px;bottom:12px;width:38px;height:38px;border-radius:9px;background:var(--yakki-purple);color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;transition:background .18s ease;}
 .value-card:hover::after{background:var(--yakki-orange);}
 /* tinted page band (values) */
-.page-tint{background:#F5F3F8;padding-bottom:56px;}
+.page-tint{background:#F5F3F8;padding-bottom:4px;}
 .page-tint .value-card{background:#fff;border:1px solid #E7E0F3;}
 
 /* results tree */
@@ -1594,7 +1601,17 @@ function toggleHeaderSearch(force){
   const box = document.getElementById('hsearchBox'); if(!box) return;
   const open = (typeof force==='boolean') ? force : !box.classList.contains('open');
   box.classList.toggle('open',open);
-  if(open){ const i = document.getElementById('headerSearchInput'); if(i) setTimeout(()=>i.focus(),120); }
+  if(open){
+    const i = document.getElementById('headerSearchInput'); if(i) setTimeout(()=>i.focus(),120);
+    setTimeout(()=>document.addEventListener('click',hsearchOutsideClose),0);
+  } else {
+    document.removeEventListener('click',hsearchOutsideClose);
+  }
+}
+function hsearchOutsideClose(e){
+  const box = document.getElementById('hsearchBox');
+  if(box && !box.contains(e.target)) toggleHeaderSearch(false);
+  document.removeEventListener('click',hsearchOutsideClose);
 }
 function toggleMobileDd(el){
   if(window.innerWidth>980) return;
