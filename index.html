@@ -4,26 +4,30 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <title>База знаний ЯККИ — прототип</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <style>
 :root{
-  --paper:#FBF8F2; --paper-raised:#FFFFFF; --paper-sunk:#F3EEE3;
-  --ink:#2B271F; --ink-soft:#716C60; --ink-faint:#A29C8C;
-  --line:#E9E2D3; --line-strong:#D9CFB8;
-  --navy:#2B3868; --navy-deep:#181F3B; --navy-soft:#eef0f6;
-  --c-cases:#3568E8; --c-cases-bg:#EAF0FD;
-  --c-tools:#249368; --c-tools-bg:#E6F5ED;
-  --c-method:#CE7A22; --c-method-bg:#FBEEDD;
-  --c-templates:#C94A54; --c-templates-bg:#FBE9E9;
-  --c-learning:#7862CE; --c-learning-bg:#EFEAFB;
-  --c-values:#BB3A78; --c-values-bg:#FBE7F0;
-  --c-results:#1C8798; --c-results-bg:#E4F3F5;
+  --paper:#FFFFFF; --paper-raised:#FFFFFF; --paper-sunk:#F5EFFB;
+  --ink:#232033; --ink-soft:#5C5872; --ink-faint:#8F8AA3;
+  --line:#E6E0F1; --line-strong:#C9BEE2;
+  --navy:#4F2B85; --navy-deep:#2A1650; --navy-soft:#F0E9F9;
+  --yakki-violet:#4F2B85; --yakki-ink:#2A1650; --yakki-purple:#A038B0; --yakki-purple-deep:#7E2A8A;
+  --yakki-orange:#F78E45; --yakki-orange-deep:#D96C1E; --yakki-peach:#FFDDBE;
+  --yakki-pink:#C2437F; --yakki-blue:#2E7FC2; --yakki-teal:#1C8798;
+  --c-cases:#4F2B85; --c-cases-bg:#EDE6F8;
+  --c-tools:#A038B0; --c-tools-bg:#F6E7F9;
+  --c-method:#D96C1E; --c-method-bg:#FDEEDF;
+  --c-templates:#C2437F; --c-templates-bg:#FAE6EF;
+  --c-learning:#7C5CD6; --c-learning-bg:#ECE7FA;
+  --c-values:#A02060; --c-values-bg:#F8E4EE;
+  --c-results:#2E7FC2; --c-results-bg:#E5F1FA;
   --c-faq:#6D6858; --c-faq-bg:#EFEBE0;
   --c-glossary:#976E2B; --c-glossary-bg:#F5ECDA;
+  --blue:#2E7FC2; --blue-bg:#E5F1FA; --green:#1C8798; --green-bg:#E4F3F5; --warm:#D96C1E; --warm-bg:#FDEEDF;
   --radius:16px; --radius-sm:10px;
-  --shadow:0 2px 4px rgba(43,39,31,.04), 0 10px 28px -14px rgba(43,39,31,.14);
-  --font-display:'Unbounded',sans-serif; --font-body:'Manrope',sans-serif; --font-mono:'IBM Plex Mono',monospace;
+  --shadow:0 2px 4px rgba(42,22,80,.05), 0 10px 28px -14px rgba(42,22,80,.2);
+  --font-display:'Georgia','Times New Roman',serif; --font-body:'Museo Sans Cyrl','Segoe UI',system-ui,-apple-system,'Helvetica Neue',Roboto,Arial,sans-serif; --font-mono:'Museo Sans Cyrl','Segoe UI',system-ui,-apple-system,sans-serif;
 }
 *{box-sizing:border-box;}
 html{scroll-behavior:smooth;}
@@ -35,7 +39,7 @@ p{margin:0;}
 a{color:inherit;text-decoration:none;}
 button{font-family:var(--font-body);cursor:pointer;}
 :focus-visible{outline:2.5px solid var(--navy);outline-offset:2px;border-radius:4px;}
-::selection{background:#F4D9AE;}
+::selection{background:#E0CBF7;}
 img{max-width:100%;display:block;}
 .mono{font-family:var(--font-mono);}
 .eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint);}
@@ -45,19 +49,16 @@ img{max-width:100%;display:block;}
 /* ---------- header ---------- */
 .topbar{background:var(--navy-deep);color:#F3F0E8;font-family:var(--font-mono);font-size:12px;padding:6px 0;}
 .topbar .wrap{display:flex;justify-content:space-between;align-items:center;gap:12px;}
-.topbar .tag{background:#3A4570;color:#fff;padding:2px 8px;border-radius:20px;font-size:11px;}
-.topbar a{color:var(--c-values);text-decoration:none;font-weight:600;}
+.topbar .tag{background:rgba(255,255,255,.16);color:#fff;padding:2px 8px;border-radius:20px;font-size:11px;}
+.topbar a{color:var(--yakki-peach);text-decoration:none;font-weight:600;}
 .topbar a:hover{text-decoration:underline;color:#fff;}
-.site-back{font-size:12.5px;color:var(--ink-soft);border:1.5px solid var(--line);border-radius:20px;padding:4px 12px;text-decoration:none;display:inline-flex;align-items:center;gap:5px;white-space:nowrap;transition:border-color .15s,color .15s;flex-shrink:0;}
-.site-back:hover{border-color:var(--navy);color:var(--navy);}
+.site-back{font-size:12.5px;color:var(--navy);border:1.5px solid var(--line-strong);border-radius:20px;padding:4px 12px;text-decoration:none;display:inline-flex;align-items:center;gap:5px;white-space:nowrap;transition:all .15s;flex-shrink:0;font-weight:600;}
+.site-back:hover{border-color:var(--navy);background:var(--navy);color:#fff;}
 header.main{background:var(--paper-raised);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50;}
 header.main .wrap{display:flex;align-items:center;gap:20px;padding-top:12px;padding-bottom:12px;}
-.brand{display:flex;align-items:center;gap:10px;flex-shrink:0;cursor:pointer;}
-.brand .mark{width:34px;height:34px;border-radius:8px;background:conic-gradient(from 200deg,var(--c-cases),var(--c-tools),var(--c-method),var(--c-templates),var(--c-values),var(--c-cases));display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.brand .mark span{width:14px;height:14px;background:var(--paper-raised);border-radius:3px;}
-.brand .word{line-height:1.1;}
-.brand .word b{font-family:var(--font-display);font-size:17px;font-weight:700;display:block;}
-.brand .word small{font-size:11px;color:var(--ink-soft);}
+.brand{display:flex;align-items:center;gap:12px;flex-shrink:0;cursor:pointer;}
+.brand img{height:46px;width:auto;display:block;}
+.brand .prod{border-left:1px solid var(--line-strong);padding-left:12px;font-size:11.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--navy);line-height:1.45;white-space:nowrap;}
 nav.mainnav{display:flex;align-items:center;gap:2px;flex-shrink:0;}
 nav.mainnav a, nav.mainnav .dd-btn{font-size:14px;font-weight:500;color:var(--ink-soft);padding:8px 12px;border-radius:8px;white-space:nowrap;border:none;background:none;font-family:var(--font-body);}
 nav.mainnav a:hover, nav.mainnav .dd-btn:hover{background:var(--paper-sunk);color:var(--ink);}
@@ -78,21 +79,24 @@ nav.mainnav a.active{color:var(--ink);background:var(--paper-sunk);}
   nav.mainnav a, nav.mainnav .dd-btn{font-size:13px;padding:6px 8px;}
   nav.mainnav{gap:0;}
 }
-@media (max-width:980px){nav.mainnav{display:none;}.header-search{display:none;}}
+@media (max-width:980px){nav.mainnav{display:none;}.hsearch{display:none;}}
 .hamburger{display:none;background:none;border:none;cursor:pointer;padding:8px;flex-shrink:0;}
 .hamburger span{display:block;width:20px;height:2px;background:var(--ink);margin:4px 0;border-radius:2px;transition:all .2s;}
 .hamburger.open span:nth-child(1){transform:rotate(45deg) translate(4px,4px);}
 .hamburger.open span:nth-child(2){opacity:0;}
 .hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(4px,-4px);}
 
-.header-search{flex:1;max-width:520px;}
-.header-search-inner{display:flex;align-items:center;background:#fff;border:1.5px solid var(--line);border-radius:12px;transition:all .2s;box-shadow:0 1px 3px rgba(0,0,0,.04);}
-.header-search-inner:focus-within{border-color:var(--navy);box-shadow:0 0 0 3px rgba(43,56,104,.1);}
-.header-search-inner svg{flex-shrink:0;margin-left:14px;color:var(--ink-faint);opacity:.6;}
-.header-search-inner input{flex:1;border:none;outline:none;font-family:var(--font-body);font-size:14px;padding:11px 12px;background:transparent;color:var(--ink);}
-.header-search-inner input::placeholder{color:var(--ink-faint);opacity:.7;}
-.header-search-inner button{background:var(--navy);color:#fff;border:none;border-radius:8px;margin:3px 4px 3px 0;padding:8px 20px;font-weight:600;font-size:13px;font-family:var(--font-body);cursor:pointer;white-space:nowrap;transition:background .15s;letter-spacing:.01em;}
-.header-search-inner button:hover{background:var(--navy-deep);}
+.header-search{flex:1;display:flex;justify-content:flex-end;min-width:0;}
+.hsearch{display:flex;align-items:center;}
+.hsearch-toggle{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--line-strong);background:#fff;color:var(--navy);display:flex;align-items:center;justify-content:center;transition:all .18s;flex-shrink:0;}
+.hsearch-toggle:hover{background:var(--navy);border-color:var(--navy);color:#fff;}
+.hsearch-expand{display:flex;align-items:center;background:#fff;border:solid var(--line);border-width:0;border-radius:12px;overflow:hidden;max-width:0;opacity:0;transition:max-width .25s ease,opacity .2s ease,border-color .15s;white-space:nowrap;}
+.hsearch.open .hsearch-expand{max-width:340px;opacity:1;border-width:1.5px;margin-left:8px;}
+.hsearch-expand:focus-within{border-color:var(--navy);}
+.hsearch-expand input{border:none;outline:none;font-family:var(--font-body);font-size:14px;padding:10px 4px 10px 14px;width:200px;color:var(--ink);background:transparent;}
+.hsearch-expand input::placeholder{color:var(--ink-faint);}
+.hsearch-expand button{background:var(--navy);color:#fff;border:none;margin:3px 4px 3px 0;padding:8px 18px;border-radius:8px;font-weight:600;font-size:13px;font-family:var(--font-body);cursor:pointer;white-space:nowrap;transition:background .15s;}
+.hsearch-expand button:hover{background:var(--navy-deep);}
 
 /* ---------- buttons/chips ---------- */
 .btn{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:600;padding:10px 18px;border-radius:24px;border:1px solid transparent;}
@@ -107,7 +111,7 @@ nav.mainnav a.active{color:var(--ink);background:var(--paper-sunk);}
 .badge{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:600;font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.03em;padding:4px 9px;border-radius:6px;}
 .chip{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;padding:6px 12px;border-radius:20px;border:1px solid var(--line-strong);background:var(--paper-raised);color:var(--ink-soft);font-weight:500;}
 .chip.active{background:var(--navy);color:#fff;border-color:var(--navy);}
-.tag{font-size:12px;background:var(--paper-sunk);padding:3px 9px;border-radius:6px;color:var(--ink-soft);}
+.tag{font-size:12px;background:#F1E9FA;padding:3px 9px;border-radius:6px;color:#5B2E8A;font-weight:600;}
 .origin-tag{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;font-family:var(--font-mono);padding:3px 9px;border-radius:6px;text-transform:uppercase;letter-spacing:.02em;}
 .origin-tag.origin-domestic{background:#E6F5ED;color:#1a7a50;}
 .origin-tag.origin-foreign{background:#EAF0FD;color:#2B56B5;}
@@ -125,20 +129,26 @@ main{min-height:60vh;}
 
 /* ---------- home hero ---------- */
 .hero{background:
-  radial-gradient(ellipse 700px 340px at 12% -10%, var(--c-cases-bg), transparent 60%),
-  radial-gradient(ellipse 600px 320px at 100% 0%, var(--c-values-bg), transparent 60%),
-  var(--paper);border-bottom:1px solid var(--line);}
+  radial-gradient(ellipse 560px 300px at 88% -20%, rgba(247,142,69,.5), transparent 62%),
+  radial-gradient(ellipse 520px 340px at 102% 32%, rgba(46,127,194,.45), transparent 60%),
+  radial-gradient(ellipse 640px 380px at 76% 116%, rgba(194,67,127,.4), transparent 62%),
+  radial-gradient(ellipse 720px 420px at 6% 112%, rgba(160,56,176,.32), transparent 60%),
+  linear-gradient(115deg,#241040 0%,#4F2B85 48%,#7A2FA0 72%,#A038B0 100%);
+  border-bottom:none;color:#fff;}
 .hero-inner{padding:56px 0 40px;}
-.hero .eyebrow{margin-bottom:16px;}
-.hero h1{font-size:38px;line-height:1.28;max-width:740px;font-weight:600;}
-.hero h1 em{font-style:normal;color:var(--navy);}
-.hero p.lead{margin-top:18px;font-size:16.5px;max-width:600px;color:var(--ink-soft);line-height:1.6;}
+.hero .eyebrow{margin-bottom:16px;color:#FFDDBE;}
+.hero h1{font-size:38px;line-height:1.28;max-width:740px;font-weight:700;color:#fff;}
+.hero h1 em{font-style:normal;color:#FFDDBE;}
+.hero p.lead{margin-top:18px;font-size:16.5px;max-width:600px;color:rgba(255,255,255,.87);line-height:1.6;}
+.hero details summary{color:#E9D9F5!important;}
+.hero details ul{color:#D9CDEF!important;}
 @media (max-width:640px){.hero h1{font-size:27px;line-height:1.32;}}
 
 .audience-btns{display:flex;gap:12px;margin-top:28px;flex-wrap:wrap;}
 .audience-btn{display:flex;align-items:center;gap:14px;background:var(--paper-raised);border:1px solid var(--line);border-radius:var(--radius);padding:16px 20px;text-decoration:none;color:inherit;transition:all .15s;min-width:220px;flex:1;}
-.audience-btn:hover{border-color:var(--navy);box-shadow:var(--shadow);transform:translateY(-1px);}
-.audience-btn .ab-icon{width:36px;height:36px;border-radius:8px;background:var(--paper-sunk);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.audience-btn:hover{border-color:var(--yakki-orange);box-shadow:var(--shadow);transform:translateY(-1px);}
+.audience-btn .ab-icon{width:36px;height:36px;border-radius:8px;background:#EFE7F9;color:var(--navy);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.audience-btn .ab-icon svg{width:19px;height:19px;}
 .audience-btn b{display:block;font-size:14px;margin-bottom:2px;}
 .audience-btn span{display:block;font-size:12px;color:var(--ink-soft);line-height:1.4;}
 @media (max-width:640px){
@@ -212,7 +222,7 @@ main{min-height:60vh;}
 .scenario-list{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:20px;}
 @media (max-width:900px){.scenario-list{grid-template-columns:repeat(2,1fr);}}
 @media (max-width:560px){.scenario-list{grid-template-columns:1fr;}}
-.scenario{border-top:2px solid var(--ink);padding-top:12px;}
+.scenario{border-top:2px solid var(--navy);padding-top:12px;}
 .scenario .num{font-family:var(--font-mono);font-size:12px;color:var(--ink-faint);}
 .scenario h4{font-size:15px;margin-top:6px;}
 .scenario p{font-size:13px;color:var(--ink-soft);margin-top:6px;}
@@ -224,6 +234,7 @@ main{min-height:60vh;}
 .home-card{background:var(--paper-raised);border:1px solid var(--line);border-radius:var(--radius);padding:20px;display:flex;flex-direction:column;transition:transform .15s,box-shadow .15s;}
 .home-card:hover{transform:translateY(-2px);box-shadow:var(--shadow);border-color:var(--line-strong);}
 .hc-head{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:12px;}
+.hc-head svg{width:20px;height:20px;}
 .home-card h3{font-size:16px;font-weight:600;}
 .home-card p{font-size:13px;color:var(--ink-soft);margin-top:6px;line-height:1.5;flex:1;}
 .hc-links{font-size:12px;color:var(--navy);margin-top:10px;font-weight:500;}
@@ -243,15 +254,15 @@ main{min-height:60vh;}
 @media(max-width:560px){.home-cases-grid{grid-template-columns:1fr;}}
 
 /* featured */
-.featured{margin-top:40px;background:var(--navy-deep);color:#EDEBE3;border-radius:16px;padding:34px;display:grid;grid-template-columns:1.3fr 1fr;gap:24px;}
+.featured{margin-top:40px;background:linear-gradient(120deg,#2A1650,#4F2B85 60%,#6A2A92);color:#EDEBE3;border-radius:16px;padding:34px;display:grid;grid-template-columns:1.3fr 1fr;gap:24px;}
 @media (max-width:800px){.featured{grid-template-columns:1fr;}}
-.featured .eyebrow{color:#9AA3C9;}
+.featured .eyebrow{color:#FFDDBE;}
 .featured h3{color:#fff;font-size:24px;margin-top:8px;}
-.featured p{color:#C7CBE0;font-size:14px;margin-top:10px;line-height:1.55;}
+.featured p{color:#D9CDEF;font-size:14px;margin-top:10px;line-height:1.55;}
 .featured .meta-list{margin-top:16px;display:flex;flex-wrap:wrap;gap:8px;}
-.featured .meta-list span{font-size:11.5px;font-family:var(--font-mono);background:#232C50;padding:4px 9px;border-radius:6px;color:#C7CBE0;}
-.featured-side{background:#1C2444;border-radius:12px;padding:18px;font-size:13px;}
-.featured-side .row{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #2B3560;color:#C7CBE0;}
+.featured .meta-list span{font-size:11.5px;background:rgba(255,255,255,.13);padding:4px 9px;border-radius:6px;color:#EFE7F9;}
+.featured-side{background:rgba(255,255,255,.08);border-radius:12px;padding:18px;font-size:13px;}
+.featured-side .row{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.14);color:#D9CDEF;}
 .featured-side .row:last-child{border:none;}
 .featured-side .row b{color:#fff;font-weight:600;}
 
@@ -291,7 +302,7 @@ main{min-height:60vh;}
 .item-card h3{font-size:15.5px;font-weight:600;line-height:1.3;flex:1;overflow-wrap:anywhere;}
 .item-card .desc{font-size:13px;color:var(--ink-soft);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
 .item-card .metarow{display:flex;flex-wrap:wrap;gap:5px;margin-top:2px;}
-.item-card .metarow .tag{font-size:11px;padding:3px 8px;border-radius:6px;background:var(--paper-sunk);color:var(--ink-soft);}
+.item-card .metarow .tag{font-size:11px;padding:3px 8px;border-radius:6px;background:#F1E9FA;color:#5B2E8A;font-weight:600;}
 .item-card .card-foot{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--ink-faint);margin-top:4px;}
 .empty-state{padding:50px 20px;text-align:center;background:var(--paper-raised);border:1px dashed var(--line-strong);border-radius:var(--radius);}
 .empty-state h3{font-size:16px;margin-bottom:6px;}
@@ -417,14 +428,15 @@ table.qtable td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-al
 .result-line .ind{display:block;font-size:11.5px;color:var(--ink-faint);margin-top:4px;font-family:var(--font-mono);}
 
 /* footer */
-footer{background:var(--navy-deep);color:#B9BEDA;margin-top:60px;}
+footer{background:#241040;color:#CFC3E6;margin-top:60px;}
 footer .wrap{padding:44px 28px 30px;}
+.foot-logo{height:46px;width:auto;margin-bottom:14px;}
 .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:24px;}
 @media (max-width:760px){.foot-grid{grid-template-columns:1fr 1fr;}}
 footer h4{color:#fff;font-size:12px;text-transform:uppercase;font-family:var(--font-mono);letter-spacing:.04em;margin-bottom:14px;}
-footer a{display:block;font-size:13.5px;color:#B9BEDA;margin-bottom:9px;}
-footer a:hover{color:#fff;}
-.foot-bottom{border-top:1px solid #2A3260;margin-top:30px;padding-top:18px;display:flex;justify-content:space-between;font-size:12px;color:#7C82A8;flex-wrap:wrap;gap:8px;}
+footer a{display:block;font-size:13.5px;color:#CFC3E6;margin-bottom:9px;}
+footer a:hover{color:#FFDDBE;}
+.foot-bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:30px;padding-top:18px;display:flex;justify-content:space-between;font-size:12px;color:#9A8FBC;flex-wrap:wrap;gap:8px;}
 
 /* helper nav button */
 .fab-stack{position:fixed;bottom:22px;right:22px;z-index:70;display:flex;flex-direction:column;align-items:flex-end;gap:10px;}
@@ -434,7 +446,7 @@ footer a:hover{color:#fff;}
 .fb-fab:hover{background:var(--navy-deep);}
 
 /* feedback modal */
-.modal-overlay{position:fixed;inset:0;background:rgba(20,25,50,.55);backdrop-filter:blur(2px);z-index:200;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .2s;}
+.modal-overlay{position:fixed;inset:0;background:rgba(30,16,60,.55);backdrop-filter:blur(2px);z-index:200;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .2s;}
 .modal-overlay.open{opacity:1;pointer-events:auto;}
 .modal{position:relative;background:var(--paper-raised);border-radius:16px;max-width:520px;width:100%;padding:28px;box-shadow:0 20px 50px rgba(0,0,0,.28);max-height:92vh;overflow-y:auto;}
 .modal h3{margin-bottom:6px;}
@@ -764,15 +776,19 @@ footer a:hover{color:#fff;}
 <header class="main">
   <div class="wrap">
     <div class="brand" data-nav="#/">
-      <div class="mark"><span></span></div>
-      <div class="word"><b>ЯККИ</b><small>База знаний</small></div>
+      <img src="assets/logo-main.png" alt="ЯККИ — Яркие краски креативных индустрий">
+      <span class="prod">База<br>знаний</span>
     </div>
     <a href="https://creative-industries.su/" target="_blank" rel="noopener" class="site-back">← Основной сайт</a>
     <div class="header-search">
-      <div class="header-search-inner">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-        <input id="headerSearchInput" placeholder="Поиск по базе знаний…" onkeydown="if(event.key==='Enter')doHeaderSearch()">
-        <button onclick="doHeaderSearch()">Найти</button>
+      <div class="hsearch" id="hsearchBox">
+        <button class="hsearch-toggle" onclick="toggleHeaderSearch()" aria-label="Поиск по базе знаний" title="Поиск">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        </button>
+        <div class="hsearch-expand">
+          <input id="headerSearchInput" placeholder="Поиск по базе знаний…" onkeydown="if(event.key==='Enter')doHeaderSearch();if(event.key==='Escape')toggleHeaderSearch(false)">
+          <button onclick="doHeaderSearch()">Найти</button>
+        </div>
       </div>
     </div>
     <button class="hamburger" id="hamburgerBtn" onclick="toggleMobileMenu()" aria-label="Меню">
@@ -788,7 +804,7 @@ footer a:hover{color:#fff;}
   <div class="wrap">
     <div class="foot-grid">
       <div>
-        <h4>ЯККИ</h4>
+        <img class="foot-logo" src="assets/logo-light.png" alt="ЯККИ — Яркие краски креативных индустрий">
         <p style="font-size:13px;line-height:1.6;max-width:260px;">Яркие краски креативных индустрий — база знаний по планированию и оценке творческих проектов.</p>
       </div>
       <div>
@@ -1539,6 +1555,12 @@ function toggleMobileMenu(){
     }
   }
 }
+function toggleHeaderSearch(force){
+  const box = document.getElementById('hsearchBox'); if(!box) return;
+  const open = (typeof force==='boolean') ? force : !box.classList.contains('open');
+  box.classList.toggle('open',open);
+  if(open){ const i = document.getElementById('headerSearchInput'); if(i) setTimeout(()=>i.focus(),120); }
+}
 function toggleMobileDd(el){
   if(window.innerWidth>980) return;
   const menu = el.nextElementSibling;
@@ -1687,7 +1709,7 @@ function renderHome(){
   document.getElementById('app').innerHTML = `
   <div class="hero"><div class="wrap hero-inner fade-in">
     <div class="eyebrow">creative-industries.su · база знаний</div>
-    <h1>База знаний об оценке<br>творческих проектов</h1>
+    <h1>База знаний об оценке <em>творческих проектов</em></h1>
     <p class="lead">Кейсы, инструменты, шаблоны, методики и банк результатов, которые помогают понять, какие изменения создаёт проект, как их оценивать и как использовать выводы.</p>
     <details style="margin:14px 0 4px;max-width:640px;">
       <summary style="cursor:pointer;font-size:13.5px;color:var(--ink-soft);text-decoration:underline;">Хотите понять, что происходит с вашим проектом и какое влияние он оказывает? Какие вопросы решает оценка ↓</summary>
@@ -1700,9 +1722,9 @@ function renderHome(){
       </ul>
     </details>
     <div class="audience-btns">
-      <a class="audience-btn" data-nav="#/start"><span class="ab-icon">→</span><div><b>С чего начать</b><span>Ориентирующий путь для первого знакомства с оценкой</span></div></a>
-      <a class="audience-btn" data-nav="#/section/tools"><span class="ab-icon">⚙</span><div><b>Для экспертов / оценщиков</b><span>Инструменты, шаблоны, методики и кейсы</span></div></a>
-      <a class="audience-btn" data-nav="#/section/all?type=cases"><span class="ab-icon">◈</span><div><b>Для доноров / заказчиков</b><span>Кейсы, ценности и результаты</span></div></a>
+      <a class="audience-btn" data-nav="#/start"><span class="ab-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></span><div><b>С чего начать</b><span>Ориентирующий путь для первого знакомства с оценкой</span></div></a>
+      <a class="audience-btn" data-nav="#/section/tools"><span class="ab-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 8h10M18 8h2M4 16h4M12 16h8"/><circle cx="16" cy="8" r="2"/><circle cx="10" cy="16" r="2"/></svg></span><div><b>Для экспертов / оценщиков</b><span>Инструменты, шаблоны, методики и кейсы</span></div></a>
+      <a class="audience-btn" data-nav="#/section/all?type=cases"><span class="ab-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 7-7 11L5 10l7-7z"/><path d="M5 10h14"/></svg></span><div><b>Для доноров / заказчиков</b><span>Кейсы, ценности и результаты</span></div></a>
     </div>
   </div></div>
 
@@ -1712,25 +1734,25 @@ function renderHome(){
       <h2 style="font-size:22px;">Что внутри базы</h2>
       <div class="home-card-grid" style="margin-top:18px;">
         <a class="home-card" data-nav="#/section/all" style="text-decoration:none;">
-          <div class="hc-head" style="background:var(--blue-bg);color:var(--blue);">📦</div>
+          <div class="hc-head" style="background:var(--blue-bg);color:var(--blue);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M3 7l2.5-4h13L21 7M10 12h4"/></svg></div>
           <h3>Готовые материалы</h3>
           <p>Кейсы проектов, инструменты оценки, шаблоны документов и методики — всё, что можно использовать в своей работе.</p>
           <span class="hc-links">Все материалы · Кейсы · Инструменты · Шаблоны · Методики</span>
         </a>
         <a class="home-card" data-nav="#/results" style="text-decoration:none;">
-          <div class="hc-head" style="background:var(--green-bg);color:var(--green);">📊</div>
+          <div class="hc-head" style="background:var(--green-bg);color:var(--green);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M3 21h18"/><path d="M6 21v-7M11 21V8M16 21v-11"/></svg></div>
           <h3>Банк результатов</h3>
           <p>Формулировки социальных, культурных и ценностных результатов, примеры показателей и связи с материалами.</p>
           <span class="hc-links">→ Открыть банк результатов</span>
         </a>
         <a class="home-card" data-nav="#/values" style="text-decoration:none;">
-          <div class="hc-head" style="background:var(--warm-bg);color:var(--warm);">💎</div>
+          <div class="hc-head" style="background:var(--warm-bg);color:var(--warm);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 7-7 11L5 10l7-7z"/><path d="M5 10h14"/></svg></div>
           <h3>Ценности</h3>
           <p>Ценности, с которыми могут быть связаны результаты творческих проектов, кейсы и инструменты оценки.</p>
           <span class="hc-links">→ Перейти к ценностям</span>
         </a>
         <a class="home-card" data-nav="#/faq" style="text-decoration:none;">
-          <div class="hc-head" style="background:var(--paper-sunk);color:var(--ink-soft);">📚</div>
+          <div class="hc-head" style="background:var(--paper-sunk);color:var(--ink-soft);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 012-2h13v16H6a2 2 0 00-2 2V5z"/><path d="M4 19a2 2 0 012-2h13"/></svg></div>
           <h3>Справочник</h3>
           <p>Термины, ответы на вопросы, промты и вспомогательные материалы для работы с базой.</p>
           <span class="hc-links">→ Открыть справочник</span>
@@ -3381,7 +3403,7 @@ function renderPrompts(){
                   <button class="btn btn-primary btn-sm" onclick="copyPrompt('${p.key}')">Скопировать промт</button>
                   <button class="btn btn-ghost btn-sm" onclick="showPromptPreview('${p.key}')">Показать промт</button>
                 </div>
-                <div id="prompt-preview-${p.key}" style="display:none;margin-top:12px;background:var(--paper-sunk);border:1px solid var(--line);border-radius:8px;padding:14px;font-size:12.5px;line-height:1.6;white-space:pre-wrap;font-family:var(--font-mono);color:var(--ink-soft);max-height:300px;overflow-y:auto;"></div>
+                <div id="prompt-preview-${p.key}" style="display:none;margin-top:12px;background:var(--paper-sunk);border:1px solid var(--line);border-radius:8px;padding:14px;font-size:12.5px;line-height:1.6;white-space:pre-wrap;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:var(--ink-soft);max-height:300px;overflow-y:auto;"></div>
               ` : `
                 <button class="btn btn-primary btn-sm" onclick="exportJSON()">Скачать JSON базы знаний</button>
               `}
