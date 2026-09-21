@@ -427,6 +427,9 @@ table.qtable td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-al
 .value-card .link-count{position:absolute;left:8px;bottom:20px;margin:0;font-size:13px;font-weight:700;color:var(--yakki-purple);}
 .value-card::after{content:'↗';position:absolute;right:8px;bottom:12px;width:38px;height:38px;border-radius:9px;background:var(--yakki-purple);color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;transition:background .18s ease;}
 .value-card:hover::after{background:var(--yakki-orange);}
+/* tinted page band (values) */
+.page-tint{background:#F5F3F8;padding-bottom:56px;}
+.page-tint .value-card{background:#fff;border:1px solid #E7E0F3;}
 
 /* results tree */
 .tree-cols{display:grid;grid-template-columns:1fr 1fr 1.4fr;gap:0;margin-top:22px;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:var(--paper-raised);min-height:360px;}
@@ -3185,7 +3188,7 @@ function renderGlossaryTerm(term){
    ============================================================ */
 function renderValues(){
   buildNav('values');
-  document.getElementById('app').innerHTML = `<div class="wrap fade-in">
+  document.getElementById('app').innerHTML = `<div class="page-tint"><div class="wrap fade-in">
     <div class="crumbs"><a href="#/">База знаний</a><span class="sep">/</span><span>Ценности</span></div>
     <div class="catalog-head">
       <h1 style="margin-top:0;">Ценности</h1>
@@ -3205,7 +3208,7 @@ function renderValues(){
         </a>`;
       }).join('')}
     </div>
-  </div>`;
+  </div></div>`;
 }
 function renderValueDetail(id){
   buildNav('values');
