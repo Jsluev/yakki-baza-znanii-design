@@ -534,20 +534,20 @@ footer a:hover{color:#fff;}
 @media (max-width:640px){.fab-stack{right:14px;bottom:14px;}.fb-fab,.helper-fab{font-size:12.5px;padding:10px 14px;}}
 
 /* ---------- paint strokes (brand decor) ---------- */
-.paint-stroke{position:fixed;z-index:0;pointer-events:none;background-repeat:no-repeat;}
-.paint-stroke.tr{top:110px;right:20px;width:340px;height:390px;background-image:url(assets/stroke-blue.png);background-size:contain;opacity:.55;}
-.paint-stroke.bl{bottom:-60px;left:-160px;width:520px;height:400px;background-image:url(assets/stroke-blue.png);background-size:contain;opacity:.4;}
+.paint-stroke{position:absolute;z-index:-1;pointer-events:none;background-repeat:no-repeat;background-size:contain;}
+.paint-stroke.tr{top:-40px;right:20px;width:380px;height:440px;background-image:url(assets/stroke-blue.png);}
+.paint-stroke.bl{left:-140px;bottom:60px;width:480px;height:520px;background-image:url(assets/stroke-blue.png);}
 main{position:relative;z-index:1;}
 body.pg-all #strokeTr{transform:rotate(-14deg);}
 body.pg-all #strokeBl{background-image:url(assets/stroke-orange.png);transform:rotate(-172deg);}
 body.pg-cases #strokeTr{display:none;}
 body.pg-cases #strokeBl{background-image:url(assets/stroke-green.png);transform:rotate(-18deg);}
-body.pg-tools #strokeTr{background-image:url(assets/stroke-yellow.png);}
+body.pg-tools #strokeTr{background-image:url(assets/stroke-yellow.png);top:-20px;right:37px;width:311px;height:358px;}
 body.pg-tools #strokeBl{display:none;}
 body.pg-values #strokeTr{display:none;}
-body.pg-values #strokeBl{background-image:url(assets/stroke-sky.png);left:auto;right:-120px;}
+body.pg-values #strokeBl{background-image:url(assets/stroke-sky.png);left:auto;right:-100px;bottom:40px;width:420px;height:420px;}
 body.pg-case #strokeTr,body.pg-case #strokeBl{display:none;}
-@media (max-width:760px){.paint-stroke.tr{width:240px;height:275px;right:-40px;top:90px;opacity:.45;}.paint-stroke.bl{display:none;}}
+@media (max-width:760px){.paint-stroke.tr{width:240px;height:280px;right:-30px;top:-20px;}.paint-stroke.bl{display:none;}}
 
 .fade-in{animation:fadeIn .25s ease both;}
 @keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
@@ -854,8 +854,6 @@ body.pg-case #strokeTr,body.pg-case #strokeBl{display:none;}
 </style>
 </head>
 <body>
-<div class="paint-stroke tr" aria-hidden="true"></div>
-<div class="paint-stroke bl" aria-hidden="true"></div>
 
 <div class="topbar"><div class="wrap"><a href="https://creative-industries.su/" target="_blank" rel="noopener">← creative-industries.su</a><span class="tag">кликабельный прототип · навигация и структура</span></div></div>
 
@@ -883,7 +881,7 @@ body.pg-case #strokeTr,body.pg-case #strokeBl{display:none;}
   </div>
 </header>
 
-<main id="app"></main>
+<main id="main"><div class="paint-stroke tr" id="strokeTr" aria-hidden="true"></div><div id="app"></div><div class="paint-stroke bl" id="strokeBl" aria-hidden="true"></div></main>
 
 <footer>
   <div class="wrap wrap-wide">
