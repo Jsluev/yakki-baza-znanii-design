@@ -22,7 +22,7 @@
   --color-page:#f5f3f8; --color-surface:#ffffff; --color-ink:#0b132b; --color-text-muted:#706e73; --color-section-label:#767676; --color-border:#d9d9d9; --color-placeholder:#aeaeae;
   --color-purple:#a038b0; --color-purple-dark:#4f2b85; --color-orange:#f78e45; --color-blue:#63adf2; --color-mint:#1b998b; --color-mint-dark:#20a57a; --color-mint-light:#c5dfdc; --color-footer:#1e293b;
   --gradient-primary:linear-gradient(90deg,#4f2b85,#a038b0); --gradient-active:linear-gradient(90deg,#20a57a,#1aa679);
-  --gradient-results:linear-gradient(90deg,#0A2463 0%,#224A8A 33%,#3668AA 66%,#5597DB 100%);
+  --gradient-results:linear-gradient(90deg,#0B4F3A 0%,#158050 45%,#2BA86E 100%);
   --gradient-tools:linear-gradient(90deg,#F05000 0%,#F68B41 100%);
   --gradient-cases:linear-gradient(90deg,#4F2B85 0%,#A038B0 100%);
   --c-cases:#9C3FB0; --c-cases-bg:#F6E9FA;
@@ -68,7 +68,7 @@ header.main .wrap{display:flex;align-items:stretch;gap:20px;height:88px;padding-
 .brand{display:flex;align-items:center;gap:12px;flex-shrink:0;cursor:pointer;align-self:center;}
 .brand img{height:64px;width:auto;display:block;}
 nav.mainnav{flex:1;display:flex;align-items:stretch;justify-content:center;gap:36px;min-width:0;}
-nav.mainnav > a, nav.mainnav .dd-btn{font-size:18px;font-weight:500;color:var(--ink);padding:0 4px;border-radius:0;white-space:nowrap;border:none;background:none;font-family:var(--font-body);display:inline-flex;align-items:center;position:relative;}
+nav.mainnav > a, nav.mainnav .dd-btn{font-size:18px;font-weight:700;color:var(--ink);padding:0 4px;border-radius:0;white-space:nowrap;border:none;background:none;font-family:var(--font-body);display:inline-flex;align-items:center;position:relative;}
 nav.mainnav > a:hover, nav.mainnav .dd-btn:hover{background:none;color:var(--yakki-purple);}
 nav.mainnav > a.active, nav.mainnav .dd-btn.active{background:var(--gradient-primary);-webkit-background-clip:text;background-clip:text;color:transparent;}
 nav.mainnav > a.active::after, nav.mainnav .dd-btn.active::after{content:'';position:absolute;left:4px;right:4px;bottom:0;height:6px;border-radius:3px 3px 0 0;background:var(--gradient-primary);}
@@ -78,7 +78,7 @@ nav.mainnav .chev{width:18px;height:18px;margin-left:3px;flex-shrink:0;}
 .dd{position:relative;}
 .dd-menu{display:none;position:absolute;top:110%;left:0;background:var(--paper-raised);border:1px solid var(--line);border-radius:var(--radius-sm);box-shadow:var(--shadow);min-width:210px;padding:6px;z-index:60;}
 .dd:hover .dd-menu, .dd:focus-within .dd-menu{display:block;}
-.dd-menu a{display:flex;align-items:center;gap:8px;padding:8px 10px;font-size:13.5px;border-radius:6px;}
+.dd-menu a{display:flex;align-items:center;gap:8px;padding:9px 10px;font-size:15px;border-radius:6px;}
 .dd-menu a:hover{background:var(--paper-sunk);}
 .dd-menu.dd-open{display:block;}
 nav.mainnav .dd:last-child .dd-menu{left:auto;right:0;}
@@ -136,7 +136,7 @@ nav.mainnav .dd:last-child .dd-menu{left:auto;right:0;}
 .origin-tag.origin-foreign{background:#EAF0FD;color:#2B56B5;}
 
 /* ---------- breadcrumbs ---------- */
-.crumbs{display:flex;align-items:center;flex-wrap:wrap;gap:8px;font-size:16px;font-weight:500;color:var(--color-ink);font-family:var(--font-mono);padding:16px 0 0;}
+.crumbs{display:flex;align-items:center;flex-wrap:wrap;gap:8px;font-size:16px;font-weight:500;color:var(--color-ink);font-family:var(--font-mono);padding:30px 0 0;}
 .crumbs a{color:var(--color-ink);font-weight:500;}
 .crumbs a:hover{text-decoration:underline;}
 .crumbs .sep{opacity:.5;}
@@ -290,7 +290,7 @@ main{min-height:60vh;padding-bottom:100px;}
 
 /* ---------- catalog / section page ---------- */
 .catalog-head{padding:8px 0 4px;}
-.catalog-head p{margin-top:10px;color:var(--ink-soft);font-size:14.5px;max-width:640px;}
+.catalog-head p{margin-top:10px;color:var(--ink-soft);font-size:16px;max-width:640px;}
 .catalog-body{display:grid;grid-template-columns:324px minmax(0,1fr);gap:84px;margin-top:42px;align-items:start;}
 @media (max-width:860px){.catalog-body{grid-template-columns:1fr;}}
 .filters{position:sticky;top:100px;background:var(--color-surface);border:1px solid #E7E0F3;border-radius:6px;padding:24px;}
@@ -299,7 +299,7 @@ main{min-height:60vh;padding-bottom:100px;}
 .filters h4{font-size:11px;text-transform:uppercase;letter-spacing:.05em;font-family:var(--font-mono);color:var(--ink-faint);margin-bottom:12px;}
 .filter-group{margin-bottom:18px;}
 .filter-group:last-of-type{margin-bottom:10px;}
-.filter-group label{display:block;font-size:18px;font-weight:500;margin-bottom:8px;color:var(--color-ink);}
+.filter-group label{display:block;font-size:18px;font-weight:700;margin-bottom:8px;color:var(--color-ink);}
 .filter-group select{width:100%;height:42px;padding:0 38px 0 14px;border:none;border-radius:6px;font-family:var(--font-body);font-size:16px;font-weight:500;background:#F5F3F8 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23767676' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 12px center;color:var(--color-ink);appearance:none;-webkit-appearance:none;cursor:pointer;}
 .filters .actions{display:flex;gap:8px;margin-top:14px;}
 .filters .actions .btn{flex:1;justify-content:center;padding:9px 0;}
@@ -313,7 +313,7 @@ main{min-height:60vh;padding-bottom:100px;}
 .local-search input::placeholder{color:var(--color-placeholder);font-weight:400;}
 .local-search button{border:none;background:transparent;padding:0 14px;font-size:14px;font-weight:600;color:var(--color-purple-dark);font-family:var(--font-body);cursor:pointer;white-space:nowrap;}
 
-.card-list{display:grid;grid-template-columns:repeat(2,minmax(0,390px));gap:18px;justify-content:start;}
+.card-list{display:grid;grid-template-columns:repeat(3,minmax(0,390px));gap:18px;justify-content:start;}
 .search-results.card-list{display:flex;flex-direction:column;}
 .search-results .card-list{gap:8px;}
 .search-results.card-list{gap:8px;}
@@ -322,7 +322,6 @@ main{min-height:60vh;padding-bottom:100px;}
 .search-results .item-card .desc{font-size:13.5px;line-height:1.55;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
 .item-card{display:block;background:var(--color-surface);border:none;border-radius:6px;padding:24px;height:350px;overflow:hidden;cursor:pointer;transition:transform .15s ease,box-shadow .15s ease;}
 .item-card:hover{transform:translateY(-2px);box-shadow:var(--shadow);border-color:var(--line-strong);}
-.item-card:hover h3{color:var(--color-purple);}
 .item-card .spine{display:none;}
 .item-card .card-body{height:100%;display:flex;flex-direction:column;min-width:0;padding:0;}
 .item-card .card-topline{display:flex;justify-content:space-between;align-items:center;gap:10px;row-gap:8px;flex-wrap:wrap;margin-bottom:12px;}
@@ -332,7 +331,7 @@ main{min-height:60vh;padding-bottom:100px;}
 .item-card .card-head{display:block;min-width:0;}
 .item-card h3{font-family:var(--font-body);font-weight:700;font-size:24px;line-height:1.1;color:var(--color-ink);overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
 .item-card .org-line{font-size:14px;font-weight:500;color:var(--color-ink);opacity:.5;margin-top:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.item-card .desc{font-size:16px;font-weight:300;color:var(--ink-soft);line-height:1.3;margin-top:12px;flex:1;overflow:hidden;display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;}
+.item-card .desc{font-size:16px;font-weight:300;color:var(--ink-soft);line-height:1.3;margin-top:12px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;}
 .item-card .value-marker{display:flex;align-items:center;gap:8px;margin-top:auto;padding-top:12px;font-size:14px;font-weight:500;}
 .item-card .value-marker::before{content:'';width:2px;align-self:stretch;background:currentColor;opacity:.55;border-radius:2px;}
 .item-card.mini{height:auto;padding:18px 20px;}
@@ -434,7 +433,7 @@ table.qtable td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-al
 .block.open .collapsible-header::after{transform:rotate(90deg);}
 .block .collapsible-body{max-height:0;overflow:hidden;transition:max-height .25s ease;}
 .block.open .collapsible-body{max-height:2000px;}
-.value-cards-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+.value-cards-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
 @media(max-width:860px){.value-cards-grid{grid-template-columns:1fr;}}
 .value-cards-grid>a{min-width:0;overflow-wrap:anywhere;}
 
@@ -472,36 +471,36 @@ table.qtable td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-al
 .values-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:26px;}
 @media (max-width:860px){.values-grid{grid-template-columns:repeat(2,1fr);}}
 @media (max-width:560px){.values-grid{grid-template-columns:1fr;}}
-.value-card{position:relative;background:var(--color-surface);border:none;border-radius:6px;padding:24px;height:280px;transition:transform .18s ease,box-shadow .18s ease;}
-.value-card:hover{transform:translateY(-3px);box-shadow:0 13px 27px -5px rgb(27 153 139 / 24%),0 8px 16px -8px rgb(27 153 139 / 30%);}
+.value-card{position:relative;background:var(--color-surface);border:none;border-radius:6px;padding:24px 24px 72px;min-height:300px;transition:transform .18s ease,box-shadow .18s ease;}
+.value-card:hover{transform:translateY(-3px);box-shadow:0 13px 27px -5px rgb(99 173 242 / 24%),0 8px 16px -8px rgb(99 173 242 / 30%);}
 .value-card .n{display:none;}
-.value-card h3{font-family:var(--font-body);font-weight:700;font-size:24px;line-height:1.1;color:var(--color-ink);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
-.value-card p{font-size:16px;font-weight:300;color:var(--ink-soft);margin-top:12px;line-height:1.3;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
-.value-card .link-count{position:absolute;left:24px;bottom:24px;margin:0;font-size:16px;font-weight:500;color:var(--color-blue);}
+.value-card h3{font-family:var(--font-body);font-weight:700;font-size:24px;line-height:1.15;color:var(--color-ink);overflow-wrap:break-word;hyphens:auto;}
+.value-card p{font-size:16px;font-weight:300;color:var(--ink-soft);margin-top:12px;line-height:1.4;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;}
+.value-card .link-count{position:absolute;left:24px;bottom:24px;margin:0;font-size:18px;font-weight:600;color:var(--color-blue);}
 .value-card .go{position:absolute;right:24px;bottom:24px;width:54px;height:54px;border-radius:6px;background:var(--color-blue);display:flex;align-items:center;justify-content:center;transition:background .18s ease;}
-.value-card:hover .link-count{color:var(--color-mint);}
-.value-card:hover .go{background:var(--color-mint);}
+.value-card:hover .link-count{color:var(--color-purple-dark);}
+.value-card:hover .go{background:var(--color-purple-dark);}
 /* tinted page band (values) */
 .page-tint{background:#F5F3F8;padding-bottom:4px;}
 
 /* results tree */
 .results-top{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;}
 .ai-callout{max-width:300px;display:flex;flex-direction:column;align-items:flex-end;gap:10px;text-align:right;}
-.ai-callout p{font-size:13px;color:var(--color-text-muted);max-width:223px;}
+.ai-callout p{font-size:14px;color:var(--color-text-muted);max-width:240px;}
 .ai-callout .btn{padding:12px 24px;font-size:16px;}
 @media (max-width:860px){.results-top{align-items:flex-start;}.ai-callout{align-items:flex-start;text-align:left;}.ai-callout p{margin:0;max-width:none;}}
 .tree-cols{display:grid;grid-template-columns:349px 349px minmax(0,1fr);gap:0;margin-top:22px;border:1px solid #E0E3EB;border-radius:6px;overflow:hidden;background:var(--color-surface);min-height:360px;}
 @media (max-width:800px){.tree-cols{grid-template-columns:1fr;}}
 .tree-col{border-right:1px solid #E0E3EB;}
 .tree-col:last-child{border-right:none;}
-.tree-col-h{height:43px;display:flex;align-items:center;padding:0 18px;font-size:16px;font-weight:700;letter-spacing:0;text-transform:uppercase;color:#0B132B;border-bottom:1px solid #E0E3EB;background:#EEDBF1;}
-.tree-opt{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;text-align:left;padding:0 18px;border:none;background:none;font-size:16px;font-weight:500;font-family:var(--font-body);min-height:43px;border-bottom:1px solid #E0E3EB;color:var(--color-ink);cursor:pointer;}
-.tree-opt:hover{background:#F3EFF7;}
-.tree-opt.sel{background:#082060;color:#fff;font-weight:700;min-height:45px;border-bottom-color:transparent;}
+.tree-col-h{height:48px;display:flex;align-items:center;padding:0 18px;font-size:17px;font-weight:700;letter-spacing:0;text-transform:uppercase;color:#0B132B;border-bottom:1px solid #E0E3EB;background:#E5F1FA;}
+.tree-opt{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;text-align:left;padding:0 18px;border:none;background:none;font-size:16px;font-weight:500;font-family:var(--font-body);min-height:48px;border-bottom:1px solid #E0E3EB;color:var(--color-ink);cursor:pointer;}
+.tree-opt:hover{background:#E6F5ED;}
+.tree-opt.sel{background:#0B5C3A;color:#fff;font-weight:700;min-height:50px;border-bottom-color:transparent;}
 .tree-opt .cnt{font-size:14px;color:var(--color-ink);opacity:.24;flex-shrink:0;}
 .tree-opt.sel .cnt{color:#fff;opacity:1;}
-.result-line{padding:12px 18px;border-bottom:1px solid #E0E3EB;font-size:16px;font-weight:500;line-height:1.3;}
-.result-line .ind{display:block;font-size:14px;color:#8934A4!important;font-weight:500;margin-top:6px;}
+.result-line{display:flex;flex-direction:column;justify-content:center;gap:4px;min-height:56px;padding:12px 18px;border-bottom:1px solid #E0E3EB;font-size:16px;font-weight:500;line-height:1.4;}
+.result-line .ind{display:block;font-size:14px;color:#8934A4!important;font-weight:500;margin-top:4px;}
 
 /* footer */
 footer{background:var(--color-footer);color:#C6CBD6;margin-top:0;min-height:315px;}
@@ -656,6 +655,9 @@ body.pg-case #strokeTr,body.pg-case #strokeBl{display:none;}
 }
 
 /* --- Catalog page --- */
+@media (max-width:1100px){
+  .card-list{grid-template-columns:repeat(2,minmax(0,390px));}
+}
 @media (max-width:860px){
   .catalog-body{gap:20px;}
   .filters{position:static;}
@@ -1839,8 +1841,8 @@ const VALUES = [
 	num:1,
 	title:"Жизнь",
 	desc:"Высшая ценность, признание права на жизнь каждого человека и ответственность за её сохранение.",
-	keyResults:[11, 15, 83, 89, 95, 1, 3, 5, 13, 16, 18, 19, 25, 26, 37, 41, 42, 54, 58, 59, 65, 66, 72, 78, 80, 82, 85, 99, 102, 103, 104, 117],
-	keyCases:[]
+  keyResults:[11, 15, 83, 89, 95, 1, 3, 5, 13, 16, 18, 19, 25, 26, 37, 41, 42, 54, 58, 59, 65, 66, 72, 78, 80, 82, 85, 99, 102, 103, 104, 117],
+	keyCases:["muzeinyi-eksperiment", "zheleznoe-koltso-urala", "na-zelenoi-gorke"]
 },
 {
 	id:"dostoinstvo",
@@ -3327,9 +3329,10 @@ function shadeHex(hex,amt){
 }
 function detailHero(o){
   const grad = o.grad || `linear-gradient(90deg,${shadeHex(o.tint,-0.4)},${shadeHex(o.tint,0.2)})`;
+  const titleStyle = o.titleSize ? ` style="font-size:${o.titleSize};max-width:900px;"` : '';
   return `<div class="case-hero" style="background:${grad};">
     <div class="case-hero-top"><span class="type-badge" style="background:${o.pill};border-radius:6px;padding:6px 7px;">${o.badge}</span>${o.topExtra||''}</div>
-    <h1>${o.title}</h1>
+    <h1${titleStyle}>${o.title}</h1>
     ${o.lead?`<p class="case-hero-lead">${o.lead}</p>`:''}
     ${o.cta?`<div class="case-hero-cta">${o.cta}</div>`:''}
     ${o.meta?`<div class="detail-meta">${o.meta}</div>`:''}
@@ -3865,7 +3868,7 @@ function renderValueDetail(id){
   const totalMaterials = keyCases.length + tools.length + linkedResults.length;
   app.innerHTML = `<div class="wrap wrap-narrow fade-in">
     <div class="crumbs"><a href="#/">ЯККИ</a><span class="sep">/</span><a href="#/values">Ценности</a><span class="sep">/</span><span>${v.title}</span></div>
-    ${detailHero({pill:SECTIONS.values.pill,badge:'Ценность',topExtra:'',title:v.title,lead:v.desc,cta:'',meta:'',tint:'#A02060',grad:'linear-gradient(90deg,#5E1238 0%,#C94A7E 100%)'})}
+    ${detailHero({pill:SECTIONS.values.pill,badge:'Ценность',topExtra:'',title:v.title,lead:v.desc,cta:'',meta:'',tint:'#2E7FC2',grad:'linear-gradient(90deg,#0A3A6B 0%,#2E7FC2 55%,#63ADF2 100%)'})}
     <div class="section-pad" style="padding-top:32px;">
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:28px;">
         <a class="btn btn-primary btn-sm" href="#/section/all?value=${id}">Все материалы по этой ценности (${totalMaterials}) →</a>
@@ -3873,9 +3876,9 @@ function renderValueDetail(id){
       </div>
       ${linkedResults.length ? `<div class="subhead" style="font-size:16px;margin-bottom:12px;">Ключевые результаты</div>
       <div class="value-cards-grid">
-        ${linkedResults.slice(0,5).map(r=>`<a href="#/result/${r.ai}/${r.ari}/${r.ri}" style="text-decoration:none;color:inherit;background:var(--paper-raised);border:1px solid var(--line);border-radius:var(--radius);padding:12px 16px;display:block;transition:all .15s;" onmouseover="this.style.borderColor='var(--navy)'" onmouseout="this.style.borderColor='var(--line)'">
-          <div style="font-size:13.5px;font-weight:600;">${r.text}</div>
-          <div style="font-size:11.5px;color:var(--ink-faint);margin-top:4px;">${r.approach} → ${r.area}</div>
+        ${linkedResults.slice(0,5).map(r=>`<a href="#/result/${r.ai}/${r.ari}/${r.ri}" style="text-decoration:none;color:inherit;background:var(--paper-raised);border:1px solid var(--line);border-radius:var(--radius);padding:16px 20px;display:block;transition:all .15s;" onmouseover="this.style.borderColor='var(--navy)'" onmouseout="this.style.borderColor='var(--line)'">
+          <div style="font-size:16px;font-weight:600;line-height:1.35;">${r.text}</div>
+          <div style="font-size:13px;color:var(--ink-faint);margin-top:6px;">${r.approach} → ${r.area}</div>
         </a>`).join('')}
       </div>
       <div style="margin-bottom:28px;"></div>` : ''}
@@ -3960,7 +3963,7 @@ function renderResults(){
       </div>
       <div class="ai-callout">
         <p>Для работы с искусственным интеллектом или внешними инструментами</p>
-        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#4f2b85" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4c7 0 3 9 12 9"/><path d="M13 9l4 4-4 4"/></svg>
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#4f2b85" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 5v8a5 5 0 0 0 5 5h6"/><path d="M14 15l4 3-4 3"/></svg>
         <div><button class="btn btn-primary" onclick="exportResultsForAI()">Скачать для ИИ (JSON)</button></div>
       </div>
     </div>
@@ -3978,7 +3981,7 @@ function renderResults(){
         <div class="tree-col-h">Результаты${area ? ` (${area.results.length})` : ''}</div>
         ${selI===null ? '<div style="padding:12px;font-size:13px;color:var(--ink-soft);">Выберите область влияния</div>' : area.results.map((r,ri)=>{
           const valNames = (r.values||[]).map(vid=>{const v=VALUES.find(x=>x.id===vid);return v?v.title:'';}).filter(Boolean).join(', ');
-          return `<a class="result-line" href="#/result/${selA}/${selI}/${ri}" style="text-decoration:none;color:inherit;cursor:pointer;display:block;padding:8px 12px;border-bottom:1px solid var(--line);transition:background .15s;" onmouseover="this.style.background='var(--paper-raised)'" onmouseout="this.style.background=''">${r.title||r.text}${valNames?`<span class="ind" style="font-size:11px;color:var(--ink-faint);display:block;margin-top:2px;">♦ ${valNames}</span>`:''}</a>`;
+          return `<a class="result-line" href="#/result/${selA}/${selI}/${ri}" style="text-decoration:none;color:inherit;cursor:pointer;transition:background .15s;" onmouseover="this.style.background='var(--paper-raised)'" onmouseout="this.style.background=''">${r.title||r.text}${valNames?`<span class="ind" style="font-size:14px;color:var(--ink-faint);margin-top:2px;">♦ ${valNames}</span>`:''}</a>`;
         }).join('')}
       </div>
     </div>
@@ -4176,8 +4179,8 @@ function renderResultDetail(apprIdx,areaIdx,resultIdx){
     : area.results.filter((r,i)=>i!==resultIdx).slice(0,5).map(r=>r.text);
 
   document.getElementById('app').innerHTML = `<div class="wrap wrap-narrow fade-in">
-    <div class="crumbs"><a href="#/">ЯККИ</a><span class="sep">/</span><a href="#/results">Банк результатов</a><span class="sep">/</span><span>${String(resultText).substring(0,50)}…</span></div>
-    ${detailHero({pill:SECTIONS.results.pill,badge:'Результат',topExtra:'',title:resultText,lead:result.text!==result.title?result.text:'',cta:`<button class="btn btn-primary" onclick="exportResultsForAI()">Скачать для ИИ (JSON)</button>`,meta:valNames.join(''),tint:'#2E7FC2',grad:'var(--gradient-results)'})}
+    <div class="crumbs"><a href="#/">ЯККИ</a><span class="sep">/</span><a href="#/results">Банк результатов</a><span class="sep">/</span><span>${resultText}</span></div>
+    ${detailHero({pill:SECTIONS.results.pill,badge:'Результат',topExtra:'',title:resultText,lead:result.text!==result.title?result.text:'',cta:`<button class="btn btn-primary" onclick="exportResultsForAI()">Скачать для ИИ (JSON)</button>`,meta:valNames.join(''),tint:'#158050',grad:'var(--gradient-results)',titleSize:'40px'})}
     <div class="detail-grid case-grid">
       <div>
         <div class="block"><h2>Характеристика результата</h2>
@@ -4187,44 +4190,40 @@ function renderResultDetail(apprIdx,areaIdx,resultIdx){
             <dt>Область влияния</dt><dd>${area.name}</dd>
             <dt>Название</dt><dd>${result.title||result.text}</dd>
             <dt>Общая формулировка</dt><dd>${result.text}</dd>
-            ${valNames.length ? `<dt>Ценность</dt><dd style="display:flex;flex-wrap:wrap;gap:6px;">${valNames.join('')}</dd>` : ''}
           </dl>
         </div>
-        ${otherList.length ? `<div class="collapsible block" style="margin-top:16px;">
-          <div class="collapsible-header" onclick="toggleCollapsible(this)"><h2 style="margin:0;">Другие формулировки (${otherList.length})</h2></div>
-          <div class="collapsible-body">
+        ${otherList.length ? `<div class="block" style="margin-top:16px;">
+          <h2>Другие формулировки (${otherList.length})</h2>
+          <div>
             ${otherList.map(txt=>{
-              if(result.otherFormulations&&result.otherFormulations.length) return `<div style="display:block;padding:8px 0;border-bottom:1px solid var(--line);font-size:13px;">${txt}</div>`;
-              return `<a href="#/result/${apprIdx}/${areaIdx}/${area.results.findIndex(x=>x.text===txt)}" style="display:block;padding:8px 0;border-bottom:1px solid var(--line);font-size:13px;text-decoration:none;">${txt}</a>`;
+              if(result.otherFormulations&&result.otherFormulations.length) return `<div style="display:block;padding:8px 0;border-bottom:1px solid var(--line);font-size:14px;">${txt}</div>`;
+              return `<a href="#/result/${apprIdx}/${areaIdx}/${area.results.findIndex(x=>x.text===txt)}" style="display:block;padding:8px 0;border-bottom:1px solid var(--line);font-size:14px;text-decoration:none;">${txt}</a>`;
             }).join('')}
           </div>
         </div>` : ''}
-        ${result.indicators&&result.indicators.length ? `<div class="collapsible block" style="margin-top:16px;">
-          <div class="collapsible-header" onclick="toggleCollapsible(this)"><h2 style="margin:0;">Показатели (${result.indicators.length})</h2></div>
-          <div class="collapsible-body">
-            <ul style="font-size:13.5px;line-height:1.7;color:var(--ink-soft);padding-left:18px;margin:0;">
-              ${result.indicators.map(ind=>`<li>${ind}</li>`).join('')}
-            </ul>
-          </div>
+        ${result.indicators&&result.indicators.length ? `<div class="block" style="margin-top:16px;">
+          <h2>Показатели (${result.indicators.length})</h2>
+          <ul style="font-size:14.5px;line-height:1.7;color:var(--ink-soft);padding-left:18px;margin:0;">
+            ${result.indicators.map(ind=>`<li>${ind}</li>`).join('')}
+          </ul>
         </div>` : ''}
         ${relatedCases.length ? `<div style="margin-top:32px;">
-          <div class="subhead" style="font-size:16px;margin-bottom:12px;">Ключевые кейсы</div>
+          <div class="subhead" style="margin-bottom:12px;">Ключевые кейсы</div>
           <div class="card-list">${renderCardList('cases',relatedCases.slice(0,5))}</div>
         </div>` : ''}
         ${relatedTools.length ? `<div style="margin-top:32px;">
-          <div class="subhead" style="font-size:16px;margin-bottom:12px;">Ключевые инструменты оценки</div>
+          <div class="subhead" style="margin-bottom:12px;">Ключевые инструменты оценки</div>
           <div class="card-list">${renderCardList('tools',relatedTools.slice(0,5))}</div>
         </div>` : ''}
       </div>
       <div>
         <div class="sidebar-box"><h4>Навигация</h4>
-          <div style="display:flex;flex-direction:column;gap:6px;font-size:13px;">
+          <div style="display:flex;flex-direction:column;gap:6px;font-size:13.5px;">
             <a href="#/results" style="text-decoration:none;">← Банк результатов</a>
+            ${relatedCases.length ? `<a href="${relatedCases[0]?`#/card/case/${relatedCases[0].id}`:'#/results'}" style="text-decoration:none;">→ Связанные кейсы</a>` : ''}
+            ${relatedTools.length ? `<a href="${relatedTools[0]?`#/card/tool/${relatedTools[0].id}`:'#/results'}" style="text-decoration:none;">→ Связанные инструменты</a>` : ''}
           </div>
         </div>
-        ${valNames.length ? `<div class="sidebar-box"><h4>Связанные ценности</h4>
-          <div style="display:flex;flex-wrap:wrap;gap:6px;">${valNames.join('')}</div>
-        </div>` : ''}
       </div>
     </div>
   </div>`;
