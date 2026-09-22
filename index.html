@@ -145,7 +145,7 @@ nav.mainnav .dd:last-child .dd-menu{left:auto;right:0;}
 .crumbs span:last-child{opacity:.5;}
 
 /* ---------- generic sections ---------- */
-main{min-height:60vh;background:#F5F3F8;padding-bottom:60px;}
+main{min-height:60vh;background:#F5F3F8;padding-bottom:100px;}
 .section-pad{padding:44px 0 64px;}
 .hr{height:1px;background:var(--line);width:100%;}
 
@@ -291,7 +291,7 @@ main{min-height:60vh;background:#F5F3F8;padding-bottom:60px;}
 /* ---------- catalog / section page ---------- */
 .catalog-head{padding:8px 0 4px;}
 .catalog-head p{margin-top:10px;color:var(--ink-soft);font-size:14.5px;max-width:640px;}
-.catalog-body{display:grid;grid-template-columns:324px minmax(0,1fr);gap:84px;margin-top:26px;align-items:start;}
+.catalog-body{display:grid;grid-template-columns:324px minmax(0,1fr);gap:84px;margin-top:42px;align-items:start;}
 @media (max-width:860px){.catalog-body{grid-template-columns:1fr;}}
 .filters{position:sticky;top:100px;background:var(--color-surface);border:1px solid #E7E0F3;border-radius:6px;padding:24px;}
 .filters .local-search{max-width:none;margin:0 0 18px;}
@@ -305,8 +305,8 @@ main{min-height:60vh;background:#F5F3F8;padding-bottom:60px;}
 .filters .actions .btn{flex:1;justify-content:center;padding:9px 0;}
 .crosslink-note{margin-top:16px;padding-top:14px;border-top:1px solid var(--line);font-size:12px;color:var(--ink-faint);line-height:1.5;}
 
-.results-topline{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px;}
-.results-topline .count{font-size:13px;color:var(--ink-soft);}
+.results-topline{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:8px;}
+.results-topline .count{font-size:16px;color:var(--color-ink);opacity:.5;}
 .local-search{display:flex;border:none;border-radius:6px;overflow:hidden;max-width:340px;background:#F5F3F8;}
 .local-search input{flex:1;border:none;height:42px;padding:0 12px;font-size:16px;font-weight:500;outline:none;background:transparent;color:var(--color-ink);font-family:var(--font-body);}
 .local-search input::placeholder{color:var(--color-placeholder);font-weight:400;}
@@ -530,10 +530,10 @@ footer a:hover{color:#fff;}
 
 /* ---------- paint strokes (brand decor) ---------- */
 .paint-stroke{position:fixed;z-index:0;pointer-events:none;background-repeat:no-repeat;}
-.paint-stroke.tr{top:-30px;right:-140px;width:560px;height:440px;background-image:url(assets/stroke-violet.png);background-size:contain;opacity:.5;}
+.paint-stroke.tr{top:110px;right:20px;width:340px;height:390px;background-image:url(assets/stroke-violet.png);background-size:contain;opacity:.55;}
 .paint-stroke.bl{bottom:-60px;left:-160px;width:520px;height:400px;background-image:url(assets/stroke-blue.png);background-size:contain;opacity:.4;}
 main{position:relative;z-index:1;}
-@media (max-width:760px){.paint-stroke.tr{width:320px;height:260px;right:-100px;top:-20px;opacity:.4;}.paint-stroke.bl{display:none;}}
+@media (max-width:760px){.paint-stroke.tr{width:240px;height:275px;right:-40px;top:90px;opacity:.45;}.paint-stroke.bl{display:none;}}
 
 .fade-in{animation:fadeIn .25s ease both;}
 @keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
