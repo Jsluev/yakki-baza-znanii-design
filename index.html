@@ -12,13 +12,17 @@
 <style>
 :root{
   --paper:#FFFFFF; --paper-raised:#FFFFFF; --paper-sunk:#F5EFFB;
-  --ink:#222840; --ink-soft:#5A6076; --ink-faint:#9398AD;
-  --line:#E6E0F1; --line-strong:#C9BEE2;
+  --ink:#0b132b; --ink-soft:#706e73; --ink-faint:#aeaeae;
+  --line:#D9D9D9; --line-strong:#C9BEE2;
   --navy:#4F2B85; --navy-deep:#2A1650; --navy-soft:#F0E9F9;
   --yakki-violet:#4F2B85; --yakki-ink:#2A1650; --yakki-purple:#A038B0; --yakki-purple-deep:#7E2A8A;
   --yakki-orange:#F78E45; --yakki-orange-deep:#D96C1E; --yakki-peach:#FFDDBE;
   --accent:#A038B0; --accent-light:#F3E7F7;
   --yakki-pink:#C2437F; --yakki-blue:#2E7FC2; --yakki-teal:#1C8798;
+  --color-page:#f5f3f8; --color-surface:#ffffff; --color-ink:#0b132b; --color-text-muted:#706e73; --color-section-label:#767676; --color-border:#d9d9d9; --color-placeholder:#aeaeae;
+  --color-purple:#a038b0; --color-purple-dark:#4f2b85; --color-orange:#f78e45; --color-blue:#63adf2; --color-mint:#1b998b; --color-mint-dark:#20a57a; --color-mint-light:#c5dfdc; --color-footer:#1e293b;
+  --gradient-primary:linear-gradient(90deg,#4f2b85,#a038b0); --gradient-active:linear-gradient(90deg,#20a57a,#1aa679);
+  --radius-control:6px; --radius-content:12px; --radius-badge-small:3px; --radius-pill:999px;
   --c-cases:#9C3FB0; --c-cases-bg:#F6E9FA;
   --c-tools:#C25E14; --c-tools-bg:#FDEEDF;
   --c-method:#4F2B85; --c-method-bg:#ECE5F6;
@@ -36,9 +40,11 @@
 *{box-sizing:border-box;}
 html{scroll-behavior:smooth;overflow-x:clip;}
 body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font-body);line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:clip;}
-h1,h2,h3,h4{font-family:var(--font-display);font-weight:600;margin:0;letter-spacing:-.005em;}
-h1{font-weight:600;}
-.item-card h3, .sec-card h3, .value-card h3{font-weight:600;}
+h1,h2,h3,h4{margin:0;}
+h1{font-family:var(--font-display);font-weight:400;font-size:54px;line-height:1.1;color:var(--color-ink);}
+h2{font-family:var(--font-body);font-weight:700;font-size:30px;line-height:1.1;}
+h3{font-family:var(--font-body);font-weight:700;line-height:1.2;}
+h4{font-family:var(--font-body);font-weight:700;}
 p{margin:0;}
 a{color:inherit;text-decoration:none;}
 button{font-family:var(--font-body);cursor:pointer;}
@@ -48,6 +54,8 @@ img{max-width:100%;display:block;}
 .mono{font-family:var(--font-mono);}
 .eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint);}
 .wrap{max-width:1180px;margin:0 auto;padding:0 28px;}
+.wrap-narrow{max-width:1206px;}
+.wrap-wide{max-width:1278px;}
 @media (max-width:640px){.wrap{padding:0 16px;}}
 
 /* ---------- header ---------- */
@@ -56,23 +64,26 @@ img{max-width:100%;display:block;}
 .topbar .tag{background:rgba(255,255,255,.16);color:#fff;padding:2px 8px;border-radius:20px;font-size:11px;}
 .topbar a{color:var(--yakki-peach);text-decoration:none;font-weight:600;}
 .topbar a:hover{text-decoration:underline;color:#fff;}
-.site-back{font-size:13.5px;color:var(--ink);background:#fff;border:1px solid #D8DCE6;border-radius:8px;padding:8px 14px;text-decoration:none;display:inline-flex;align-items:center;gap:7px;white-space:nowrap;transition:all .15s;flex-shrink:0;font-weight:500;}
+.site-back{font-size:16px;font-weight:500;color:var(--ink);background:#fff;border:1px solid #D9D9D9;border-radius:999px;width:198px;height:46px;justify-content:center;padding:0;text-decoration:none;display:inline-flex;align-items:center;gap:7px;white-space:nowrap;transition:all .15s;flex-shrink:0;align-self:center;}
 .site-back:hover{border-color:var(--navy);color:var(--navy);}
 header.main{background:var(--paper-raised);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50;}
-header.main .wrap{display:flex;align-items:center;gap:20px;padding-top:12px;padding-bottom:12px;}
-.brand{display:flex;align-items:center;gap:12px;flex-shrink:0;cursor:pointer;}
-.brand img{height:40px;width:40px;display:block;}
-nav.mainnav{display:flex;align-items:center;gap:2px;flex-shrink:0;}
-nav.mainnav a, nav.mainnav .dd-btn{font-size:15px;font-weight:500;color:var(--ink);padding:8px 12px;border-radius:8px;white-space:nowrap;border:none;background:none;font-family:var(--font-body);}
-nav.mainnav a:hover, nav.mainnav .dd-btn:hover{background:none;color:var(--yakki-purple);}
-nav.mainnav a.active{color:var(--yakki-purple);background:none;}
-nav.mainnav .dd-btn.active{color:var(--yakki-purple);}
+header.main .wrap{display:flex;align-items:stretch;gap:20px;height:88px;padding-top:0;padding-bottom:0;position:relative;}
+.brand{display:flex;align-items:center;gap:12px;flex-shrink:0;cursor:pointer;align-self:center;}
+.brand img{height:64px;width:auto;display:block;}
+nav.mainnav{flex:1;display:flex;align-items:stretch;justify-content:center;gap:36px;min-width:0;}
+nav.mainnav > a, nav.mainnav .dd-btn{font-size:18px;font-weight:500;color:var(--ink);padding:0 4px;border-radius:0;white-space:nowrap;border:none;background:none;font-family:var(--font-body);display:inline-flex;align-items:center;position:relative;}
+nav.mainnav > a:hover, nav.mainnav .dd-btn:hover{background:none;color:var(--yakki-purple);}
+nav.mainnav > a.active, nav.mainnav .dd-btn.active{background:var(--gradient-primary);-webkit-background-clip:text;background-clip:text;color:transparent;}
+nav.mainnav > a.active::after, nav.mainnav .dd-btn.active::after{content:'';position:absolute;left:4px;right:4px;bottom:0;height:6px;border-radius:3px 3px 0 0;background:var(--gradient-primary);}
+nav.mainnav .dd{display:flex;align-items:stretch;}
+nav.mainnav .chev{width:18px;height:18px;margin-left:3px;flex-shrink:0;}
 /* removed .nav-sep and .nav-group-label — now using dd dropdowns */
 .dd{position:relative;}
 .dd-menu{display:none;position:absolute;top:110%;left:0;background:var(--paper-raised);border:1px solid var(--line);border-radius:var(--radius-sm);box-shadow:var(--shadow);min-width:210px;padding:6px;z-index:60;}
 .dd:hover .dd-menu, .dd:focus-within .dd-menu{display:block;}
 .dd-menu a{display:flex;align-items:center;gap:8px;padding:8px 10px;font-size:13.5px;border-radius:6px;}
 .dd-menu a:hover{background:var(--paper-sunk);}
+.dd-menu.dd-open{display:block;}
 nav.mainnav .dd:last-child .dd-menu{left:auto;right:0;}
 .swatch{width:8px;height:8px;border-radius:2px;flex-shrink:0;}
 .searchbox{display:flex;align-items:center;background:var(--paper-sunk);border:1px solid var(--line);border-radius:10px;padding:3px 4px 3px 12px;gap:4px;min-width:200px;transition:border-color .12s;}
@@ -90,13 +101,13 @@ nav.mainnav .dd:last-child .dd-menu{left:auto;right:0;}
   nav.mainnav{gap:0;}
 }
 @media (max-width:980px){nav.mainnav{display:none;}.hsearch{display:none;}}
-.hamburger{display:none;background:none;border:none;cursor:pointer;padding:8px;flex-shrink:0;}
+.hamburger{display:none;background:none;border:none;cursor:pointer;padding:8px;flex-shrink:0;align-self:center;}
 .hamburger span{display:block;width:20px;height:2px;background:var(--ink);margin:4px 0;border-radius:2px;transition:all .2s;}
 .hamburger.open span:nth-child(1){transform:rotate(45deg) translate(4px,4px);}
 .hamburger.open span:nth-child(2){opacity:0;}
 .hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(4px,-4px);}
 
-.header-search{flex:1;display:flex;justify-content:flex-end;min-width:0;}
+.header-search{flex:0 0 auto;display:flex;justify-content:flex-end;min-width:0;align-self:center;}
 .hsearch{position:relative;display:flex;align-items:center;}
 .hsearch-toggle{width:42px;height:42px;border-radius:50%;border:none;background:var(--yakki-orange);color:#fff;display:flex;align-items:center;justify-content:center;transition:background .18s;flex-shrink:0;}
 .hsearch-toggle:hover{background:var(--yakki-orange-deep);border-color:var(--yakki-orange-deep);color:#fff;}
@@ -109,12 +120,12 @@ nav.mainnav .dd:last-child .dd-menu{left:auto;right:0;}
 .hsearch-expand button:hover{background:var(--navy-deep);}
 
 /* ---------- buttons/chips ---------- */
-.btn{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:600;padding:10px 18px;border-radius:24px;border:1px solid transparent;}
+.btn{display:inline-flex;align-items:center;gap:6px;font-size:16px;font-weight:500;padding:10px 18px;border-radius:999px;border:1px solid transparent;}
 .btn-primary{background:linear-gradient(135deg,#7E2A8A,#B44AC2);color:#fff;}
 .btn-primary:hover{background:linear-gradient(135deg,#6A2378,#A038B0);}
 .btn-ghost{background:transparent;border-color:var(--line-strong);color:var(--ink);}
 .btn-ghost:hover{background:var(--paper-sunk);}
-.btn-sm{padding:6px 12px;font-size:12.5px;}
+.btn-sm{padding:8px 14px;font-size:14px;}
 .pill-toggle{display:inline-flex;background:var(--paper-sunk);border:1px solid var(--line);border-radius:24px;padding:3px;}
 .pill-toggle button{border:none;background:none;padding:8px 16px;border-radius:20px;font-size:13.5px;font-weight:600;color:var(--ink-soft);}
 .pill-toggle button.active{background:var(--paper-raised);color:var(--ink);box-shadow:var(--shadow);}
@@ -127,10 +138,11 @@ nav.mainnav .dd:last-child .dd-menu{left:auto;right:0;}
 .origin-tag.origin-foreign{background:#EAF0FD;color:#2B56B5;}
 
 /* ---------- breadcrumbs ---------- */
-.crumbs{display:flex;align-items:center;flex-wrap:wrap;gap:6px;font-size:12.5px;color:var(--ink-faint);font-family:var(--font-mono);padding:16px 0 0;}
-.crumbs a{color:var(--ink);font-weight:600;}
+.crumbs{display:flex;align-items:center;flex-wrap:wrap;gap:8px;font-size:16px;font-weight:500;color:var(--color-ink);font-family:var(--font-mono);padding:16px 0 0;}
+.crumbs a{color:var(--color-ink);font-weight:500;}
 .crumbs a:hover{text-decoration:underline;}
 .crumbs .sep{opacity:.5;}
+.crumbs span:last-child{opacity:.5;}
 
 /* ---------- generic sections ---------- */
 main{min-height:60vh;background:#F5F3F8;padding-bottom:60px;}
@@ -278,79 +290,93 @@ main{min-height:60vh;background:#F5F3F8;padding-bottom:60px;}
 
 /* ---------- catalog / section page ---------- */
 .catalog-head{padding:8px 0 4px;}
-.catalog-head h1{font-size:34px;}
 .catalog-head p{margin-top:10px;color:var(--ink-soft);font-size:14.5px;max-width:640px;}
-.catalog-body{display:grid;grid-template-columns:250px 1fr;gap:32px;margin-top:26px;align-items:start;}
+.catalog-body{display:grid;grid-template-columns:324px minmax(0,1fr);gap:84px;margin-top:26px;align-items:start;}
 @media (max-width:860px){.catalog-body{grid-template-columns:1fr;}}
-.filters{position:sticky;top:84px;background:var(--paper-raised);border:1px solid var(--line);border-radius:var(--radius);padding:18px;}
+.filters{position:sticky;top:100px;background:var(--color-surface);border:1px solid #E7E0F3;border-radius:6px;padding:24px;}
+.filters .local-search{max-width:none;margin:0 0 18px;}
+.filters .actions .btn{flex:1;justify-content:center;height:42px;font-size:16px;border:2px solid #D9D9D9;}
 .filters h4{font-size:11px;text-transform:uppercase;letter-spacing:.05em;font-family:var(--font-mono);color:var(--ink-faint);margin-bottom:12px;}
 .filter-group{margin-bottom:18px;}
 .filter-group:last-of-type{margin-bottom:10px;}
-.filter-group label{display:block;font-size:12.5px;font-weight:600;margin-bottom:6px;color:var(--ink);}
-.filter-group select{width:100%;padding:9px 10px;border:1px solid var(--line-strong);border-radius:8px;font-family:var(--font-body);font-size:13px;background:var(--paper-sunk);color:var(--ink);}
+.filter-group label{display:block;font-size:18px;font-weight:500;margin-bottom:8px;color:var(--color-ink);}
+.filter-group select{width:100%;height:42px;padding:0 38px 0 14px;border:none;border-radius:6px;font-family:var(--font-body);font-size:16px;font-weight:500;background:#F5F3F8 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23767676' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 12px center;color:var(--color-ink);appearance:none;-webkit-appearance:none;cursor:pointer;}
 .filters .actions{display:flex;gap:8px;margin-top:14px;}
 .filters .actions .btn{flex:1;justify-content:center;padding:9px 0;}
 .crosslink-note{margin-top:16px;padding-top:14px;border-top:1px solid var(--line);font-size:12px;color:var(--ink-faint);line-height:1.5;}
 
 .results-topline{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px;}
 .results-topline .count{font-size:13px;color:var(--ink-soft);}
-.local-search{display:flex;border:1px solid var(--line-strong);border-radius:10px;overflow:hidden;max-width:340px;}
-.local-search input{flex:1;border:none;padding:8px 12px;font-size:13px;outline:none;background:var(--paper-raised);}
-.local-search button{border:none;background:var(--paper-sunk);padding:0 12px;font-size:13px;}
+.local-search{display:flex;border:none;border-radius:6px;overflow:hidden;max-width:340px;background:#F5F3F8;}
+.local-search input{flex:1;border:none;height:42px;padding:0 12px;font-size:16px;font-weight:500;outline:none;background:transparent;color:var(--color-ink);font-family:var(--font-body);}
+.local-search input::placeholder{color:var(--color-placeholder);font-weight:400;}
+.local-search button{border:none;background:transparent;padding:0 14px;font-size:14px;font-weight:600;color:var(--color-purple-dark);font-family:var(--font-body);cursor:pointer;white-space:nowrap;}
 
-.card-list{display:flex;flex-direction:column;gap:10px;}
+.card-list{display:grid;grid-template-columns:repeat(2,minmax(0,390px));gap:18px;justify-content:start;}
+.search-results.card-list{display:flex;flex-direction:column;}
 .search-results .card-list{gap:8px;}
 .search-results.card-list{gap:8px;}
 .search-results .item-card .card-body{padding:0;}
 .search-results .item-card h3{font-size:19px;line-height:1.35;}
 .search-results .item-card .desc{font-size:13.5px;line-height:1.55;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
-.item-card{display:block;background:transparent;border:none;border-bottom:1px solid var(--line);border-radius:0;overflow:visible;cursor:pointer;padding:26px 0;}
-.item-card:hover{border-color:var(--line);box-shadow:none;transform:none;}
-.item-card:hover h3{color:var(--yakki-purple);}
+.item-card{display:block;background:var(--color-surface);border:1px solid #E7E0F3;border-radius:6px;padding:24px;height:350px;overflow:hidden;cursor:pointer;transition:transform .15s ease,box-shadow .15s ease;}
+.item-card:hover{transform:translateY(-2px);box-shadow:var(--shadow);border-color:var(--line-strong);}
+.item-card:hover h3{color:var(--color-purple);}
 .item-card .spine{display:none;}
-.item-card .card-body{padding:0;display:flex;flex-direction:column;min-width:0;}
-.item-card .card-topline{display:flex;justify-content:space-between;align-items:center;gap:10px;row-gap:8px;flex-wrap:wrap;margin-bottom:10px;}
-.type-badge{display:inline-flex;align-items:center;font-size:10.5px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:#fff;padding:4px 10px;border-radius:6px;white-space:nowrap;}
+.item-card .card-body{height:100%;display:flex;flex-direction:column;min-width:0;padding:0;}
+.item-card .card-topline{display:flex;justify-content:space-between;align-items:center;gap:10px;row-gap:8px;flex-wrap:wrap;margin-bottom:12px;}
+.type-badge{display:inline-flex;align-items:center;font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#fff;padding:4px 10px;border-radius:3px;white-space:nowrap;}
 .card-region{font-size:12.5px;color:var(--yakki-purple);font-weight:700;display:inline-flex;align-items:center;gap:5px;white-space:nowrap;}
 .card-region svg{width:13px;height:13px;}
 .item-card .card-head{display:block;min-width:0;}
-.item-card h3{font-family:var(--font-display);font-weight:700;font-size:20px;line-height:1.3;color:var(--ink);overflow-wrap:anywhere;}
-.item-card .org-line{font-size:13px;color:var(--ink-faint);margin-top:6px;}
-.item-card .desc{font-size:13.5px;color:var(--ink-soft);line-height:1.55;margin-top:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
-.item-card .metarow{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px;}
-.item-card .metarow .tag{font-size:11px;padding:3px 8px;border-radius:6px;background:#F1E9FA;color:#5B2E8A;font-weight:600;}
-.item-card .value-marker{display:flex;align-items:center;gap:8px;margin-top:12px;font-size:13px;font-weight:700;}
+.item-card h3{font-family:var(--font-body);font-weight:700;font-size:24px;line-height:1.1;color:var(--color-ink);overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
+.item-card .org-line{font-size:14px;font-weight:500;color:var(--color-ink);opacity:.5;margin-top:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.item-card .desc{font-size:16px;font-weight:300;color:var(--ink-soft);line-height:1.3;margin-top:12px;flex:1;overflow:hidden;display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;}
+.item-card .value-marker{display:flex;align-items:center;gap:8px;margin-top:auto;padding-top:12px;font-size:14px;font-weight:500;}
 .item-card .value-marker::before{content:'';width:2px;align-self:stretch;background:currentColor;opacity:.55;border-radius:2px;}
-.item-card .card-foot{display:flex;justify-content:flex-end;font-size:12px;color:var(--ink-faint);margin-top:10px;}
+.item-card.mini{height:auto;padding:18px 20px;}
+.item-card.mini .desc{-webkit-line-clamp:4;margin-top:0;flex:none;}
 .empty-state{padding:50px 20px;text-align:center;background:var(--paper-raised);border:1px dashed var(--line-strong);border-radius:var(--radius);}
 .empty-state h3{font-size:16px;margin-bottom:6px;}
 .empty-state p{font-size:13.5px;color:var(--ink-soft);}
 
-/* ---------- detail / card page ---------- */
+/* ---------- case page ---------- */
+.case-hero{background:linear-gradient(100deg,#ffffff 0%,#ffffff 55%,#F3E4F7 78%,#E9CBF1 100%);border:1px solid #E7E0F3;border-radius:12px;padding:36px;position:relative;overflow:hidden;margin-top:18px;}
+.case-hero::after{content:'';position:absolute;top:-80px;right:-60px;width:340px;height:340px;background:radial-gradient(circle,rgba(160,56,176,.25),transparent 65%);pointer-events:none;}
+.case-hero-top{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:18px;position:relative;z-index:1;}
+.case-hero h1{font-size:54px;max-width:696px;position:relative;z-index:1;}
+.case-hero-lead{font-size:18px;font-weight:300;max-width:640px;margin-top:14px;color:var(--ink-soft);position:relative;z-index:1;}
+.case-hero-cta{margin-top:22px;position:relative;z-index:1;}
+.case-hero-cta .btn{padding:12px 24px;font-size:16px;}
+.case-hero .detail-meta{margin-top:18px;position:relative;z-index:1;}
+.case-grid{grid-template-columns:minmax(0,798px) minmax(0,390px);gap:18px;}
+@media (max-width:1240px){.case-grid{grid-template-columns:1fr;}}
+.case-page .block h2{font-size:30px;font-weight:700;text-transform:none;letter-spacing:0;color:var(--color-ink);margin-bottom:20px;}
+@media (max-width:640px){.case-page .block h2{font-size:22px !important;}.case-hero{padding:24px;}.case-hero h1{font-size:clamp(34px,8vw,44px) !important;}}
 .detail-head{padding:20px 0 0;}
 .detail-titlebar{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap;margin-top:14px;}
-.detail-titlebar h1{font-size:30px;max-width:760px;}
+.detail-titlebar h1{max-width:760px;}
 .detail-sub{color:var(--ink-soft);font-size:14.5px;margin-top:10px;max-width:760px;}
 .detail-meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;}
 .detail-actions{display:flex;gap:10px;flex-shrink:0;}
 .detail-grid{display:grid;grid-template-columns:1fr 300px;gap:32px;margin-top:32px;align-items:start;}
 @media (max-width:900px){.detail-grid{grid-template-columns:1fr;}}
-.block{background:var(--paper-raised);border:1px solid var(--line);border-radius:var(--radius);padding:22px 24px;margin-bottom:16px;}
+.block{background:var(--paper-raised);border:1px solid var(--line);border-radius:12px;padding:28px 36px;margin-bottom:16px;}
 .block h2{font-size:13px;text-transform:uppercase;letter-spacing:.04em;font-family:var(--font-mono);color:var(--ink-faint);margin-bottom:16px;font-weight:600;}
 .block h2 .n{color:var(--ink);}
-.kv{display:grid;grid-template-columns:170px 1fr;gap:8px 16px;font-size:13.5px;}
+.kv{display:grid;grid-template-columns:170px 1fr;gap:8px 16px;font-size:16px;line-height:1.3;}
 .kv dt{color:var(--ink-faint);}
 .kv dd{margin:0;}
-.subhead{font-size:12.5px;font-weight:700;text-transform:uppercase;letter-spacing:.03em;color:var(--ink-soft);margin:14px 0 8px;}
+.subhead{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.03em;color:var(--color-section-label);margin:14px 0 8px;}
 .subhead:first-child{margin-top:0;}
 .filelist{display:flex;flex-direction:column;gap:8px;}
-.filerow{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--paper-sunk);border-radius:8px;font-size:13px;}
+.filerow{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 10px 10px 12px;background:var(--paper-sunk);border-radius:8px;font-size:13px;min-height:48px;}
 .filerow .name{display:flex;align-items:center;gap:8px;}
 .filerow .ext{font-family:var(--font-mono);font-size:10.5px;background:var(--paper-raised);border:1px solid var(--line-strong);padding:1px 6px;border-radius:4px;color:var(--ink-soft);}
-.filerow button{border:1px solid var(--line-strong);background:var(--paper-raised);border-radius:6px;padding:5px 10px;font-size:12px;font-weight:600;}
-.filerow button:hover{background:var(--navy);color:#fff;border-color:var(--navy);}
-ul.plain{margin:0;padding-left:18px;font-size:13.5px;line-height:1.6;}
-ul.plain li{margin-bottom:4px;}
+.filerow button{border:none;background:var(--gradient-primary);color:#fff;border-radius:999px;padding:9px 12px;font-size:14px;font-weight:500;font-family:var(--font-body);cursor:pointer;white-space:nowrap;}
+.filerow button:hover{filter:brightness(.92);}
+ul.plain{margin:0;padding-left:18px;font-size:16px;line-height:1.3;}
+ul.plain li{margin-bottom:8px;}
 table.qtable{width:100%;border-collapse:collapse;font-size:13px;}
 table.qtable th{text-align:left;font-family:var(--font-mono);font-size:10.5px;text-transform:uppercase;color:var(--ink-faint);padding:6px 10px;border-bottom:1px solid var(--line-strong);}
 table.qtable td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top;}
@@ -359,7 +385,7 @@ table.qtable td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-al
 .lesson-col h4{font-size:12.5px;margin-bottom:8px;}
 .lesson-col.good h4{color:var(--c-tools);}
 .lesson-col.bad h4{color:var(--c-templates);}
-.sidebar-box{background:var(--paper-raised);border:1px solid var(--line);border-radius:var(--radius);padding:18px;margin-bottom:14px;}
+.sidebar-box{background:var(--paper-raised);border:1px solid var(--line);border-radius:12px;padding:18px;margin-bottom:14px;}
 .sidebar-box h4{font-size:11px;text-transform:uppercase;font-family:var(--font-mono);color:var(--ink-faint);margin-bottom:10px;}
 .related-item{display:block;padding:10px 0;border-bottom:1px solid var(--line);font-size:13px;}
 .related-item:last-child{border:none;}
@@ -423,37 +449,43 @@ table.qtable td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-al
 @media (max-width:640px){.gloss-row{flex-direction:column;align-items:flex-start;}.gloss-row .def{text-align:left;}}
 
 /* values grid */
-.values-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:28px 24px;margin-top:26px;}
+.values-grid{display:grid;grid-template-columns:repeat(4,minmax(0,306px));gap:18px;margin-top:26px;justify-content:space-between;}
 @media (max-width:860px){.values-grid{grid-template-columns:repeat(2,1fr);}}
 @media (max-width:560px){.values-grid{grid-template-columns:1fr;}}
-.value-card{position:relative;background:var(--paper-raised);border:none;border-radius:14px;padding:8px 8px 66px;transition:transform .18s ease,box-shadow .18s ease;}
-.value-card:hover{transform:translateY(-3px);box-shadow:0 18px 42px -18px rgba(247,142,69,.55),0 10px 26px -14px rgba(79,43,133,.28);}
+.value-card{position:relative;background:var(--color-surface);border:none;border-radius:6px;padding:24px;height:280px;transition:transform .18s ease,box-shadow .18s ease;}
+.value-card:hover{transform:translateY(-3px);box-shadow:0 13px 27px -5px rgb(27 153 139 / 24%),0 8px 16px -8px rgb(27 153 139 / 30%);}
 .value-card .n{display:none;}
-.value-card h3{font-family:var(--font-display);font-weight:700;font-size:21px;line-height:1.25;color:var(--ink);}
-.value-card p{font-size:13px;color:var(--ink-soft);margin-top:10px;line-height:1.55;}
-.value-card .link-count{position:absolute;left:8px;bottom:20px;margin:0;font-size:13px;font-weight:700;color:var(--yakki-purple);}
-.value-card::after{content:'↗';position:absolute;right:8px;bottom:12px;width:38px;height:38px;border-radius:9px;background:var(--yakki-purple);color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;transition:background .18s ease;}
-.value-card:hover::after{background:var(--yakki-orange);}
+.value-card h3{font-family:var(--font-body);font-weight:700;font-size:24px;line-height:1.1;color:var(--color-ink);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.value-card p{font-size:16px;font-weight:300;color:var(--ink-soft);margin-top:12px;line-height:1.3;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
+.value-card .link-count{position:absolute;left:24px;bottom:24px;margin:0;font-size:16px;font-weight:500;color:var(--color-blue);}
+.value-card .go{position:absolute;right:24px;bottom:24px;width:54px;height:54px;border-radius:12px 0;background:var(--color-blue);display:flex;align-items:center;justify-content:center;transition:background .18s ease;}
+.value-card:hover .link-count{color:var(--color-mint);}
+.value-card:hover .go{background:var(--color-mint);}
 /* tinted page band (values) */
 .page-tint{background:#F5F3F8;padding-bottom:4px;}
-.page-tint .value-card{background:#fff;border:1px solid #E7E0F3;}
 
 /* results tree */
-.tree-cols{display:grid;grid-template-columns:1fr 1fr 1.4fr;gap:0;margin-top:22px;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:var(--paper-raised);min-height:360px;}
+.results-top{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;}
+.ai-callout{max-width:300px;display:flex;flex-direction:column;align-items:flex-end;gap:10px;text-align:right;}
+.ai-callout p{font-size:13px;color:var(--color-text-muted);max-width:223px;}
+.ai-callout .btn{padding:12px 24px;font-size:16px;}
+@media (max-width:860px){.results-top{align-items:flex-start;}.ai-callout{align-items:flex-start;text-align:left;}.ai-callout p{margin:0;max-width:none;}}
+.tree-cols{display:grid;grid-template-columns:349px 349px minmax(0,1fr);gap:0;margin-top:22px;border:1px solid #CFE8E0;border-radius:6px;overflow:hidden;background:var(--color-surface);min-height:360px;}
 @media (max-width:800px){.tree-cols{grid-template-columns:1fr;}}
 .tree-col{border-right:1px solid var(--line);}
 .tree-col:last-child{border-right:none;}
-.tree-col-h{padding:12px 16px;font-size:12px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:#7A2A92;border-bottom:1px solid var(--line);background:#EBD3F3;}
-.tree-opt{display:block;width:100%;text-align:left;padding:12px 16px;border:none;background:none;font-size:13.5px;border-bottom:1px solid var(--line);color:var(--ink);}
-.tree-opt:hover{background:#F6E9FA;}
-.tree-opt.sel{background:var(--yakki-purple);color:#fff;font-weight:700;}
-.tree-opt .cnt{float:right;font-size:11px;color:var(--ink-faint);}
+.tree-col-h{height:43px;display:flex;align-items:center;padding:0 18px;font-size:16px;font-weight:700;letter-spacing:0;text-transform:uppercase;color:var(--color-ink);border-bottom:1px solid #CFE8E0;background:var(--color-mint-light);}
+.tree-opt{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;text-align:left;padding:0 18px;border:none;background:none;font-size:16px;font-weight:500;font-family:var(--font-body);min-height:43px;border-bottom:1px solid #DCEFE9;color:var(--color-ink);cursor:pointer;}
+.tree-opt:hover{background:#EFF7F4;}
+.tree-opt.sel{background:var(--gradient-active);color:#fff;font-weight:700;min-height:45px;border-bottom-color:transparent;}
+.tree-opt .cnt{font-size:14px;color:var(--color-ink);opacity:.24;flex-shrink:0;}
+.tree-opt.sel .cnt{color:#fff;opacity:1;}
 .tree-opt.sel .cnt{color:#fff;}
-.result-line{padding:12px 16px;border-bottom:1px solid var(--line);font-size:13.5px;line-height:1.5;}
-.result-line .ind{display:block;font-size:11.5px;color:var(--yakki-purple)!important;font-weight:700;margin-top:4px;}
+.result-line{padding:12px 18px;border-bottom:1px solid #DCEFE9;font-size:16px;font-weight:500;line-height:1.3;}
+.result-line .ind{display:block;font-size:14px;color:var(--color-mint)!important;font-weight:500;margin-top:6px;}
 
 /* footer */
-footer{background:#232B3E;color:#C6CBD6;margin-top:0;}
+footer{background:var(--color-footer);color:#C6CBD6;margin-top:0;min-height:315px;}
 footer .wrap{padding:48px 28px 26px;}
 .foot-logo{height:56px;width:auto;margin-bottom:18px;}
 .site-back.light{color:#fff;border-color:rgba(255,255,255,.45);background:transparent;}
@@ -463,12 +495,12 @@ footer .wrap{padding:48px 28px 26px;}
 footer h4{color:#fff;font-size:12px;text-transform:uppercase;font-family:var(--font-mono);letter-spacing:.06em;margin-bottom:16px;}
 footer a{display:block;font-size:14px;color:#C6CBD6;margin-bottom:10px;}
 footer a:hover{color:#fff;}
-.social-row{display:flex;gap:10px;margin-top:2px;}
+.social-row{display:flex;gap:12px;margin-top:2px;}
 .social-row a{margin:0;}
 .social-row .soc{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:transform .15s;}
 .social-row .soc:hover{transform:translateY(-2px);}
 .social-row .soc svg{width:40px;height:40px;display:block;}
-.foot-bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:32px;padding-top:18px;display:flex;justify-content:space-between;font-size:12.5px;color:#8B91A3;flex-wrap:wrap;gap:8px;}
+.foot-bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:32px;padding-top:18px;display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:24px;font-size:12.5px;color:#8B91A3;}
 
 /* helper nav button */
 .fab-stack{position:fixed;bottom:22px;right:22px;z-index:70;display:flex;flex-direction:column;align-items:flex-end;gap:10px;}
@@ -620,13 +652,11 @@ main{position:relative;z-index:1;}
   .results-topline{flex-direction:column;align-items:stretch;gap:10px;}
   .local-search{max-width:100%;}
   .local-search input{font-size:13px;}
-  .card-list .item-card{padding:18px 0;}
+  .card-list{grid-template-columns:1fr;}
+  .card-list .item-card{height:auto;padding:20px;}
   .card-list .item-card .card-body{padding:0;}
-  .card-list .item-card h3{font-size:17px;}
-  .card-list .item-card .desc{font-size:12.5px;-webkit-line-clamp:2;}
-  .card-list .item-card .metarow{gap:4px;}
-  .card-list .item-card .metarow .tag{font-size:10.5px;padding:3px 7px;}
-  .card-list .item-card .card-foot{font-size:10.5px;flex-direction:column;gap:2px;}
+  .card-list .item-card h3{font-size:20px !important;}
+  .card-list .item-card .desc{font-size:15px;}
 }
 
 /* --- Detail page --- */
@@ -691,10 +721,12 @@ main{position:relative;z-index:1;}
 
 /* --- Values grid --- */
 @media (max-width:560px){
-  .values-grid{gap:10px;}
-  .value-card{padding:6px 6px 62px;}
-  .value-card h3{font-size:18px;}
-  .value-card p{font-size:12px;}
+  .values-grid{gap:12px;}
+  .value-card{padding:20px;height:auto;min-height:230px;}
+  .value-card h3{font-size:20px !important;}
+  .value-card p{font-size:14px;}
+  .value-card .link-count{left:20px;bottom:20px;}
+  .value-card .go{right:20px;bottom:20px;}
 }
 
 /* --- Results tree --- */
@@ -703,8 +735,8 @@ main{position:relative;z-index:1;}
   .tree-col{border-right:none;border-bottom:1px solid var(--line);max-height:200px;overflow-y:auto;}
   .tree-col:last-child{border-bottom:none;}
   .tree-col-h{position:sticky;top:0;z-index:1;}
-  .tree-opt{font-size:13px;padding:10px 14px;}
-  .result-line{font-size:13px;padding:10px 14px;}
+  .tree-opt{font-size:14px;padding:10px 18px;min-height:0;}
+  .result-line{font-size:14px;padding:10px 18px;}
 }
 @media (max-width:480px){
   .tree-col{max-height:160px;}
@@ -724,7 +756,7 @@ main{position:relative;z-index:1;}
 }
 @media (max-width:480px){
   .foot-grid{grid-template-columns:1fr;gap:18px;}
-  .foot-bottom{flex-direction:column;gap:6px;text-align:center;}
+  .foot-bottom{grid-template-columns:1fr;gap:6px;text-align:center;}
 }
 
 /* --- Tables (horizontal scroll) --- */
@@ -817,8 +849,9 @@ main{position:relative;z-index:1;}
 <header class="main">
   <div class="wrap">
     <div class="brand" data-nav="#/">
-      <img src="assets/mark.png" alt="ЯККИ — Яркие краски креативных индустрий">
+      <img src="assets/logo-main.png" alt="ЯККИ — Яркие краски креативных индустрий">
     </div>
+    <nav class="mainnav" id="mainnav"></nav>
     <a href="https://creative-industries.su/" target="_blank" rel="noopener" class="site-back">← Основной сайт</a>
     <div class="header-search">
       <div class="hsearch" id="hsearchBox">
@@ -834,14 +867,13 @@ main{position:relative;z-index:1;}
     <button class="hamburger" id="hamburgerBtn" onclick="toggleMobileMenu()" aria-label="Меню">
       <span></span><span></span><span></span>
     </button>
-    <nav class="mainnav" id="mainnav"></nav>
   </div>
 </header>
 
 <main id="app"></main>
 
 <footer>
-  <div class="wrap">
+  <div class="wrap wrap-wide">
     <div class="foot-grid">
       <div>
         <img class="foot-logo" src="assets/logo-white.png" alt="ЯККИ — Яркие краски креативных индустрий">
@@ -1718,31 +1750,33 @@ document.addEventListener('click', function(e){
 });
 
 function buildNav(activeKey){
-  const refSections = ['faq','glossary'];
-  const isRef = refSections.includes(activeKey)||activeKey==='prompts';
+  const chev = '<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#706e73" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>';
+  const isCat = CATALOG_SECTIONS.includes(activeKey);
   const isValues = activeKey==='values'||activeKey==='value';
-  const isResults = activeKey==='results';
-  let html = `<a href="#/start" class="${activeKey==='start'?'active':''}">С чего начать</a>`;
-  html += `<div class="dd">
-    <button class="dd-btn ${CATALOG_SECTIONS.includes(activeKey)?'active':''}" onclick="toggleMobileDd(this)">База материалов ▾</button>
-    <div class="dd-menu">
-      <a href="#/section/all"><span class="swatch" style="background:var(--navy)"></span><b>Все материалы</b></a>
+  const isResults = activeKey==='results'||activeKey==='result';
+  let html = `<div class="dd" data-dd>
+    <button class="dd-btn ${isCat?'active':''}" aria-haspopup="true" aria-expanded="false" aria-controls="ddm-cat" onclick="toggleMobileDd(this)">База материалов ${chev}</button>
+    <div class="dd-menu" id="ddm-cat" role="menu">
+      <a href="#/section/all" role="menuitem"><span class="swatch" style="background:var(--navy)"></span><b>Все материалы</b></a>
       <div style="height:1px;background:var(--line);margin:4px 8px;"></div>
-      ${CATALOG_SECTIONS.map(k=>`<a href="#/section/${k}"><span class="swatch" style="background:${SECTIONS[k].color}"></span>${SECTIONS[k].label}</a>`).join('')}
+      ${CATALOG_SECTIONS.map(k=>`<a href="#/section/${k}" role="menuitem"><span class="swatch" style="background:${SECTIONS[k].color}"></span>${SECTIONS[k].label}</a>`).join('')}
     </div>
   </div>`;
   html += `<a href="#/values" class="${isValues?'active':''}">Ценности</a>`;
   html += `<a href="#/results" class="${isResults?'active':''}">Банк результатов</a>`;
-  html += `<div class="dd">
-    <button class="dd-btn ${isRef?'active':''}" onclick="toggleMobileDd(this)">Справочник ▾</button>
-    <div class="dd-menu">
-      ${refSections.map(k=>`<a href="#/${k}"><span class="swatch" style="background:${SECTIONS[k].color}"></span>${SECTIONS[k].label}</a>`).join('')}
-      <div style="height:1px;background:var(--line);margin:4px 8px;"></div>
-      <a href="#/prompts" class="${activeKey==='prompts'?'active':''}"><span class="swatch" style="background:var(--navy)"></span>Промты для ИИ</a>
-    </div>
-  </div>`;
   document.getElementById('mainnav').innerHTML = html;
 }
+document.addEventListener('click',e=>{
+  if(window.innerWidth<=980) return;
+  const btn = e.target.closest('.dd-btn');
+  const wasOpen = btn ? btn.parentElement.querySelector('.dd-menu').classList.contains('dd-open') : false;
+  document.querySelectorAll('.dd-menu.dd-open').forEach(m=>{m.classList.remove('dd-open');const b=m.parentElement.querySelector('.dd-btn');if(b)b.setAttribute('aria-expanded','false');});
+  if(btn && !wasOpen){const menu=btn.parentElement.querySelector('.dd-menu');if(menu){menu.classList.add('dd-open');btn.setAttribute('aria-expanded','true');}}
+});
+document.addEventListener('keydown',e=>{
+  if(e.key!=='Escape') return;
+  document.querySelectorAll('.dd-menu.dd-open').forEach(m=>{m.classList.remove('dd-open');const b=m.parentElement.querySelector('.dd-btn');if(b)b.setAttribute('aria-expanded','false');});
+});
 
 /* ============================================================
    РЕНДЕР: ГЛАВНАЯ
@@ -1857,22 +1891,9 @@ function renderHome(){
     <div class="hr"></div>
     <div style="padding-top:36px;">
       <h2 style="font-size:22px;">Примеры из практики</h2>
-      <div class="home-cases-grid" style="margin-top:18px;">
-        ${[f1,f2,f3].filter(Boolean).map(c=>`
-          <a class="item-card" data-nav="#/card/case/${c.id}" style="text-decoration:none;">
-            <div class="spine" style="background:var(--blue);"></div>
-            <div class="card-body">
-              <div class="card-head"><h3 style="font-size:15px;">${c.title}</h3>${c.origin?`<span class="origin-tag ${c.origin==='отечественный опыт'?'origin-domestic':'origin-foreign'}">${c.origin}</span>`:''}</div>
-              <div class="desc">${c.shortDesc}</div>
-              <div class="metarow">
-                <span class="tag">${c.projectType}</span>
-                <span class="tag">${c.evalStage}</span>
-                <span class="tag">${c.geo}</span>
-              </div>
-            </div>
-          </a>
-        `).join('')}
-      </div>
+        <div class="home-cases-grid" style="margin-top:18px;">
+          ${renderCardList('cases', [f1,f2,f3].filter(Boolean))}
+        </div>
       <div style="margin-top:16px;"><a class="btn btn-primary" data-nav="#/section/cases">Смотреть все кейсы →</a></div>
     </div>
   </div>
@@ -2173,25 +2194,25 @@ function renderSection(key){
     const panelFn = filterPanels[key];
 
     app.innerHTML = `
-    <div class="wrap fade-in">
+    <div class="wrap wrap-narrow fade-in">
       <div class="crumbs"><a href="#/">База знаний</a><span class="sep">/</span><a href="#/section/all">Все материалы</a><span class="sep">/</span><span>${s.label}</span></div>
       <div class="catalog-head">
         <h1 style="margin-top:0;">${s.label}</h1>
       </div>
       <div class="catalog-body">
-        <button class="btn btn-ghost btn-sm filter-toggle" style="display:none;width:100%;margin-bottom:8px;" onclick="document.querySelector('.filters').classList.toggle('filter-open');this.textContent=this.textContent.includes('Показать')?'Скрыть фильтры ▲':'Показать фильтры ▼'">Показать фильтры ▼</button>
+        <button class="btn btn-ghost btn-sm filter-toggle" style="display:none;width:100%;margin-bottom:8px;" data-closed="Показать фильтры (${activeFilterCount(state.filters[key])}) ▼" onclick="const t=this;if(t.textContent.includes('Показать')){t.dataset.closed=t.textContent;t.textContent='Скрыть фильтры ▲';}else{t.textContent=t.dataset.closed;}document.querySelector('.filters').classList.toggle('filter-open')">Показать фильтры (${activeFilterCount(state.filters[key])}) ▼</button>
         <div class="filters">
           <h4>Фильтры</h4>
+          <div class="local-search">
+            <input id="localSearch" placeholder="Искать в разделе «${s.short}»…" oninput="localSearchFilter('${key}')">
+            <button onclick="localSearchFilter('${key}')">Найти</button>
+          </div>
           ${panelFn ? panelFn() : `<div style="font-size:13px;color:var(--ink-soft);line-height:1.5;">Для этого раздела фильтры не предусмотрены — используйте поиск по названию.</div>`}
           <div class="crosslink-note">Связанные материалы показаны внутри каждой карточки.</div>
         </div>
         <div>
           <div class="results-topline">
             <span class="count">Показано: ${items.length}</span>
-            <div class="local-search">
-              <input id="localSearch" placeholder="Искать в разделе «${s.short}»…" oninput="localSearchFilter('${key}')">
-              <button onclick="localSearchFilter('${key}')">Найти</button>
-            </div>
           </div>
           <div class="card-list" id="cardList">${renderCardList(key, items)}</div>
         </div>
@@ -2268,14 +2289,19 @@ if(typeParam==='cases'){
   const sLabel = 'Все материалы';
   const sDesc = 'Единый каталог всех разделов базы знаний';
   app.innerHTML = `
-  <div class="wrap fade-in">
+  <div class="wrap wrap-narrow fade-in">
     <div class="crumbs"><a href="#/">База знаний</a><span class="sep">/</span><span>${sLabel}</span></div>
     <div class="catalog-head">
       <h1 style="margin-top:0;">${sLabel}</h1>
     </div>
     <div class="catalog-body">
+      <button class="btn btn-ghost btn-sm filter-toggle" style="display:none;width:100%;margin-bottom:8px;" data-closed="Показать фильтры (${activeFilterCount(state.filters[typeParam])}) ▼" onclick="const t=this;if(t.textContent.includes('Показать')){t.dataset.closed=t.textContent;t.textContent='Скрыть фильтры ▲';}else{t.textContent=t.dataset.closed;}document.querySelector('.filters').classList.toggle('filter-open')">Показать фильтры (${activeFilterCount(state.filters[typeParam])}) ▼</button>
       <div class="filters">
         <h4>Фильтры</h4>
+        <div class="local-search">
+          <input id="localSearch" placeholder="Поиск по всем материалам…" value="${esc(q)}" oninput="localSearchFilter('all')">
+          <button onclick="localSearchFilter('all')">Найти</button>
+        </div>
         <div class="filter-group"><label>Тип материала</label>
           <select id="allTypeFilter" onchange="filterAllByType()">
             <option value="">Все типы</option>
@@ -2291,10 +2317,6 @@ if(typeParam==='cases'){
       <div>
         <div class="results-topline">
           <span class="count">Показано: ${items.length}</span>
-          <div class="local-search">
-            <input id="localSearch" placeholder="Поиск по всем материалам…" value="${esc(q)}" oninput="localSearchFilter('all')">
-            <button onclick="localSearchFilter('all')">Найти</button>
-          </div>
         </div>
         <div class="card-list" id="cardList">${renderCardListAll(items)}</div>
       </div>
@@ -2324,6 +2346,10 @@ function filterTools(){
     (!f.status || (t.status||'')===f.status) &&
     (!f.q || (t.title+t.shortDesc).toLowerCase().includes(f.q.toLowerCase()))
   );
+}
+function activeFilterCount(f){
+  if(!f) return 0;
+  return Object.keys(f).filter(k=>{const v=f[k];return v!==null&&v!==undefined&&v!=='';}).length;
 }
 function localSearchFilter(key){
   if(key==='all'){
@@ -2356,34 +2382,18 @@ function renderCardListAll(items){
   return items.map(it=>{
     const s = SECTIONS[it._section];
     const routeKey = it._section==='cases'?'case':it._section==='tools'?'tool':it._section==='methodology'?'methodology':'template';
-    const metaTags = [];
-    if(it._section==='cases'){
-      metaTags.push(it.projectType);
-      if(it.evalStage) metaTags.push(it.evalStage);
-    }
-    else if(it._section==='tools'){
-      metaTags.push(it.type);
-      if(it.method || it.subType) metaTags.push(it.method || it.subType);
-      if(it.evalStage) metaTags.push(it.evalStage);
-      if(it.projectType) metaTags.push(it.projectType);
-    }
-    else if(it._section==='methodology'){ if(it.sub) metaTags.push(it.sub); }
-    else if(it._section==='templates'){ if(it.templateType) metaTags.push(it.templateType); if(it.evalStage) metaTags.push(it.evalStage); it.formats.forEach(f=>metaTags.push(f)); }
-    const org = it.org || '';
-    const subline = org || it.type || it.sub || it.templateType || '';
-    const originHtml = it.origin ? `<span class="origin-tag ${it.origin==='отечественный опыт'?'origin-domestic':'origin-foreign'}">${it.origin}</span>` : '';
+    const subline = (it.org || '') || it.type || it.sub || it.templateType || '';
     const region = it.region || it.geo || '';
     const regionHtml = region ? `<span class="card-region"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-5.5-7-11a7 7 0 0114 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.6"/></svg>${region}</span>` : '';
     const firstVal = (it.values && it.values.length) ? byId(VALUES, it.values[0]) : null;
     const markerHtml = firstVal ? `<div class="value-marker" style="color:${s.color};">${firstVal.title}</div>` : '';
     return `<a class="item-card" data-nav="#/card/${routeKey}/${it.id}" style="text-decoration:none;">
       <div class="card-body">
-        <div class="card-topline"><span class="type-badge" style="background:${s.pill};">${s.badge}</span><div style="display:flex;align-items:center;gap:6px;">${regionHtml}${originHtml}</div></div>
+        <div class="card-topline"><span class="type-badge" style="background:${s.pill};">${s.badge}</span>${regionHtml}</div>
         <div class="card-head"><h3>${it.title}</h3></div>
         ${subline?`<div class="org-line">${subline}</div>`:''}
         <div class="desc">${it.shortDesc}</div>
         ${markerHtml}
-        <div class="metarow">${metaTags.filter(Boolean).map(t=>`<span class="tag">${t}</span>`).join('')}</div>
       </div>
     </a>`;
   }).join('');
@@ -2702,36 +2712,18 @@ function renderCardList(key, items){
   const s = SECTIONS[key];
   const routeKey = key==='cases'?'case':key==='tools'?'tool':key==='methodology'?'methodology':'template';
   return items.map(it=>{
-    const metaTags = [];
-    if(key==='cases'){
-      metaTags.push(it.projectType);
-      if(it.evalStage) metaTags.push(it.evalStage);
-      (it.audienceType||[]).forEach(a=>metaTags.push(a));
-    }
-    else if(key==='tools'){
-      metaTags.push(it.type);
-      if(it.method || it.subType) metaTags.push(it.method || it.subType);
-      if(it.evalStage) metaTags.push(it.evalStage);
-      if(it.projectType) metaTags.push(it.projectType);
-    }
-    else if(key==='methodology'){ if(it.sub) metaTags.push(it.sub); }
-    else if(key==='templates'){ if(it.templateType) metaTags.push(it.templateType); if(it.evalStage) metaTags.push(it.evalStage); it.formats.forEach(f=>metaTags.push(f)); }
-    const org = it.org || '';
-    const status = it.status || '';
-    const subline = org || it.type || it.sub || it.templateType || '';
-    const originHtml = it.origin ? `<span class="origin-tag ${it.origin==='отечественный опыт'?'origin-domestic':'origin-foreign'}">${it.origin}</span>` : '';
+    const subline = (it.org || '') || it.type || it.sub || it.templateType || '';
     const region = it.region || it.geo || '';
     const regionHtml = region ? `<span class="card-region"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-5.5-7-11a7 7 0 0114 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.6"/></svg>${region}</span>` : '';
     const firstVal = (it.values && it.values.length) ? byId(VALUES, it.values[0]) : null;
     const markerHtml = firstVal ? `<div class="value-marker" style="color:${s.color};">${firstVal.title}</div>` : '';
     return `<a class="item-card" data-nav="#/card/${routeKey}/${it.id}" style="text-decoration:none;">
       <div class="card-body">
-        <div class="card-topline"><span class="type-badge" style="background:${s.pill};">${s.badge}</span><div style="display:flex;align-items:center;gap:6px;">${regionHtml}${originHtml}${status?`<span class="tag" style="background:${s.bg};color:${s.color};font-size:11px;padding:3px 8px;border-radius:6px;white-space:nowrap;">${status}</span>`:''}</div></div>
+        <div class="card-topline"><span class="type-badge" style="background:${s.pill};">${s.badge}</span>${regionHtml}</div>
         <div class="card-head"><h3>${it.title}</h3></div>
         ${subline?`<div class="org-line">${subline}</div>`:''}
         <div class="desc">${it.shortDesc}</div>
         ${markerHtml}
-        <div class="metarow">${metaTags.filter(Boolean).map(t=>`<span class="tag">${t}</span>`).join('')}${resultsTags}</div>
       </div>
     </a>`;
   }).join('');
@@ -2759,20 +2751,20 @@ function renderCaseDetail(id){
   const app = document.getElementById('app');
   if(!c){ app.innerHTML = notFound(); return; }
   const relatedTools = c.relatedTools.map(tid=>byId(TOOLS,tid)).filter(Boolean);
-  const findingsHtml = c.findings ? c.findings.map(f=>`<div style="margin-bottom:14px;"><div style="font-weight:700;font-size:13.5px;margin-bottom:4px;">${f.q}</div><p style="font-size:13.5px;color:var(--ink-soft);line-height:1.55;">${f.text}</p></div>`).join('') : '';
-  const keyConclusionHtml = c.keyConclusion ? `<div style="background:var(--navy-soft);border-left:3px solid var(--navy);padding:14px 16px;border-radius:0 8px 8px 0;margin-bottom:16px;"><div style="font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.03em;color:var(--navy);margin-bottom:6px;">Ключевой вывод</div><p style="font-size:13.5px;line-height:1.55;">${c.keyConclusion}</p></div>` : '';
+  const findingsHtml = c.findings ? c.findings.map(f=>`<div style="margin-bottom:14px;"><div style="font-weight:700;font-size:16px;margin-bottom:4px;">${f.q}</div><p style="font-size:16px;color:var(--ink-soft);line-height:1.3;">${f.text}</p></div>`).join('') : '';
+  const keyConclusionHtml = c.keyConclusion ? `<div style="background:#F6E9FA;border-left:4px solid var(--color-purple);padding:14px 16px;border-radius:0 8px 8px 0;margin-bottom:16px;"><div style="font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.03em;color:var(--color-purple);margin-bottom:6px;">Ключевой вывод</div><p style="font-size:16px;line-height:1.3;">${c.keyConclusion}</p></div>` : '';
 
   const CRIT_ALL = ['Актуальность','Согласованность','Эффективность','Результативность','Воздействие','Устойчивость'];
   const critHtml = `<div class="crit-grid">${CRIT_ALL.map(d=>`<div class="crit-item ${c.criteria.includes(d)?'active':''}"><span class="check">${c.criteria.includes(d)?'✓':'—'}</span>${d}</div>`).join('')}</div>`;
 
-  const methodsHtml = c.collectionMethods ? `<div class="method-list">${c.collectionMethods.map(m=>`<div class="method-item"><span class="badge" style="background:var(--paper-sunk);color:var(--ink-soft);font-size:10.5px;">${m.type}</span><span>${m.detail}</span></div>`).join('')}</div>` : '';
+  const methodsHtml = c.collectionMethods ? `<div class="method-list">${c.collectionMethods.map(m=>`<div class="method-item"><span class="badge" style="background:var(--paper-sunk);color:var(--ink-soft);font-size:12px;">${m.type}</span><span>${m.detail}</span></div>`).join('')}</div>` : '';
 
   const evalGoalTruncated = c.evalGoal.length > 200;
   const evalGoalHtml = evalGoalTruncated
-    ? `<div class="truncated" id="evalGoalBlock"><p style="font-size:13.5px;line-height:1.55;">${c.evalGoal}</p></div><button class="truncated-toggle" onclick="this.previousElementSibling.classList.toggle('expanded');this.textContent=this.textContent==='Показать полностью ▾'?'Свернуть ▴':'Показать полностью ▾'">Показать полностью ▾</button>`
-    : `<p style="font-size:13.5px;line-height:1.55;">${c.evalGoal}</p>`;
+    ? `<div class="truncated" id="evalGoalBlock"><p style="font-size:16px;line-height:1.3;">${c.evalGoal}</p></div><button class="truncated-toggle" onclick="this.previousElementSibling.classList.toggle('expanded');this.textContent=this.textContent==='Показать полностью ▾'?'Свернуть ▴':'Показать полностью ▾'">Показать полностью ▾</button>`
+    : `<p style="font-size:16px;line-height:1.3;">${c.evalGoal}</p>`;
 
-  const analysisHtml = c.analysisMethodsDesc ? `<div class="block"><h2>Описание методов анализа</h2><div class="truncated" id="analysisBlock"><p style="font-size:13.5px;line-height:1.55;color:var(--ink-soft);">${c.analysisMethodsDesc}</p></div><button class="truncated-toggle" onclick="this.previousElementSibling.classList.toggle('expanded');this.textContent=this.textContent==='Показать полностью ▾'?'Свернуть ▴':'Показать полностью ▾'">Показать полностью ▾</button></div>` : '';
+  const analysisHtml = c.analysisMethodsDesc ? `<div class="block"><h2>Описание методов анализа</h2><div class="truncated" id="analysisBlock"><p style="font-size:16px;line-height:1.3;color:var(--ink-soft);">${c.analysisMethodsDesc}</p></div><button class="truncated-toggle" onclick="this.previousElementSibling.classList.toggle('expanded');this.textContent=this.textContent==='Показать полностью ▾'?'Свернуть ▴':'Показать полностью ▾'">Показать полностью ▾</button></div>` : '';
 
   const quickDownloads = [];
   if(c.docs.reporting[0]) quickDownloads.push(c.docs.reporting[0]);
@@ -2792,24 +2784,23 @@ function renderCaseDetail(id){
     });
   }
   const linkedResultsHtml = linkedCaseResults.length ? `<div class="block"><h2>Связанные результаты</h2><div class="card-list">${linkedCaseResults.slice(0,5).map(r=>{
-    if(r.ai!==null) return `<a class="item-card" data-nav="#/result/${r.ai}/${r.ari}/${r.ri}" style="text-decoration:none;"><div class="spine" style="background:var(--c-results)"></div><div class="card-body"><div class="desc">${r.text||r.title||''}</div></div></a>`;
-    return `<div class="item-card"><div class="spine" style="background:var(--c-results)"></div><div class="card-body"><div class="desc">${typeof r==='string'?r:r.text||r.title||''}</div></div></div>`;
+    if(r.ai!==null) return `<a class="item-card mini" data-nav="#/result/${r.ai}/${r.ari}/${r.ri}" style="text-decoration:none;"><div class="card-body"><div class="desc">${r.text||r.title||''}</div></div></a>`;
+    return `<div class="item-card mini"><div class="card-body"><div class="desc">${typeof r==='string'?r:r.text||r.title||''}</div></div></div>`;
   }).join('')}</div></div>` : '';
 
   app.innerHTML = `
-  <div class="wrap fade-in">
+  <div class="wrap wrap-narrow fade-in case-page">
     <div class="crumbs"><a href="#/">База знаний</a><span class="sep">/</span><a href="#/section/cases">Кейсы проектов</a><span class="sep">/</span><span>${c.title}</span></div>
-    <div class="detail-head">
-      <span class="type-badge" style="background:${SECTIONS.cases.pill}">Кейс проекта</span> ${originHtml}
-      <div class="detail-titlebar">
-        <div><h1>${c.title}</h1><p class="detail-sub">${c.shortDesc}</p></div>
-        <div class="detail-actions"><button class="btn btn-ghost" onclick="downloadAsMarkdown('case','${c.id}')">📥 Скачать .md</button><a class="btn btn-ghost" href="#/section/cases">← К списку</a></div>
-      </div>
+    <div class="case-hero">
+      <div class="case-hero-top"><span class="type-badge" style="background:${SECTIONS.cases.pill}">Кейс проекта</span>${originHtml}${c.region||c.geo?`<span class="card-region"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-5.5-7-11a7 7 0 0114 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.6"/></svg>${c.region||c.geo}</span>`:''}</div>
+      <h1>${c.title}</h1>
+      <p class="case-hero-lead">${c.shortDesc}</p>
+      <div class="case-hero-cta"><button class="btn btn-primary" onclick="downloadAsMarkdown('case','${c.id}')">Скачать .md</button></div>
       <div class="detail-meta">
         ${c.values.map(v=>{const val=byId(VALUES,v);return val?`<a class="chip" data-nav="#/value/${val.id}">♦ ${val.title}</a>`:'';}).join('')}
       </div>
     </div>
-    <div class="detail-grid">
+    <div class="detail-grid case-grid">
       <div>
         <div class="block"><h2>О проекте</h2>
           <dl class="kv">
@@ -2820,7 +2811,7 @@ function renderCaseDetail(id){
             <dt>Целевая аудитория</dt><dd>${c.audience}</dd>
             <dt>Этап оценки</dt><dd>${c.evalStage || '—'}</dd>
           </dl>
-          ${c.fullDesc ? `<div style="margin-top:14px;"><div class="subhead">Полное описание проекта</div><div class="truncated" id="fullDescBlock"><p style="font-size:13.5px;line-height:1.55;color:var(--ink-soft);">${c.fullDesc}</p></div><button class="truncated-toggle" onclick="this.previousElementSibling.classList.toggle('expanded');this.textContent=this.textContent==='Показать полностью ▾'?'Свернуть ▴':'Показать полностью ▾'">Показать полностью ▾</button></div>` : ''}
+          ${c.fullDesc ? `<div style="margin-top:14px;"><div class="subhead">Полное описание проекта</div><div class="truncated" id="fullDescBlock"><p style="font-size:16px;line-height:1.3;color:var(--ink-soft);">${c.fullDesc}</p></div><button class="truncated-toggle" onclick="this.previousElementSibling.classList.toggle('expanded');this.textContent=this.textContent==='Показать полностью ▾'?'Свернуть ▴':'Показать полностью ▾'">Показать полностью ▾</button></div>` : ''}
         </div>
         <div class="block"><h2>Оценка проекта</h2>
           <div class="subhead">Цель оценки</div>
@@ -2901,8 +2892,8 @@ function renderToolDetail(id){
     });
   }
   const linkedResultsHtml = linkedToolResults.length ? `<div class="block"><h2>Связанные результаты</h2><div class="card-list">${linkedToolResults.slice(0,5).map(r=>{
-    if(r.ai!==null) return `<a class="item-card" data-nav="#/result/${r.ai}/${r.ari}/${r.ri}" style="text-decoration:none;"><div class="spine" style="background:var(--c-results)"></div><div class="card-body"><div class="desc">${r.text||r.title||''}</div></div></a>`;
-    return `<div class="item-card"><div class="spine" style="background:var(--c-results)"></div><div class="card-body"><div class="desc">${typeof r==='string'?r:r.text||r.title||''}</div></div></div>`;
+    if(r.ai!==null) return `<a class="item-card mini" data-nav="#/result/${r.ai}/${r.ari}/${r.ri}" style="text-decoration:none;"><div class="card-body"><div class="desc">${r.text||r.title||''}</div></div></a>`;
+    return `<div class="item-card mini"><div class="card-body"><div class="desc">${typeof r==='string'?r:r.text||r.title||''}</div></div></div>`;
   }).join('')}</div></div>` : '';
   app.innerHTML = `
   <div class="wrap fade-in">
@@ -3205,7 +3196,7 @@ function renderGlossaryTerm(term){
    ============================================================ */
 function renderValues(){
   buildNav('values');
-  document.getElementById('app').innerHTML = `<div class="page-tint"><div class="wrap fade-in">
+  document.getElementById('app').innerHTML = `<div class="page-tint"><div class="wrap wrap-wide fade-in">
     <div class="crumbs"><a href="#/">База знаний</a><span class="sep">/</span><span>Ценности</span></div>
     <div class="catalog-head">
       <h1 style="margin-top:0;">Ценности</h1>
@@ -3220,8 +3211,9 @@ function renderValues(){
         RESULTS_TREE.forEach(appr=>appr.influenceAreas.forEach(area=>area.results.forEach(r=>{if(r.values&&r.values.includes(v.id)) nResults++;})));
         const n = nCases + nTools + nMethod + nResults;
         return `<a class="value-card" data-nav="#/value/${v.id}" style="text-decoration:none;color:inherit;display:block;">
-          <div class="n">♦ ЦЕННОСТЬ</div><h3 style="margin-top:6px;">${v.title}</h3><p>${v.desc}</p>
+          <div class="n">♦ ЦЕННОСТЬ</div><h3>${v.title}</h3><p>${v.desc}</p>
           <div class="link-count">${n} связанных материал${n===1?'':n<5?'а':'ов'}</div>
+          <span class="go" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg></span>
         </a>`;
       }).join('')}
     </div>
@@ -3300,14 +3292,18 @@ function renderResults(){
   const selI = state.resultsSel.area;
   const appr = selA !== null ? RESULTS_TREE[selA] : null;
   const area = appr && selI !== null ? appr.influenceAreas[selI] : null;
-  document.getElementById('app').innerHTML = `<div class="wrap fade-in">
+  document.getElementById('app').innerHTML = `<div class="wrap wrap-wide fade-in">
     <div class="crumbs"><a href="#/">База знаний</a><span class="sep">/</span><span>Банк результатов</span></div>
-    <div class="catalog-head">
-      <h1 style="margin-top:0;">Банк результатов</h1>
-      <p>Готовые формулировки результатов для теории изменений. Каждый подход имеет свой набор областей влияния.</p>
-    </div>
-    <div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap;">
-      <button class="btn btn-primary" onclick="exportResultsForAI()">Скачать для ИИ (JSON)</button>
+    <div class="results-top">
+      <div class="catalog-head">
+        <h1 style="margin-top:0;">Банк результатов</h1>
+        <p style="max-width:528px;">Готовые формулировки результатов для теории изменений. Каждый подход имеет свой набор областей влияния.</p>
+      </div>
+      <div class="ai-callout">
+        <p>Для работы с искусственным интеллектом или внешними инструментами</p>
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#4f2b85" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4c7 0 3 9 12 9"/><path d="M13 9l4 4-4 4"/></svg>
+        <div><button class="btn btn-primary" onclick="exportResultsForAI()">Скачать для ИИ (JSON)</button></div>
+      </div>
     </div>
     <div class="tree-cols" style="margin-top:18px;">
       <div class="tree-col">
