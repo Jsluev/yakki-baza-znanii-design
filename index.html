@@ -3320,6 +3320,24 @@ function searchPageGo(){
 /* ============================================================
    ГЛАВНЫЙ РОУТЕР
    ============================================================ */
+/* Глобальные обработчики для инлайн-хендлеров (обязаны быть вне render()) */
+function showPromptPreview(key){
+  const item = PROMPTS.find(p=>p.key===key);
+  if(!item) return;
+  const el = document.getElementById('prompt-preview-'+key);
+  if(!el) return;
+  if(el.style.display==='none'){
+    el.textContent = item.prompt;
+    el.style.display = 'block';
+  } else {
+    el.style.display = 'none';
+  }
+}
+function toggleCollapsible(btn){
+  const block = btn.closest('.collapsible');
+  if(!block) return;
+  block.classList.toggle('open');
+}
 function render(){
   const {parts, query} = parseHash();
   window.scrollTo(0,0);
@@ -3362,27 +3380,9 @@ function renderPrompts(){
     <div class="audience-note" style="margin-top:20px;max-width:640px;">Промты используют структуру и терминологию из <a data-nav="#/glossary" style="text-decoration:underline">глоссария</a> и <a data-nav="#/section/methodology" style="text-decoration:underline">методологии</a> ЯККИ. Для лучшего результата дополняйте промт конкретными данными вашего проекта.</div>
   </div>`;
 }
-function showPromptPreview(key){
-  const item = PROMPTS.find(p=>p.key===key);
-  if(!item) return;
-  const el = document.getElementById('prompt-preview-'+key);
-  if(el.style.display==='none'){
-    el.textContent = item.prompt;
-    el.style.display = 'block';
-  } else {
-    el.style.display = 'none';
-  }
-}
-
 /* ============================================================
    РЕНДЕР: СТРАНИЦА РЕЗУЛЬТАТА
    ============================================================ */
-function toggleCollapsible(btn){
-  const block = btn.closest('.collapsible');
-  if(!block) return;
-  block.classList.toggle('open');
-}
-
 function renderResultDetail(apprIdx,areaIdx,resultIdx){
   buildNav('results');
   const appr = RESULTS_TREE[apprIdx];
