@@ -320,7 +320,7 @@ main{min-height:60vh;padding-bottom:100px;}
 .search-results .item-card .card-body{padding:0;}
 .search-results .item-card h3{font-size:19px;line-height:1.35;}
 .search-results .item-card .desc{font-size:13.5px;line-height:1.55;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
-.item-card{display:block;background:var(--color-surface);border:1px solid #E7E0F3;border-radius:6px;padding:24px;height:350px;overflow:hidden;cursor:pointer;transition:transform .15s ease,box-shadow .15s ease;}
+.item-card{display:block;background:var(--color-surface);border:none;border-radius:6px;padding:24px;height:350px;overflow:hidden;cursor:pointer;transition:transform .15s ease,box-shadow .15s ease;}
 .item-card:hover{transform:translateY(-2px);box-shadow:var(--shadow);border-color:var(--line-strong);}
 .item-card:hover h3{color:var(--color-purple);}
 .item-card .spine{display:none;}
@@ -368,12 +368,13 @@ main{min-height:60vh;padding-bottom:100px;}
 .detail-grid{display:grid;grid-template-columns:1fr 300px;gap:32px;margin-top:32px;align-items:start;}
 @media (max-width:900px){.detail-grid{grid-template-columns:1fr;}}
 .block{background:var(--paper-raised);border:1px solid var(--line);border-radius:12px;padding:30px 36px;margin-bottom:18px;}
-.block h2{font-size:13px;text-transform:uppercase;letter-spacing:.04em;font-family:var(--font-mono);color:var(--ink-faint);margin-bottom:16px;font-weight:600;}
+.block h2{font-size:30px;font-weight:700;color:var(--color-ink);margin-bottom:20px;}
 .block h2 .n{color:var(--ink);}
 .kv{display:grid;grid-template-columns:170px 1fr;gap:8px 16px;font-size:16px;line-height:1.3;}
+.kv dt,.kv dd{border-bottom:1px solid #EFEFEF;padding-top:8px;padding-bottom:8px;}
 .kv dt{color:var(--ink-faint);}
 .kv dd{margin:0;}
-.subhead{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.03em;color:var(--color-section-label);margin:14px 0 8px;}
+.subhead{font-size:16px;font-weight:700;text-transform:uppercase;line-height:1.1;letter-spacing:.03em;color:var(--color-section-label);margin:14px 0 8px;}
 .subhead:first-child{margin-top:0;}
 .filelist{display:flex;flex-direction:column;gap:8px;}
 .filerow{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 10px 10px 12px;background:var(--paper-sunk);border-radius:8px;font-size:13px;min-height:48px;}
@@ -392,7 +393,7 @@ table.qtable td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-al
 .lesson-col.good h4{color:var(--c-tools);}
 .lesson-col.bad h4{color:var(--c-templates);}
 .sidebar-box{background:var(--paper-raised);border:1px solid var(--line);border-radius:12px;padding:24px;margin-bottom:14px;}
-.sidebar-box h4{font-size:11px;text-transform:uppercase;font-family:var(--font-mono);color:var(--ink-faint);margin-bottom:10px;}
+.sidebar-box h4{font-size:16px;font-weight:700;text-transform:uppercase;color:var(--color-section-label);margin-bottom:12px;}
 .related-item{display:block;padding:10px 0;border-bottom:1px solid var(--line);font-size:13px;}
 .related-item:last-child{border:none;}
 .related-item .t{font-size:11px;font-family:var(--font-mono);text-transform:uppercase;margin-bottom:3px;display:block;}
@@ -534,7 +535,8 @@ footer a:hover{color:#fff;}
 @media (max-width:640px){.fab-stack{right:14px;bottom:14px;}.fb-fab,.helper-fab{font-size:12.5px;padding:10px 14px;}}
 
 /* ---------- paint strokes (brand decor) ---------- */
-.paint-stroke{position:absolute;z-index:-1;pointer-events:none;background-repeat:no-repeat;background-size:contain;}
+.paint-stroke{position:absolute;z-index:-1;display:none;pointer-events:none;background-repeat:no-repeat;background-size:contain;}
+body.pg-all .paint-stroke,body.pg-cases .paint-stroke,body.pg-tools .paint-stroke,body.pg-values .paint-stroke{display:block;}
 .paint-stroke.tr{top:-40px;right:20px;width:380px;height:440px;background-image:url(assets/stroke-blue.png);}
 .paint-stroke.bl{left:-140px;bottom:60px;width:480px;height:520px;background-image:url(assets/stroke-blue.png);}
 main{position:relative;z-index:1;}
@@ -686,7 +688,7 @@ body.pg-case #strokeTr,body.pg-case #strokeBl{display:none;}
   .detail-actions{width:100%;}
   .detail-actions .btn{width:100%;justify-content:center;}
   .block{padding:16px;}
-  .block h2{font-size:12px;margin-bottom:12px;}
+  .block h2{font-size:22px;margin-bottom:12px;}
   .kv{grid-template-columns:1fr;gap:4px 0;}
   .kv dt{font-size:11px;color:var(--ink-faint);margin-top:10px;}
   .kv dt:first-child{margin-top:0;}
@@ -704,7 +706,7 @@ body.pg-case #strokeTr,body.pg-case #strokeBl{display:none;}
   .method-list{gap:12px;}
   .method-item{grid-template-columns:1fr;gap:4px;font-size:14px;}
   .sidebar-box{padding:14px;}
-  .sidebar-box h4{font-size:10.5px;}
+  .sidebar-box h4{font-size:14px;}
   .related-item{font-size:12.5px;padding:8px 0;}
   .back-link{font-size:12.5px;margin-top:14px;}
 }
@@ -864,17 +866,6 @@ body.pg-case #strokeTr,body.pg-case #strokeBl{display:none;}
     </div>
     <nav class="mainnav" id="mainnav"></nav>
     <a href="https://creative-industries.su/" target="_blank" rel="noopener" class="site-back">← Основной сайт</a>
-    <div class="header-search">
-      <div class="hsearch" id="hsearchBox">
-        <button class="hsearch-toggle" onclick="toggleHeaderSearch()" aria-label="Поиск по базе знаний" title="Поиск">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-        </button>
-        <div class="hsearch-expand">
-          <input id="headerSearchInput" placeholder="Поиск по базе знаний…" onkeydown="if(event.key==='Enter')doHeaderSearch();if(event.key==='Escape')toggleHeaderSearch(false)">
-          <button onclick="doHeaderSearch()">Найти</button>
-        </div>
-      </div>
-    </div>
     <button class="hamburger" id="hamburgerBtn" onclick="toggleMobileMenu()" aria-label="Меню">
       <span></span><span></span><span></span>
     </button>
@@ -2218,7 +2209,6 @@ function renderSection(key){
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#706e73" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
           </div>
           ${panelFn ? panelFn() : `<div style="font-size:13px;color:var(--ink-soft);line-height:1.5;">Для этого раздела фильтры не предусмотрены — используйте поиск по названию.</div>`}
-          <div class="crosslink-note">Связанные материалы показаны внутри каждой карточки.</div>
         </div>
         <div>
           <div class="results-topline">
@@ -2321,7 +2311,6 @@ if(typeParam==='cases'){
         <div class="actions">
           <button class="btn btn-ghost btn-sm" onclick="go('#/section/all${q?'?q='+encodeURIComponent(q):''}')">Сбросить фильтры</button>
         </div>
-        <div class="crosslink-note">Связанные материалы показаны внутри каждой карточки.</div>
       </div>
       <div>
         <div class="results-topline">
@@ -2764,6 +2753,15 @@ function relatedBlockHtml(title, list, type){
   </div>`;
 }
 
+function detailHero(o){
+  return `<div class="case-hero" style="background:linear-gradient(90deg,#ffffff 0%,#ffffff 60.37%,${o.tint} 100%);">
+    <div class="case-hero-top"><span class="type-badge" style="background:${o.pill};border-radius:6px;padding:6px 7px;">${o.badge}</span>${o.topExtra||''}</div>
+    <h1>${o.title}</h1>
+    ${o.lead?`<p class="case-hero-lead">${o.lead}</p>`:''}
+    ${o.cta?`<div class="case-hero-cta">${o.cta}</div>`:''}
+    ${o.meta?`<div class="detail-meta">${o.meta}</div>`:''}
+  </div>`;
+}
 function renderCaseDetail(id){
   buildNav('cases');
   const c = byId(CASES,id);
@@ -2810,15 +2808,7 @@ function renderCaseDetail(id){
   app.innerHTML = `
   <div class="wrap wrap-narrow fade-in case-page">
     <div class="crumbs"><a href="#/">ЯККИ</a><span class="sep">/</span><a href="#/section/cases">Кейсы проектов</a><span class="sep">/</span><span>${c.title}</span></div>
-    <div class="case-hero">
-      <div class="case-hero-top"><span class="type-badge" style="background:${SECTIONS.cases.pill}">Кейс проекта</span>${(c.values&&c.values.length&&byId(VALUES,c.values[0]))?`<span class="case-hero-value">${byId(VALUES,c.values[0]).title}</span>`:''}</div>
-      <h1>${c.title}</h1>
-      <p class="case-hero-lead">${c.shortDesc}</p>
-      <div class="case-hero-cta"><button class="btn btn-primary" onclick="downloadAsMarkdown('case','${c.id}')">Скачать .md</button></div>
-      <div class="detail-meta">
-        ${c.values.map(v=>{const val=byId(VALUES,v);return val?`<a class="chip" data-nav="#/value/${val.id}">♦ ${val.title}</a>`:'';}).join('')}
-      </div>
-    </div>
+    ${detailHero({pill:SECTIONS.cases.pill,badge:'Кейс проекта',topExtra:(c.values&&c.values.length&&byId(VALUES,c.values[0]))?`<span class="case-hero-value">${byId(VALUES,c.values[0]).title}</span>`:'',title:c.title,lead:c.shortDesc,cta:`<button class="btn btn-primary" onclick="downloadAsMarkdown('case','${c.id}')">Скачать .md</button>`,meta:c.values.map(v=>{const val=byId(VALUES,v);return val?`<a class="chip" data-nav="#/value/${val.id}">♦ ${val.title}</a>`:'';}).join(''),tint:'#A038B0'})}
     <div class="detail-grid case-grid">
       <div>
         <div class="block"><h2>О проекте</h2>
@@ -2915,19 +2905,10 @@ function renderToolDetail(id){
     return `<div class="item-card mini"><div class="card-body"><div class="desc">${typeof r==='string'?r:r.text||r.title||''}</div></div></div>`;
   }).join('')}</div></div>` : '';
   app.innerHTML = `
-  <div class="wrap fade-in">
+  <div class="wrap wrap-narrow fade-in">
     <div class="crumbs"><a href="#/">ЯККИ</a><span class="sep">/</span><a href="#/section/all">Все материалы</a><span class="sep">/</span><a href="#/section/tools">Инструменты</a><span class="sep">/</span><span>${t.title}</span></div>
-    <div class="detail-head">
-      <span class="type-badge" style="background:${SECTIONS.tools.pill}">${t.type}</span> ${originHtml}
-      <div class="detail-titlebar">
-        <div><h1>${t.title}</h1><p class="detail-sub">${t.shortDesc}</p></div>
-        <div class="detail-actions"><button class="btn btn-ghost" onclick="downloadAsMarkdown('tool','${t.id}')">📥 Скачать .md</button><a class="btn btn-ghost" href="#/section/tools">← К списку</a></div>
-      </div>
-      <div class="detail-meta">
-        ${t.values.map(v=>{const val=byId(VALUES,v);return val?`<a class="chip" data-nav="#/value/${val.id}">♦ ${val.title}</a>`:'';}).join('')}
-      </div>
-    </div>
-    <div class="detail-grid">
+    ${detailHero({pill:SECTIONS.tools.pill,badge:t.type,topExtra:originHtml,title:t.title,lead:t.shortDesc,cta:`<button class="btn btn-primary" onclick="downloadAsMarkdown('tool','${t.id}')">Скачать .md</button>`,meta:t.values.map(v=>{const val=byId(VALUES,v);return val?`<a class="chip" data-nav="#/value/${val.id}">♦ ${val.title}</a>`:'';}).join(''),tint:'#F78E45'})}
+    <div class="detail-grid case-grid">
       <div>
         <div class="block"><h2>Характеристика</h2>
           <dl class="kv">
@@ -2978,15 +2959,10 @@ function renderMethodologyDetail(id){
   const originHtml = m.origin ? `<span class="origin-tag ${m.origin==='отечественный опыт'?'origin-domestic':'origin-foreign'}">${m.origin}</span>` : '';
   const valuesHtml = m.values && m.values.length ? m.values.map(vid=>{const v=byId(VALUES,vid);return v?`<a class="chip" data-nav="#/value/${v.id}">♦ ${v.title}</a>`:'';}).filter(Boolean).join('') : '';
   app.innerHTML = `
-  <div class="wrap fade-in">
+  <div class="wrap wrap-narrow fade-in">
     <div class="crumbs"><a href="#/">ЯККИ</a><span class="sep">/</span><a href="#/section/all">Все материалы</a><span class="sep">/</span><a href="#/section/methodology">Методики</a><span class="sep">/</span><span>${m.title}</span></div>
-    <div class="detail-head">
-      <span class="type-badge" style="background:${SECTIONS.methodology.pill}">${m.sub}</span> ${originHtml}
-      <div class="detail-titlebar"><div><h1>${m.title}</h1><p class="detail-sub">${m.shortDesc}</p></div>
-      <div class="detail-actions"><button class="btn btn-ghost" onclick="downloadAsMarkdown('methodology','${m.id}')">📥 Скачать .md</button><a class="btn btn-ghost" href="#/section/methodology">← К списку</a></div></div>
-      ${valuesHtml ? `<div class="detail-meta">${valuesHtml}</div>` : ''}
-    </div>
-    <div class="detail-grid">
+    ${detailHero({pill:SECTIONS.methodology.pill,badge:m.sub,topExtra:originHtml,title:m.title,lead:m.shortDesc,cta:`<button class="btn btn-primary" onclick="downloadAsMarkdown('methodology','${m.id}')">Скачать .md</button>`,meta:valuesHtml,tint:'#4F2B85'})}
+    <div class="detail-grid case-grid">
       <div>
         ${m.fullDesc ? `<div class="block"><h2>О подходе</h2><p style="font-size:14px;line-height:1.6;">${m.fullDesc}</p></div>` : ''}
         <div class="block"><h2>Объяснение простым языком</h2><p style="font-size:14px;line-height:1.6;">${m.explain}</p></div>
@@ -3013,14 +2989,10 @@ function renderTemplateDetail(id){
   if(!t){ app.innerHTML = notFound(); return; }
   const levelHtml = t.level ? `<span class="badge" style="background:${t.level==='Продвинутый'?'#FBEEDD':'#E6F5ED'};color:${t.level==='Продвинутый'?'#A25E12':'#1a7a50'}">${t.level==='Продвинутый'?'Продвинутый':'Базовый'}</span>` : '';
   app.innerHTML = `
-  <div class="wrap fade-in">
+  <div class="wrap wrap-narrow fade-in">
     <div class="crumbs"><a href="#/">ЯККИ</a><span class="sep">/</span><a href="#/section/all">Все материалы</a><span class="sep">/</span><a href="#/section/templates">Шаблоны и образцы</a><span class="sep">/</span><span>${t.title}</span></div>
-    <div class="detail-head">
-      <span class="type-badge" style="background:${SECTIONS.templates.pill}">Шаблон</span> ${levelHtml}
-      <div class="detail-titlebar"><div><h1>${t.title}</h1><p class="detail-sub">${t.shortDesc}</p></div>
-      <div class="detail-actions"><button class="btn btn-ghost" onclick="downloadAsMarkdown('template','${t.id}')">📥 Скачать .md</button>${t.promptLink?`<a class="btn btn-primary btn-sm" href="${t.promptLink}" target="_blank" rel="noopener">Скачать промт →</a>`:''}<a class="btn btn-ghost" href="#/section/templates">← К списку</a></div></div>
-    </div>
-    <div class="detail-grid">
+    ${detailHero({pill:SECTIONS.templates.pill,badge:'Шаблон',topExtra:levelHtml,title:t.title,lead:t.shortDesc,cta:`<button class="btn btn-primary" onclick="downloadAsMarkdown('template','${t.id}')">Скачать .md</button>${t.promptLink?` <a class="btn btn-ghost" href="${t.promptLink}" target="_blank" rel="noopener">Скачать промт →</a>`:''}`,meta:'',tint:'#1E9E8F'})}
+    <div class="detail-grid case-grid">
       <div>
         <div class="block"><h2>Когда использовать</h2><p style="font-size:14px;">${t.when}</p></div>
         ${t.instruction ? `<div class="block"><h2>Инструкция по использованию</h2><p style="font-size:13.5px;line-height:1.55;color:var(--ink-soft);">${t.instruction}</p></div>` : ''}
@@ -3048,18 +3020,10 @@ function renderAssessmentDocDetail(id){
   if(!d){ app.innerHTML = notFound(); return; }
   const linkedCase = byId(CASES,d.caseId);
   app.innerHTML = `
-  <div class="wrap fade-in">
+  <div class="wrap wrap-narrow fade-in">
     <div class="crumbs"><a href="#/">ЯККИ</a><span class="sep">/</span><a href="#/section/all">Все материалы</a><span class="sep">/</span><a href="#/section/assessmentDocs">Документы оценки</a><span class="sep">/</span><span>${d.title}</span></div>
-    <div class="detail-head">
-      <span class="type-badge" style="background:${SECTIONS.assessmentDocs.pill}">${d.docType}</span>
-      <div class="detail-titlebar">
-        <div><h1>${d.title}</h1><p class="detail-sub">${d.shortDesc}</p></div>
-        <div class="detail-actions"><a class="btn btn-ghost" href="#/section/assessmentDocs">← К списку документов</a></div>
-      </div>
-      <div class="detail-meta">
-      </div>
-    </div>
-    <div class="detail-grid">
+    ${detailHero({pill:SECTIONS.assessmentDocs.pill,badge:d.docType,topExtra:'',title:d.title,lead:d.shortDesc,cta:'',meta:'',tint:'#7C5CD6'})}
+    <div class="detail-grid case-grid">
       <div>
         <div class="block"><h2>О документе</h2>
           <dl class="kv">
@@ -3197,12 +3161,10 @@ function renderGlossaryTerm(term){
   const t = GLOSSARY.find(x=>x.term===term);
   const app = document.getElementById('app');
   if(!t){ app.innerHTML = notFound(); return; }
-  app.innerHTML = `<div class="wrap fade-in">
+  app.innerHTML = `<div class="wrap wrap-narrow fade-in">
     <div class="crumbs"><a href="#/">ЯККИ</a><span class="sep">/</span><a href="#/glossary">Глоссарий</a><span class="sep">/</span><span>${t.term}</span></div>
-    <div class="detail-head"><span class="type-badge" style="background:${SECTIONS.glossary.pill}">Термин</span>
-      <div class="detail-titlebar"><div><h1>${t.term}</h1></div></div>
-    </div>
-    <div class="detail-grid">
+    ${detailHero({pill:SECTIONS.glossary.pill,badge:'Термин',topExtra:'',title:t.term,lead:'',cta:'',meta:'',tint:'#976E2B'})}
+    <div class="detail-grid case-grid">
       <div><div class="block"><h2>Определение</h2><p style="font-size:15px;line-height:1.6;">${t.def}</p></div></div>
       <div>${t.seeAlso.length?`<div class="sidebar-box"><h4>См. также</h4>${t.seeAlso.map(s=>`<a class="related-item" data-nav="#/glossary/${encodeURIComponent(s)}"><span class="rt">${s}</span></a>`).join('')}</div>`:''}</div>
     </div>
@@ -3260,14 +3222,9 @@ function renderValueDetail(id){
   const totalMaterials = cases.length + tools.length + methodologies.length;
   const valApproachIdx = RESULTS_TREE.findIndex(a=>a.approach==='Фокус на ценностях');
   const valAreaIdx = valApproachIdx>=0 ? RESULTS_TREE[valApproachIdx].influenceAreas.findIndex(a=>a.name===v.title) : -1;
-  app.innerHTML = `<div class="wrap fade-in">
+  app.innerHTML = `<div class="wrap wrap-narrow fade-in">
     <div class="crumbs"><a href="#/">ЯККИ</a><span class="sep">/</span><a href="#/values">Ценности</a><span class="sep">/</span><span>${v.title}</span></div>
-    <div class="detail-head">
-      <div class="detail-titlebar"><div><h1 style="font-size:28px;">♦ ${v.title}</h1></div></div>
-    </div>
-    ${v.desc ? `<div style="margin-top:20px;padding:24px 28px;background:var(--paper-raised);border:1px solid var(--line);border-radius:var(--radius);border-left:4px solid var(--navy);">
-      <p style="font-size:15px;line-height:1.7;color:var(--ink);margin:0;">${v.desc}</p>
-    </div>` : ''}
+    ${detailHero({pill:SECTIONS.values.pill,badge:'Ценность',topExtra:'',title:v.title,lead:v.desc,cta:'',meta:'',tint:'#A02060'})}
     <div class="section-pad" style="padding-top:32px;">
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:28px;">
         <a class="btn btn-primary btn-sm" href="#/section/all?value=${id}">Все материалы по этой ценности (${totalMaterials}) →</a>
@@ -3527,12 +3484,10 @@ function renderResultDetail(apprIdx,areaIdx,resultIdx){
 
   const otherFormulations = area.results.filter((r,i)=>i!==resultIdx).slice(0,5);
 
-  document.getElementById('app').innerHTML = `<div class="wrap fade-in">
+  document.getElementById('app').innerHTML = `<div class="wrap wrap-narrow fade-in">
     <div class="crumbs"><a href="#/">ЯККИ</a><span class="sep">/</span><a href="#/results">Банк результатов</a><span class="sep">/</span><span>${result.text.substring(0,50)}…</span></div>
-    <div class="detail-head"><span class="type-badge" style="background:${SECTIONS.results.pill}">Результат</span>
-      <div class="detail-titlebar"><div><h1>${result.text}</h1></div></div>
-    </div>
-    <div class="detail-grid">
+    ${detailHero({pill:SECTIONS.results.pill,badge:'Результат',topExtra:'',title:result.text,lead:'',cta:`<button class="btn btn-primary" onclick="exportResultsForAI()">Скачать для ИИ (JSON)</button>`,meta:valNames.join(''),tint:'#2E7FC2'})}
+    <div class="detail-grid case-grid">
       <div>
         <div class="block"><h2>Характеристика результата</h2>
           <dl class="kv">
