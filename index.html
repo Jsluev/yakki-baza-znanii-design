@@ -872,8 +872,6 @@ body.pg-case #strokeTr,body.pg-case #strokeBl{display:none;}
         <h4>База материалов</h4>
         <a href="#/section/cases">Кейсы</a>
         <a href="#/section/tools">Инструменты</a>
-        <a href="#/section/templates">Шаблоны и образцы</a>
-        <a href="#/section/methodology">Методики</a>
       </div>
       <div>
         <h4>Навигация</h4>
@@ -917,6 +915,7 @@ const SECTIONS = {
   glossary:   {label:'Глоссарий', short:'Глоссарий', badge:'Термин', pill:'#976E2B', color:'var(--c-glossary)', bg:'var(--c-glossary-bg)', icon:'A', desc:'Словарь ключевых терминов оценки — простым, неакадемическим языком.'}
 };
 const CATALOG_SECTIONS = ['cases','tools','methodology','templates'];
+const VISIBLE_SECTIONS = ['cases','tools'];
 
 const CASES = [
   {id:'muzeinyi-eksperiment', title:'Музейный эксперимент', audienceType:['Подростки','Молодёжь'], org:'МБУК «Добрянский историко-краеведческий музей»', projectType:'Музейные проекты', stage:'Инновационные (новые)', evalStage:'Анализ', period:'25.04.2025 — 25.02.2026 (оценка: октябрь 2025 — февраль 2026)', geo:'г. Добрянка, Пермский край', audience:'Подростки 12–17 лет и молодёжь 18–21 года — соавторы выставки; сотрудники музея; жители города; профессиональное сообщество музеев городов-заводов Пермского края', shortAudience:'Подростки и молодёжь, сотрудники музея, жители города', tags:['историческая память','преемственность поколений','музей','подростки','арт-резиденция','итоговая оценка'],
@@ -1691,7 +1690,7 @@ function buildNav(activeKey){
     <div class="dd-menu" id="ddm-cat" role="menu">
       <a href="#/section/all" role="menuitem"><span class="swatch" style="background:var(--navy)"></span><b>Все материалы</b></a>
       <div style="height:1px;background:var(--line);margin:4px 8px;"></div>
-      ${CATALOG_SECTIONS.map(k=>`<a href="#/section/${k}" role="menuitem"><span class="swatch" style="background:${SECTIONS[k].color}"></span>${SECTIONS[k].label}</a>`).join('')}
+      ${VISIBLE_SECTIONS.map(k=>`<a href="#/section/${k}" role="menuitem"><span class="swatch" style="background:${SECTIONS[k].color}"></span>${SECTIONS[k].label}</a>`).join('')}
     </div>
   </div>`;
   html += `<a href="#/values" class="${isValues?'active':''}">Ценности</a>`;
@@ -2105,7 +2104,7 @@ function renderSection(key){
 
   let allItems = [];
   const typeCounts = {};
-  CATALOG_SECTIONS.forEach(sk=>{
+  VISIBLE_SECTIONS.forEach(sk=>{
     let items;
     if(sk==='cases') items = filterCases();
     else if(sk==='tools') items = filterTools();
@@ -2234,7 +2233,7 @@ if(typeParam==='cases'){
         <div class="filter-group"><label>Тип материала</label>
           <select id="allTypeFilter" onchange="filterAllByType()">
             <option value="">Все типы</option>
-            ${CATALOG_SECTIONS.map(sk=>`<option value="${sk}" ${typeParam===sk?'selected':''}>${SECTIONS[sk].label} (${typeCounts[sk]})</option>`).join('')}
+            ${VISIBLE_SECTIONS.map(sk=>`<option value="${sk}" ${typeParam===sk?'selected':''}>${SECTIONS[sk].label} (${typeCounts[sk]})</option>`).join('')}
           </select>
         </div>
         ${typePanelHtml}
@@ -2799,8 +2798,6 @@ function renderCaseDetail(id){
         ${quickDownloadHtml}
         ${relatedBlockHtml('Использованные инструменты', c.relatedTools, 'tool')}
         ${relatedBlockHtml('Похожие кейсы', c.relatedCases, 'case')}
-        ${relatedBlockHtml('Методики', c.relatedMethodology, 'methodology')}
-        ${relatedBlockHtml('Шаблоны', c.relatedTemplates, 'template')}
         ${(() => { const caseDocs = ASSESSMENT_DOCS.filter(d => d.caseId === id); return caseDocs.length ? `<div class="sidebar-box"><h4>Документы оценки этого проекта</h4><div style="display:flex;flex-direction:column;gap:6px;">${caseDocs.map(d => `<a class="filerow" href="#/card/assessmentDoc/${d.id}" style="text-decoration:none;color:inherit;"><div class="name"><span class="ext">${d.format||'PDF'}</span>${d.title}</div></a>`).join('')}</div></div>` : ''; })()}
       </div>
     </div>
@@ -2870,8 +2867,6 @@ function renderToolDetail(id){
         <div class="sidebar-box"><h4>Обновлено</h4><div class="updated-note" style="margin:0;">${t.updated}</div></div>
         ${relatedBlockHtml('Примеры применения (кейсы)', t.examples, 'case')}
         ${relatedBlockHtml('Похожие инструменты', t.related, 'tool')}
-        ${relatedBlockHtml('Методики', t.relatedMethodology, 'methodology')}
-        ${relatedBlockHtml('Шаблоны', t.relatedTemplates, 'template')}
       </div>
     </div>
     <a class="back-link" href="#/section/tools">← Ко всем инструментам</a>
@@ -3275,8 +3270,6 @@ function renderSearch(q, type){
   let results = [];
   CASES.forEach(c=>{ if(match(c.title+c.shortDesc+c.org+c.projectType+c.tags.join(' '))) results.push({type:'cases', obj:c, route:'case'}); });
   TOOLS.forEach(t=>{ if(match(t.title+t.shortDesc+t.type+t.audience)) results.push({type:'tools', obj:t, route:'tool'}); });
-  METHODOLOGY.forEach(m=>{ if(match(m.title+m.shortDesc+m.sub)) results.push({type:'methodology', obj:m, route:'methodology'}); });
-  TEMPLATES.forEach(t=>{ if(match(t.title+t.shortDesc+t.when)) results.push({type:'templates', obj:t, route:'template'}); });
   GLOSSARY.forEach(g=>{ if(match(g.term+g.def)) results.push({type:'glossary', obj:{title:g.term, shortDesc:g.def, id:g.term}, route:'glossary'}); });
   VALUES.forEach(v=>{ if(match(v.title+v.desc)) results.push({type:'values', obj:{title:v.title, shortDesc:v.desc, id:v.id}, route:'value'}); });
   RESULTS_TREE.forEach((appr,ai)=>{ appr.influenceAreas.forEach((area,ari)=>{ area.results.forEach((r,ri)=>{
@@ -3285,7 +3278,7 @@ function renderSearch(q, type){
 
   if(resolvedType!=='all') results = results.filter(r=>r.type===resolvedType);
 
-  const tabs = ['all',...CATALOG_SECTIONS,'values','results','glossary'];
+  const tabs = ['all','cases','tools','values','results','glossary'];
   document.getElementById('app').innerHTML = `<div class="wrap fade-in">
     <div class="crumbs"><a href="#/">ЯККИ</a><span class="sep">/</span><span>Поиск</span></div>
     <div class="catalog-head">
@@ -3479,15 +3472,15 @@ function pageClass(parts){
   if(a==='card' && b==='case') return 'pg-case';
   return '';
 }
-  if(parts.length===0){ renderHome(); return; }
+  if(parts.length===0){ location.hash='#/section/all'; return; }
   const [a,b,c] = parts;
   if(a==='start') return renderStart(query.open);
+  if(a==='section' && (b==='methodology'||b==='templates')){ location.hash='#/section/all'; return; }
   if(a==='section' && (b==='all' || CATALOG_SECTIONS.includes(b))) return renderSection(b);
   if(a==='card'){
     if(b==='case') return renderCaseDetail(c);
     if(b==='tool') return renderToolDetail(c);
-    if(b==='methodology') return renderMethodologyDetail(c);
-    if(b==='template') return renderTemplateDetail(c);
+    if(b==='methodology'||b==='template'){ location.hash='#/section/all'; return; }
     if(b==='value') return renderValueDetail(c);
     if(b==='glossary') return renderGlossaryTerm(decodeURIComponent(c));
   }
@@ -3499,7 +3492,7 @@ function pageClass(parts){
   if(a==='faq'){ return renderFAQ(); }
   if(a==='prompts'){ return renderPrompts(); }
   if(a==='search'){ return renderSearch(query.q, query.type); }
-  renderHome();
+  location.hash='#/section/all';
 }
 </script>
 </body>
