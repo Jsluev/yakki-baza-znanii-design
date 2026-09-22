@@ -55,15 +55,10 @@ img{max-width:100%;display:block;}
 .eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint);}
 .wrap{max-width:1206px;margin:0 auto;padding:0 28px;}
 .wrap-narrow{max-width:1206px;}
-.wrap-wide{max-width:1278px;}
+.wrap-wide{max-width:1206px;}
 @media (max-width:640px){.wrap{padding:0 16px;}}
 
 /* ---------- header ---------- */
-.topbar{background:var(--navy-deep);color:#F3F0E8;font-family:var(--font-mono);font-size:12px;padding:6px 0;}
-.topbar .wrap{display:flex;justify-content:space-between;align-items:center;gap:12px;}
-.topbar .tag{background:rgba(255,255,255,.16);color:#fff;padding:2px 8px;border-radius:20px;font-size:11px;}
-.topbar a{color:var(--yakki-peach);text-decoration:none;font-weight:600;}
-.topbar a:hover{text-decoration:underline;color:#fff;}
 .site-back{font-size:16px;font-weight:500;color:var(--ink);background:#fff;border:1px solid #D9D9D9;border-radius:999px;width:198px;height:46px;justify-content:center;padding:0;text-decoration:none;display:inline-flex;align-items:center;gap:7px;white-space:nowrap;transition:all .15s;flex-shrink:0;align-self:center;}
 .site-back:hover{border-color:var(--navy);color:var(--navy);}
 header.main{background:var(--paper-raised);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50;}
@@ -455,7 +450,7 @@ table.qtable td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-al
 @media (max-width:640px){.gloss-row{flex-direction:column;align-items:flex-start;}.gloss-row .def{text-align:left;}}
 
 /* values grid */
-.values-grid{display:grid;grid-template-columns:repeat(4,minmax(0,306px));gap:18px;margin-top:26px;justify-content:space-between;}
+.values-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:26px;}
 @media (max-width:860px){.values-grid{grid-template-columns:repeat(2,1fr);}}
 @media (max-width:560px){.values-grid{grid-template-columns:1fr;}}
 .value-card{position:relative;background:var(--color-surface);border:none;border-radius:6px;padding:24px;height:280px;transition:transform .18s ease,box-shadow .18s ease;}
@@ -573,11 +568,6 @@ body.pg-case #strokeTr,body.pg-case #strokeBl{display:none;}
   .mobile-search input:focus{border-color:var(--navy);}
   .mobile-search button{background:var(--navy);color:#fff;border:none;border-radius:10px;padding:9px 16px;font-size:12.5px;font-weight:600;font-family:var(--font-body);white-space:nowrap;transition:background .15s;}
   .mobile-search button:hover{background:var(--navy-deep);}
-}
-
-/* --- Topbar --- */
-@media (max-width:640px){
-  .topbar .wrap{flex-direction:column;gap:4px;text-align:center;}
 }
 
 /* --- Hero --- */
@@ -846,8 +836,6 @@ body.pg-case #strokeTr,body.pg-case #strokeBl{display:none;}
 </style>
 </head>
 <body>
-
-<div class="topbar"><div class="wrap"><a href="https://creative-industries.su/" target="_blank" rel="noopener">← creative-industries.su</a><span class="tag">кликабельный прототип · навигация и структура</span></div></div>
 
 <header class="main">
   <div class="wrap">
