@@ -3011,8 +3011,12 @@ function renderCardList(key, items){
 /* ============================================================
    РЕНДЕР: КАРТОЧКА КЕЙСА
    ============================================================ */
-function relatedBlockHtml(title, list, type){
-  if(!list || !list.length) return '';
+const FIELD_PH = '<span style="color:var(--color-placeholder);">—</span>';
+function relatedBlockHtml(title, list, type, force){
+  if(!list || !list.length){
+    if(!force) return '';
+    return `<div class="sidebar-box"><h4>${title}</h4><div style="font-size:13px;color:var(--ink-faint);">${FIELD_PH}</div></div>`;
+  }
   const sectionKey = type==='case'?'cases':type==='tool'?'tools':type==='methodology'?'methodology':'templates';
   const routeKey = type;
   return `<div class="sidebar-box"><h4>${title}</h4>
@@ -3052,10 +3056,14 @@ function resultChipsHtml(ids){
   }).join('');
 }
 function kvRow(label, value, multiline){
-  if(value===undefined||value===null||value===''||(Array.isArray(value)&&!value.length)) return '';
   if(Array.isArray(value)) value = value.join(' · ');
-  if(multiline) value = String(value).replace(/\n/g,'<br>');
-  return `<dt>${label}</dt><dd>${value||'—'}</dd>`;
+  if(value===undefined||value===null) value = '';
+  value = String(value);
+  if(value && multiline) value = value.replace(/\n/g,'<br>');
+  return `<dt>${label}</dt><dd>${value||FIELD_PH}</dd>`;
+}
+function subField(label, contentHtml, style){
+  return `<div class="subhead"${style?` style="${style}"`:''}>${label}</div>${contentHtml||FIELD_PH}`;
 }
 function renderCaseDetail(id){
   buildNav('cases');
@@ -3079,22 +3087,26 @@ function renderCaseDetail(id){
   c.measurableEffects=c.measurableEffects||''; c.valueImpact=c.valueImpact||'';
   c.evalApproach=c.evalApproach||''; c.useResults=c.useResults||'';
   c.collectionMethodsDesc=c.collectionMethodsDesc||''; c.analysisMethodsDesc=c.analysisMethodsDesc||'';
-  c.org=c.org||'—'; c.period=c.period||'—'; c.geo=c.geo||'—'; c.audience=c.audience||'—';
+  c.org=c.org||''; c.period=c.period||''; c.geo=c.geo||''; c.audience=c.audience||'';
   c.targetGroup=c.targetGroup||''; c.reportUrl=c.reportUrl||'';
-  c.contact=c.contact||''; c.evalStage=c.evalStage||'—'; c.region=c.region||'';
+  c.contact=c.contact||''; c.evalStage=c.evalStage||''; c.region=c.region||'';
   c.projectType=c.projectType||'';
 
-  const keyConclusionHtml = c.keyConclusion ? `<div style="background:#F6E9FA;border-left:4px solid var(--color-purple);padding:14px 16px;border-radius:0 8px 8px 0;margin-bottom:16px;"><div style="font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.03em;color:var(--color-purple);margin-bottom:6px;">Ключевой вывод по результатам оценки</div><p style="font-size:16px;line-height:1.35;">${c.keyConclusion}</p></div>` : '';
+  const keyConclusionHtml = `<div style="background:#F6E9FA;border-left:4px solid var(--color-purple);padding:14px 16px;border-radius:0 8px 8px 0;margin-bottom:16px;"><div style="font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.03em;color:var(--color-purple);margin-bottom:6px;">Ключевой вывод по результатам оценки</div><p style="font-size:16px;line-height:1.35;">${c.keyConclusion?c.keyConclusion.replace(/\n/g,'<br>'):FIELD_PH}</p></div>`;
   const CRIT_ALL = (typeof CRITERIA!=='undefined')?CRITERIA:['Актуальность','Согласованность','Эффективность','Результативность','Воздействие','Устойчивость'];
   const critHtml = c.criteria.length ? `<div class="crit-grid">${CRIT_ALL.map(d=>`<div class="crit-item ${c.criteria.includes(d)?'active':''}"><span class="check">${c.criteria.includes(d)?'✓':'—'}</span>${d}</div>`).join('')}</div>` : '';
   const evalGoalHtml = c.evalGoal ? (c.evalGoal.length>220
     ? `<div class="truncated" id="evalGoalBlock"><p style="font-size:15px;line-height:1.55;color:var(--ink-soft);">${c.evalGoal.replace(/\n/g,'<br>')}</p></div><button class="truncated-toggle" onclick="this.previousElementSibling.classList.toggle('expanded');this.textContent=this.textContent==='Показать полностью ▾'?'Свернуть ▴':'Показать полностью ▾'">Показать полностью ▾</button>`
     : `<p style="font-size:15px;line-height:1.55;color:var(--ink-soft);">${c.evalGoal.replace(/\n/g,'<br>')}</p>`) : '';
-  const questionsHtml = c.questions.length ? `<div class="subhead">Ключевые оценочные вопросы</div><div class="method-list">${c.questions.map(q=>`<div class="method-item" style="align-items:flex-start;"><span style="white-space:pre-wrap;font-size:14px;line-height:1.5;color:var(--ink-soft);">${esc(q).replace(/\n/g,'<br>')}</span></div>`).join('')}</div>` : '';
-  const linkedResultsHtml = c.results.length ? `<div class="block"><h2>Результат</h2><div class="detail-meta">${resultChipsHtml(c.results)}</div></div>` : '';
-  const docRow = (label, items) => items && items.length ? `<div class="subhead">${label}</div><div class="filelist">${items.map(n=>fileRow({name:n, ext:(String(n).includes('.')?String(n).split('.').pop().toUpperCase():'FILE')})).join('')}</div>` : '';
-  const hasDocs = c.reportUrl || c.docs.plan.length || c.docs.tree.length || c.docs.lmp.length || c.docs.toolkitTz.length || c.docs.analysisTz.length || c.docs.tools.length || c.docs.brief.length || c.docs.video.length || c.docs.pres.length;
-  const contactHtml = c.contact ? (/^https?:\/\//.test(c.contact) ? `<a href="${esc(c.contact)}" target="_blank" rel="noopener" style="text-decoration:underline;">${esc(c.contact)}</a>` : esc(c.contact)) : '—';
+  const valueImpactHtml = c.valueImpact ? `<div class="truncated" id="valueImpactBlock">${parasHtml(c.valueImpact)}</div><button class="truncated-toggle" onclick="this.previousElementSibling.classList.toggle('expanded');this.textContent=this.textContent==='Показать полностью ▾'?'Свернуть ▴':'Показать полностью ▾'">Показать полностью ▾</button>` : '';
+  const questionsHtml = c.questions.length ? `<div class="method-list">${c.questions.map(q=>`<div class="method-item" style="align-items:flex-start;"><span style="white-space:pre-wrap;font-size:14px;line-height:1.5;color:var(--ink-soft);">${esc(q).replace(/\n/g,'<br>')}</span></div>`).join('')}</div>` : '';
+  const valuesChips = c.values.map(v=>{const val=byId(VALUES,v);return val?`<span class="chip">♦ ${esc(val.title)}</span>`:'';}).filter(Boolean).join('');
+  const resultsChips = c.results.length ? `<div class="detail-meta">${resultChipsHtml(c.results)}</div>` : '';
+  const collChips = c.collectionMethods.length ? `<div class="detail-meta">${c.collectionMethods.map(m=>`<span class="chip">${esc(m)}</span>`).join('')}</div>` : '';
+  const anChips = c.analysisMethods.length ? `<div class="detail-meta">${c.analysisMethods.map(m=>`<span class="chip">${esc(m)}</span>`).join('')}</div>` : '';
+  const docRow = (label, items) => `<div class="subhead">${label}</div>` + (items && items.length ? `<div class="filelist">${items.map(n=>fileRow({name:n, ext:(String(n).includes('.')?String(n).split('.').pop().toUpperCase():'FILE')})).join('')}</div>` : FIELD_PH);
+  const reportHtml = c.reportUrl ? `<p><a href="${esc(c.reportUrl)}" target="_blank" rel="noopener" style="text-decoration:underline;">${esc(c.reportUrl)}</a></p>` : FIELD_PH;
+  const contactHtml = c.contact ? (/^https?:\/\//.test(c.contact) ? `<a href="${esc(c.contact)}" target="_blank" rel="noopener" style="text-decoration:underline;">${esc(c.contact)}</a>` : esc(c.contact)) : FIELD_PH;
 
   app.innerHTML = `
   <div class="wrap wrap-narrow fade-in case-page">
@@ -3105,8 +3117,11 @@ function renderCaseDetail(id){
         ${keyConclusionHtml}
         <div class="block"><h2>О проекте</h2>
           <dl class="kv">
+            ${kvRow('Название проекта', c.title)}
+            ${kvRow('Аннотация проекта', c.shortDesc, true)}
+            ${kvRow('Ценности', valuesChips)}
             ${kvRow('Тип проекта/продукта', c.projectType)}
-            ${kvRow('Целевая аудитория', c.audienceType.length?c.audienceType.join(' · '):(c.audience||''))}
+            ${kvRow('Целевая аудитория .', c.audienceType.length?c.audienceType.join(' · '):(c.audience||''))}
             ${kvRow('Регион', c.region)}
             ${kvRow('Этап оценки', c.evalStage)}
             ${kvRow('Организация-исполнитель', c.org)}
@@ -3116,29 +3131,29 @@ function renderCaseDetail(id){
           </dl>
         </div>
         <div class="block"><h2>Оценка проекта</h2>
-          ${c.evalGoal?`<div class="subhead">Цель оценки</div>${evalGoalHtml}`:''}
-          ${c.measurableEffects?`<div class="subhead" style="margin-top:14px;">Измеряемые социокультурные результаты и эффекты</div>${parasHtml(c.measurableEffects)}`:''}
-          ${c.valueImpact?`<div class="subhead" style="margin-top:14px;">Влияние на систему ценностей</div><div class="truncated" id="valueImpactBlock">${parasHtml(c.valueImpact)}</div><button class="truncated-toggle" onclick="this.previousElementSibling.classList.toggle('expanded');this.textContent=this.textContent==='Показать полностью ▾'?'Свернуть ▴':'Показать полностью ▾'">Показать полностью ▾</button>`:''}
-          ${c.evalApproach?`<div class="subhead" style="margin-top:14px;">Подход к оценке с указанием методологии</div>${parasHtml(c.evalApproach)}`:''}
-          ${critHtml?`<div class="subhead" style="margin-top:14px;">Критерии оценки</div>${critHtml}`:''}
-          ${c.collectionMethods.length?`<div class="subhead" style="margin-top:14px;">Методы сбора данных</div><div class="detail-meta">${c.collectionMethods.map(m=>`<span class="chip">${esc(m)}</span>`).join('')}</div>`:''}
-          ${c.collectionMethodsDesc?`<div class="subhead" style="margin-top:14px;">Описание методов сбора данных</div>${parasHtml(c.collectionMethodsDesc)}`:''}
-          ${c.analysisMethods.length?`<div class="subhead" style="margin-top:14px;">Методы анализа данных</div><div class="detail-meta">${c.analysisMethods.map(m=>`<span class="chip">${esc(m)}</span>`).join('')}</div>`:''}
-          ${c.analysisMethodsDesc?`<div class="subhead" style="margin-top:14px;">Описание методов анализа</div>${parasHtml(c.analysisMethodsDesc)}`:''}
-          ${questionsHtml}
-          ${c.useResults?`<div class="subhead" style="margin-top:14px;">Использование результатов</div>${parasHtml(c.useResults)}`:''}
+          ${subField('Цель оценки', evalGoalHtml)}
+          ${subField('Измеряемые социокультурные результаты и эффекты', parasHtml(c.measurableEffects), 'margin-top:14px;')}
+          ${subField('Влияние на систему ценностей', valueImpactHtml, 'margin-top:14px;')}
+          ${subField('Подход к оценке с указанием методологии', parasHtml(c.evalApproach), 'margin-top:14px;')}
+          ${subField('Критерии оценки', critHtml, 'margin-top:14px;')}
+          ${subField('Методы сбора данных', collChips, 'margin-top:14px;')}
+          ${subField('Описание методов сбора данных', parasHtml(c.collectionMethodsDesc), 'margin-top:14px;')}
+          ${subField('Методы анализа данных', anChips, 'margin-top:14px;')}
+          ${subField('Описание методов анализа', parasHtml(c.analysisMethodsDesc), 'margin-top:14px;')}
+          ${subField('Ключевые оценочные вопросы', questionsHtml, 'margin-top:14px;')}
+          ${subField('Использование результатов', parasHtml(c.useResults), 'margin-top:14px;')}
         </div>
         <div class="block"><h2>Уроки и выводы</h2>
           <div class="lesson-cols">
-            <div class="lesson-col good"><h4>Что сработало</h4>${linesUl(c.lessons.good)||'<p style="font-size:13px;color:var(--ink-faint);">Нет данных</p>'}</div>
-            <div class="lesson-col bad"><h4>Что не сработало</h4>${linesUl(c.lessons.bad)||'<p style="font-size:13px;color:var(--ink-faint);">Нет данных</p>'}</div>
+            <div class="lesson-col good"><h4>Что сработало</h4>${linesUl(c.lessons.good)||FIELD_PH}</div>
+            <div class="lesson-col bad"><h4>Что не сработало</h4>${linesUl(c.lessons.bad)||FIELD_PH}</div>
           </div>
-          <div class="subhead">Рекомендации для будущих проектов</div>
-          ${linesUl(c.lessons.reco)||'<p style="font-size:13px;color:var(--ink-faint);">Нет данных</p>'}
+          <div class="subhead" style="margin-top:14px;">Рекомендации для будущих проектов</div>
+          ${linesUl(c.lessons.reco)||FIELD_PH}
         </div>
-        ${linkedResultsHtml}
-        ${hasDocs?`<div class="block"><h2>Документы</h2>
-          ${c.reportUrl?`<div class="subhead">Ссылка на полный отчёт об оценке</div><p><a href="${esc(c.reportUrl)}" target="_blank" rel="noopener" style="text-decoration:underline;">${esc(c.reportUrl)}</a></div>`:''}
+        <div class="block"><h2>Результат</h2>${resultsChips||FIELD_PH}</div>
+        <div class="block"><h2>Документы</h2>
+          <div class="subhead">Ссылка на полный отчет об оценки</div>${reportHtml}
           ${docRow('План оценки', c.docs.plan)}
           ${docRow('Дерево результатов', c.docs.tree)}
           ${docRow('Логическая модель программы', c.docs.lmp)}
@@ -3148,7 +3163,7 @@ function renderCaseDetail(id){
           ${docRow('Краткий отчёт об оценке', c.docs.brief)}
           ${docRow('Видео о проекте', c.docs.video)}
           ${docRow('Презентация', c.docs.pres)}
-        </div>`:''}
+        </div>
         <div class="block"><h2>Контакты</h2>
           <dl class="kv"><dt>Контакты</dt><dd>${contactHtml}</dd></dl>
         </div>
@@ -3187,7 +3202,8 @@ function renderToolDetail(id){
   t.oppLimits=t.oppLimits||''; t.otherProjects=t.otherProjects||'';
   t.analysisTz=t.analysisTz||''; t.updated=t.updated||'';
 
-  const linkedResultsHtml = t.results.length ? `<div class="block"><h2>Результаты</h2><div class="detail-meta">${resultChipsHtml(t.results)}</div></div>` : '';
+  const valuesChips = t.values.map(v=>{const val=byId(VALUES,v);return val?`<span class="chip">♦ ${esc(val.title)}</span>`:'';}).filter(Boolean).join('');
+  const resultsChips = t.results.length ? `<div class="detail-meta">${resultChipsHtml(t.results)}</div>` : '';
   app.innerHTML = `
   <div class="wrap wrap-narrow fade-in">
     <div class="crumbs"><a href="#/">ЯККИ</a><span class="sep">/</span><a href="#/section/all">Все материалы</a><span class="sep">/</span><a href="#/section/tools">Инструменты</a><span class="sep">/</span><span>${t.title}</span></div>
@@ -3196,42 +3212,47 @@ function renderToolDetail(id){
       <div>
         <div class="block"><h2>Характеристика</h2>
           <dl class="kv">
+            ${kvRow('Название инструмента', t.title)}
             ${kvRow('Назначение', t.shortDesc, true)}
             ${kvRow('Статус инструмента', t.status)}
             ${kvRow('Метод', t.method)}
             ${kvRow('Тип инструмента', t.toolType)}
-            ${kvRow('Ценности', t.values.map(v=>{const val=byId(VALUES,v);return val?val.title:'';}).filter(Boolean).join(' · '))}
-            ${t.results.length?`<dt>Результаты</dt><dd style="display:flex;flex-wrap:wrap;gap:6px;">${resultChipsHtml(t.results)}</dd>`:''}
+            ${kvRow('Ценности', valuesChips)}
+            ${kvRow('Результаты', resultsChips)}
             ${kvRow('Тип проекта', t.projectType)}
             ${kvRow('Целевая группа', t.audience)}
             ${kvRow('Этап оценки', t.evalStage)}
             ${kvRow('Тип данных', t.dataType)}
           </dl>
         </div>
-        ${t.fullDesc?`<div class="block"><h2>Развёрнутое описание</h2>${parasHtml(t.fullDesc)}</div>`:''}
-        ${t.forWhom?`<div class="block"><h2>Для кого предназначен</h2>${parasHtml(t.forWhom)}</div>`:''}
-        ${t.situation?`<div class="block"><h2>Ситуация применения</h2>${parasHtml(t.situation)}</div>`:''}
-        ${t.prep.length?`<div class="block"><h2>Подготовка к применению</h2>${linesUl(t.prep)}</div>`:''}
-        ${t.procedure.length?`<div class="block"><h2>Порядок применения</h2>${linesUl(t.procedure)}</div>`:''}
-        ${(t.effort||t.timeEstimate)?`<div class="block"><h2>Ресурсы</h2><dl class="kv">${kvRow('Трудоёмкость проведения', t.effort)}${kvRow('Ориентировочное время проведения', t.timeEstimate)}</dl></div>`:''}
-        ${t.oppLimits?`<div class="block"><h2>Возможности и ограничения</h2>${parasHtml(t.oppLimits)}</div>`:''}
-        ${t.otherProjects?`<div class="block"><h2>Возможности для применения в других проектах</h2>${parasHtml(t.otherProjects)}</div>`:''}
-        ${t.limitations.length?`<div class="block"><h2>Ограничения и риски</h2>${linesUl(t.limitations)}</div>`:''}
-        ${t.table.length?`<div class="block"><h2>Таблица связи</h2>
-          <table class="qtable"><thead><tr><th>Оценочный вопрос</th><th>Индикатор</th><th>Позиция в инструменте</th></tr></thead>
-          <tbody>${t.table.map(r=>`<tr><td>${esc(r[0]||'').replace(/\n/g,'<br>')}</td><td>${esc(r[1]||'').replace(/\n/g,'<br>')}</td><td>${esc(r[2]||'').replace(/\n/g,'<br>')}</td></tr>`).join('')}</tbody></table>
-        </div>`:''}
-        ${t.analysisMethods.length?`<div class="block"><h2>Методы анализа данных</h2>${linesUl(t.analysisMethods)}</div>`:''}
-        ${t.analysisTz?`<div class="block"><h2>Техническое задание на анализ данных</h2>${parasHtml(t.analysisTz)}</div>`:''}
-        ${t.file?`<div class="block"><h2>Файл инструмента</h2><div class="filelist">${fileRow(t.file)}</div></div>`:''}
-        ${linkedResultsHtml}
+        <div class="block"><h2>Развернутое описание</h2>${parasHtml(t.fullDesc)||FIELD_PH}</div>
+        <div class="block"><h2>Для кого предназначен</h2>${parasHtml(t.forWhom)||FIELD_PH}</div>
+        <div class="block"><h2>Ситуация применения</h2>${parasHtml(t.situation)||FIELD_PH}</div>
+        <div class="block"><h2>Подготовка к применению</h2>${linesUl(t.prep)||FIELD_PH}</div>
+        <div class="block"><h2>Порядок применения</h2>${linesUl(t.procedure)||FIELD_PH}</div>
+        <div class="block"><h2>Ресурсы</h2>
+          <dl class="kv">
+            ${kvRow('Трудоемкость проведения', t.effort)}
+            ${kvRow('Ориентировочное время проведения', t.timeEstimate)}
+          </dl>
+        </div>
+        <div class="block"><h2>Возможности и ограничения</h2>${parasHtml(t.oppLimits)||FIELD_PH}</div>
+        <div class="block"><h2>Возможности для применения в других проектах</h2>${parasHtml(t.otherProjects)||FIELD_PH}</div>
+        <div class="block"><h2>Ограничения и риски</h2>${linesUl(t.limitations)||FIELD_PH}</div>
+        <div class="block"><h2>Таблица связи</h2>
+          <table class="qtable"><thead><tr><th>Таблица связи  столбец  “Оценочный вопрос</th><th>Таблица связи столбец “ - индикатор -"</th><th>Таблица связи столбец  “- позиция в инструменте”</th></tr></thead>
+          <tbody>${t.table.length ? t.table.map(r=>`<tr><td>${esc(r[0]||'').replace(/\n/g,'<br>')}</td><td>${esc(r[1]||'').replace(/\n/g,'<br>')}</td><td>${esc(r[2]||'').replace(/\n/g,'<br>')}</td></tr>`).join('') : `<tr><td colspan="3">${FIELD_PH}</td></tr>`}</tbody></table>
+        </div>
+        <div class="block"><h2>Методы анализа данных</h2>${linesUl(t.analysisMethods)||FIELD_PH}</div>
+        <div class="block"><h2>Техническое задание на анализ данных</h2>${parasHtml(t.analysisTz)||FIELD_PH}</div>
+        <div class="block"><h2>Файл инструмента</h2>${t.file?`<div class="filelist">${fileRow(t.file)}</div>`:FIELD_PH}</div>
       </div>
       <div>
-        ${t.updated?`<div class="sidebar-box"><h4>Дата публикации/обновления</h4><div class="updated-note" style="margin:0;">${t.updated}</div></div>`:''}
-        ${relatedBlockHtml('Пример применения', t.examples, 'case')}
-        ${relatedBlockHtml('Похожие инструменты', t.related, 'tool')}
-        ${relatedBlockHtml('Подробнее о методологии', t.relatedMethodology, 'methodology')}
-        ${relatedBlockHtml('Подходящие шаблоны', t.relatedTemplates, 'template')}
+        <div class="sidebar-box"><h4>Дата публикации/обновления</h4><div class="updated-note" style="margin:0;">${t.updated||FIELD_PH}</div></div>
+        ${relatedBlockHtml('Пример применения', t.examples, 'case', true)}
+        ${relatedBlockHtml('Похожие инструменты', t.related, 'tool', true)}
+        ${relatedBlockHtml('Подробнее о методологии', t.relatedMethodology, 'methodology', true)}
+        ${relatedBlockHtml('Подходящие шаблоны', t.relatedTemplates, 'template', true)}
       </div>
     </div>
     <a class="back-link" href="#/section/tools">← Ко всем инструментам</a>
