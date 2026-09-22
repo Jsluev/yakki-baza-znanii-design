@@ -533,7 +533,10 @@ body.pg-cases #strokeBl{background-image:url(assets/stroke-green.png?v=2);transf
 body.pg-tools #strokeTr{background-image:url(assets/stroke-yellow.png?v=2);top:-20px;right:37px;width:311px;height:358px;}
 body.pg-tools #strokeBl{display:none;}
 body.pg-values #strokeTr{display:none;}
-body.pg-values #strokeBl{background-image:url(assets/stroke-periwinkle.png?v=2);left:auto;right:-40px;bottom:30px;width:480px;height:200px;}
+body.pg-values #strokeBl{display:none;}
+.values-stroke{display:flex;justify-content:flex-end;margin:14px 0 0;pointer-events:none;}
+.values-stroke img{width:440px;max-width:70%;height:auto;display:block;}
+@media (max-width:760px){.values-stroke img{width:280px;}}
 /* pg home/methodology/templates — единая система выше (коммит 51d4c7c) */
 body.pg-case #strokeTr,body.pg-case #strokeBl{display:none;}
 @media (max-width:760px){.paint-stroke.tr{width:240px;height:280px;right:-30px;top:-20px;}.paint-stroke.bl{display:none;}}
@@ -3123,6 +3126,7 @@ function renderValues(){
         </a>`;
       }).join('')}
     </div>
+    <div class="values-stroke" aria-hidden="true"><img src="assets/stroke-periwinkle.png?v=3" alt=""></div>
   </div></div>`;
 }
 function renderValueDetail(id){
