@@ -12,6 +12,9 @@
   (https://jsluev.github.io/yakki-baza-znanii/). Не трогать.
 - Дизайн — только здесь: `C:\opencodework\Якки-дизайн` + репо
   `yakki-baza-znanii-design` (https://jsluev.github.io/yakki-baza-znanii-design/).
+- Возможна параллельная работа в том же чекауте: перед коммитом всегда
+  `git pull` + `git status`; чужие незакоммиченные файлы не коммитить;
+  имена ассетов и CSS-классы согласовывать, дубли удалять.
 
 ## 1. Токены
 
@@ -76,12 +79,13 @@
 - **Крошки** 16px/500: корень — «ЯККИ», остальные уровни — opacity .5.
 - **Мазки** — только фон: `position:absolute` в `main` (скроллятся со
   страницей, `z-index:-1`), `pointer-events:none`, пустой `alt`, vivid без
-  opacity. Видны ТОЛЬКО на designed-страницах (base `display:none`):
-  all — синий TR + оранжевый BL; cases — зелёный BL; tools — жёлтый TR;
-  values — голубой BR. На остальных (включая результаты, синглы, главную) —
-  скрыты. Используются ОРИГИНАЛЫ из `figma2209/*.png` (ужаты в `assets/`,
-  белый вырезан в альфу); повороты — из CSS-координат макетов
-  (all: −14°/−172°, cases: −18°).
+  opacity. Видны ТОЛЬКО на: all (синий TR −14° + оранжевый BL −172°),
+  cases (terracotta TR + зелёный BL −18°), tools (жёлтый TR),
+  values (голубой BR), home (periwinkle), methodology (maroon),
+  templates (teal). Остальные (результаты, синглы) — скрыты.
+  Файлы `assets/stroke-*.png` — вырезки из `figma2209/всемазкивместе.png`
+  (скрипт `splitstrokes.py`, белый вырезан в альфу). НЕ плодить дублирующих
+  имён; позиции — из CSS-координат макетов.
 
 ## 4. Адаптив (принципы)
 
