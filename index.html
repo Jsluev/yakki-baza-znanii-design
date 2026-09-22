@@ -22,7 +22,7 @@
   --color-page:#f5f3f8; --color-surface:#ffffff; --color-ink:#0b132b; --color-text-muted:#706e73; --color-section-label:#767676; --color-border:#d9d9d9; --color-placeholder:#aeaeae;
   --color-purple:#a038b0; --color-purple-dark:#4f2b85; --color-orange:#f78e45; --color-blue:#63adf2; --color-mint:#1b998b; --color-mint-dark:#20a57a; --color-mint-light:#c5dfdc; --color-footer:#1e293b;
   --gradient-primary:linear-gradient(90deg,#4f2b85,#a038b0); --gradient-active:linear-gradient(90deg,#20a57a,#1aa679);
-  --gradient-results:linear-gradient(90deg,#0B4F3A 0%,#158050 45%,#2BA86E 100%);
+  --gradient-results:linear-gradient(90deg,#0A2463 0%,#224A8A 33%,#3668AA 66%,#5597DB 100%);
   --gradient-tools:linear-gradient(90deg,#F05000 0%,#F68B41 100%);
   --gradient-cases:linear-gradient(90deg,#4F2B85 0%,#A038B0 100%);
   --c-cases:#9C3FB0; --c-cases-bg:#F6E9FA;
@@ -493,10 +493,10 @@ table.qtable td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-al
 @media (max-width:800px){.tree-cols{grid-template-columns:1fr;}}
 .tree-col{border-right:1px solid #E0E3EB;}
 .tree-col:last-child{border-right:none;}
-.tree-col-h{height:48px;display:flex;align-items:center;padding:0 18px;font-size:17px;font-weight:700;letter-spacing:0;text-transform:uppercase;color:#0B132B;border-bottom:1px solid #E0E3EB;background:#E5F1FA;}
+.tree-col-h{height:48px;display:flex;align-items:center;padding:0 18px;font-size:17px;font-weight:700;letter-spacing:0;text-transform:uppercase;color:#0B132B;border-bottom:1px solid #E0E3EB;background:#EEDBF1;}
 .tree-opt{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;text-align:left;padding:0 18px;border:none;background:none;font-size:16px;font-weight:500;font-family:var(--font-body);min-height:48px;border-bottom:1px solid #E0E3EB;color:var(--color-ink);cursor:pointer;}
-.tree-opt:hover{background:#E6F5ED;}
-.tree-opt.sel{background:#0B5C3A;color:#fff;font-weight:700;min-height:50px;border-bottom-color:transparent;}
+.tree-opt:hover{background:#F3EFF7;}
+.tree-opt.sel{background:#082060;color:#fff;font-weight:700;min-height:50px;border-bottom-color:transparent;}
 .tree-opt .cnt{font-size:14px;color:var(--color-ink);opacity:.24;flex-shrink:0;}
 .tree-opt.sel .cnt{color:#fff;opacity:1;}
 .result-line{display:flex;flex-direction:column;justify-content:center;gap:4px;min-height:56px;padding:12px 18px;border-bottom:1px solid #E0E3EB;font-size:16px;font-weight:500;line-height:1.4;}
@@ -4180,7 +4180,7 @@ function renderResultDetail(apprIdx,areaIdx,resultIdx){
 
   document.getElementById('app').innerHTML = `<div class="wrap wrap-narrow fade-in">
     <div class="crumbs"><a href="#/">ЯККИ</a><span class="sep">/</span><a href="#/results">Банк результатов</a><span class="sep">/</span><span>${resultText}</span></div>
-    ${detailHero({pill:SECTIONS.results.pill,badge:'Результат',topExtra:'',title:resultText,lead:result.text!==result.title?result.text:'',cta:`<button class="btn btn-primary" onclick="exportResultsForAI()">Скачать для ИИ (JSON)</button>`,meta:valNames.join(''),tint:'#158050',grad:'var(--gradient-results)',titleSize:'40px'})}
+    ${detailHero({pill:SECTIONS.results.pill,badge:'Результат',topExtra:'',title:resultText,lead:result.text!==result.title?result.text:'',cta:`<button class="btn btn-primary" onclick="exportResultsForAI()">Скачать для ИИ (JSON)</button>`,meta:valNames.join(''),tint:'#2E7FC2',grad:'var(--gradient-results)',titleSize:'40px'})}
     <div class="detail-grid case-grid">
       <div>
         <div class="block"><h2>Характеристика результата</h2>
