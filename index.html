@@ -22,7 +22,9 @@
   --color-page:#f5f3f8; --color-surface:#ffffff; --color-ink:#0b132b; --color-text-muted:#706e73; --color-section-label:#767676; --color-border:#d9d9d9; --color-placeholder:#aeaeae;
   --color-purple:#a038b0; --color-purple-dark:#4f2b85; --color-orange:#f78e45; --color-blue:#63adf2; --color-mint:#1b998b; --color-mint-dark:#20a57a; --color-mint-light:#c5dfdc; --color-footer:#1e293b;
   --gradient-primary:linear-gradient(90deg,#4f2b85,#a038b0); --gradient-active:linear-gradient(90deg,#20a57a,#1aa679);
-  --radius-control:6px; --radius-content:12px; --radius-badge-small:3px; --radius-pill:999px;
+  --gradient-results:linear-gradient(90deg,#0A2463 0%,#224A8A 33%,#3668AA 66%,#5597DB 100%);
+  --gradient-tools:linear-gradient(90deg,#F05000 0%,#F68B41 100%);
+  --gradient-cases:linear-gradient(90deg,#4F2B85 0%,#A038B0 100%);
   --c-cases:#9C3FB0; --c-cases-bg:#F6E9FA;
   --c-tools:#C25E14; --c-tools-bg:#FDEEDF;
   --c-method:#4F2B85; --c-method-bg:#ECE5F6;
@@ -117,6 +119,7 @@ nav.mainnav .dd:last-child .dd-menu{left:auto;right:0;}
 /* ---------- buttons/chips ---------- */
 .btn{display:inline-flex;align-items:center;gap:6px;font-size:16px;font-weight:500;padding:10px 18px;border-radius:999px;border:1px solid transparent;}
 .btn-primary{background:var(--gradient-primary);color:#fff;}
+.case-hero .btn-primary{background:var(--gradient-cases);}
 .btn-primary:hover{filter:brightness(.9);}
 .btn-ghost{background:transparent;border-color:var(--line-strong);color:var(--ink);}
 .btn-ghost:hover{background:var(--paper-sunk);}
@@ -150,7 +153,7 @@ main{min-height:60vh;padding-bottom:100px;}
   radial-gradient(ellipse 520px 340px at 102% 32%, rgba(46,127,194,.45), transparent 60%),
   radial-gradient(ellipse 640px 380px at 76% 116%, rgba(194,67,127,.4), transparent 62%),
   radial-gradient(ellipse 720px 420px at 6% 112%, rgba(160,56,176,.32), transparent 60%),
-  linear-gradient(115deg,#241040 0%,#4F2B85 48%,#7A2FA0 72%,#A038B0 100%);
+  linear-gradient(115deg,#0A2463 0%,#224A8A 36%,#3668AA 62%,#5597DB 100%);
   border-bottom:none;color:#fff;}
 .hero-inner{padding:56px 0 40px;}
 .hero .eyebrow{margin-bottom:16px;color:#FFDDBE;}
@@ -195,8 +198,10 @@ main{min-height:60vh;padding-bottom:100px;}
 }
 
 .stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:36px;padding-top:28px;border-top:1px solid var(--line);}
-.stat{background:var(--paper-raised);border:1px solid var(--line);border-radius:12px;padding:16px 18px;transition:all .15s;cursor:pointer;text-decoration:none;color:inherit;display:block;}
+.stat{background:var(--paper-raised);border:1px solid var(--line);border-radius:12px;padding:16px 18px;transition:all .15s;cursor:pointer;text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;}
+.stat::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--gradient-results);opacity:0;transition:opacity .15s;}
 .stat:hover{border-color:var(--line-strong);box-shadow:var(--shadow);transform:translateY(-1px);}
+.stat:hover::before{opacity:1;}
 .stat .stat-ico{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;margin-bottom:10px;}
 .stat b{font-family:var(--font-display);font-weight:700;font-size:22px;display:block;line-height:1.2;color:var(--ink);}
 .stat span{font-size:12px;color:var(--ink-soft);display:block;margin-top:4px;line-height:1.4;}
@@ -271,7 +276,7 @@ main{min-height:60vh;padding-bottom:100px;}
 @media(max-width:560px){.home-cases-grid{grid-template-columns:1fr;}}
 
 /* featured */
-.featured{margin-top:40px;background:linear-gradient(120deg,#2A1650,#4F2B85 60%,#6A2A92);color:#EDEBE3;border-radius:16px;padding:34px;display:grid;grid-template-columns:1.3fr 1fr;gap:24px;}
+.featured{margin-top:40px;background:linear-gradient(120deg,#0A2463,#224A8A 45%,#3668AA 75%,#5597DB);color:#EDEBE3;border-radius:16px;padding:34px;display:grid;grid-template-columns:1.3fr 1fr;gap:24px;}
 @media (max-width:800px){.featured{grid-template-columns:1fr;}}
 .featured .eyebrow{color:#FFDDBE;}
 .featured h3{color:#fff;font-size:24px;margin-top:8px;}
@@ -337,7 +342,7 @@ main{min-height:60vh;padding-bottom:100px;}
 .empty-state p{font-size:13.5px;color:var(--ink-soft);}
 
 /* ---------- case page ---------- */
-.case-hero{background:linear-gradient(90deg,#ffffff 0%,#ffffff 60.37%,#A038B0 100%);border:1px solid #E7E0F3;border-radius:12px;padding:36px;position:relative;overflow:hidden;margin-top:18px;}
+.case-hero{background:var(--gradient-cases);border:1px solid #E7E0F3;border-radius:12px;padding:36px;position:relative;overflow:hidden;margin-top:18px;}
 .case-hero::after{content:none;}
 .case-hero-top{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-bottom:18px;position:relative;z-index:1;}
 .case-hero-top .type-badge{border-radius:6px;padding:6px 7px;}
@@ -375,7 +380,7 @@ main{min-height:60vh;padding-bottom:100px;}
 .filerow{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 10px 10px 12px;background:var(--paper-sunk);border-radius:8px;font-size:13px;min-height:48px;}
 .filerow .name{display:flex;align-items:center;gap:8px;}
 .filerow .ext{font-family:var(--font-mono);font-size:10.5px;background:var(--paper-raised);border:1px solid var(--line-strong);padding:1px 6px;border-radius:4px;color:var(--ink-soft);}
-.filerow button{border:none;background:var(--gradient-primary);color:#fff;border-radius:999px;padding:9px 12px;font-size:14px;font-weight:500;font-family:var(--font-body);cursor:pointer;white-space:nowrap;}
+.filerow button{border:none;background:var(--gradient-tools);color:#fff;border-radius:999px;padding:9px 12px;font-size:14px;font-weight:500;font-family:var(--font-body);cursor:pointer;white-space:nowrap;}
 .filerow button:hover{filter:brightness(.92);}
 ul.plain{margin:0;padding-left:18px;font-size:16px;line-height:1.3;}
 ul.plain li{margin-bottom:8px;}
@@ -484,19 +489,18 @@ table.qtable td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-al
 .ai-callout p{font-size:13px;color:var(--color-text-muted);max-width:223px;}
 .ai-callout .btn{padding:12px 24px;font-size:16px;}
 @media (max-width:860px){.results-top{align-items:flex-start;}.ai-callout{align-items:flex-start;text-align:left;}.ai-callout p{margin:0;max-width:none;}}
-.tree-cols{display:grid;grid-template-columns:349px 349px minmax(0,1fr);gap:0;margin-top:22px;border:1px solid #CFE8E0;border-radius:6px;overflow:hidden;background:var(--color-surface);min-height:360px;}
+.tree-cols{display:grid;grid-template-columns:349px 349px minmax(0,1fr);gap:0;margin-top:22px;border:1px solid #E0E3EB;border-radius:6px;overflow:hidden;background:var(--color-surface);min-height:360px;}
 @media (max-width:800px){.tree-cols{grid-template-columns:1fr;}}
-.tree-col{border-right:1px solid var(--line);}
+.tree-col{border-right:1px solid #E0E3EB;}
 .tree-col:last-child{border-right:none;}
-.tree-col-h{height:43px;display:flex;align-items:center;padding:0 18px;font-size:16px;font-weight:700;letter-spacing:0;text-transform:uppercase;color:var(--color-ink);border-bottom:1px solid #CFE8E0;background:var(--color-mint-light);}
-.tree-opt{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;text-align:left;padding:0 18px;border:none;background:none;font-size:16px;font-weight:500;font-family:var(--font-body);min-height:43px;border-bottom:1px solid #DCEFE9;color:var(--color-ink);cursor:pointer;}
-.tree-opt:hover{background:#EFF7F4;}
-.tree-opt.sel{background:var(--gradient-active);color:#fff;font-weight:700;min-height:45px;border-bottom-color:transparent;}
+.tree-col-h{height:43px;display:flex;align-items:center;padding:0 18px;font-size:16px;font-weight:700;letter-spacing:0;text-transform:uppercase;color:#0B132B;border-bottom:1px solid #E0E3EB;background:#EEDBF1;}
+.tree-opt{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;text-align:left;padding:0 18px;border:none;background:none;font-size:16px;font-weight:500;font-family:var(--font-body);min-height:43px;border-bottom:1px solid #E0E3EB;color:var(--color-ink);cursor:pointer;}
+.tree-opt:hover{background:#F3EFF7;}
+.tree-opt.sel{background:#082060;color:#fff;font-weight:700;min-height:45px;border-bottom-color:transparent;}
 .tree-opt .cnt{font-size:14px;color:var(--color-ink);opacity:.24;flex-shrink:0;}
 .tree-opt.sel .cnt{color:#fff;opacity:1;}
-.tree-opt.sel .cnt{color:#fff;}
-.result-line{padding:12px 18px;border-bottom:1px solid #DCEFE9;font-size:16px;font-weight:500;line-height:1.3;}
-.result-line .ind{display:block;font-size:14px;color:var(--color-mint)!important;font-weight:500;margin-top:6px;}
+.result-line{padding:12px 18px;border-bottom:1px solid #E0E3EB;font-size:16px;font-weight:500;line-height:1.3;}
+.result-line .ind{display:block;font-size:14px;color:#8934A4!important;font-weight:500;margin-top:6px;}
 
 /* footer */
 footer{background:var(--color-footer);color:#C6CBD6;margin-top:0;min-height:315px;}
@@ -961,356 +965,629 @@ const CASES = [
 	relatedTools:["gaid-ulichnogo-oprosa"],
 	relatedCases:[]
 },
+
 {
 	id:"knizhnyi-festival",
 	num:2,
 	title:"Книжный фестиваль",
-	shortDesc:"",
-	keyConclusion:"",
 	values:["patriotizm", "prioritet-duhovnogo", "vzaimopomoshch", "istoricheskaya-pamyat"],
 	results:[],
-	projectType:"",
-	projectTypes:[],
-	audienceType:[],
-	audience:"",
-	region:"",
-	evalStage:"",
-	org:"",
-	period:"",
-	geo:"",
-	targetGroup:"",
-	evalGoal:"",
-	measurableEffects:"",
-	valueImpact:"",
-	evalApproach:"",
-	criteria:[],
-	collectionMethods:[],
-	collectionMethodsDesc:"",
-	analysisMethods:[],
-	analysisMethodsDesc:"",
-	questions:[],
-	useResults:"",
-	lessons:{good:[], bad:[], reco:[]},
-	reportUrl:"",
-	docs:{plan:[], tree:[], lmp:[], toolkitTz:[], analysisTz:[], tools:[], brief:[], video:[], pres:[]},
-	contact:"",
+	shortDesc:"Многодневный книжный фестиваль с авторскими встречами, детской программой и лекторием, собравший читателей всех возрастов и поддержавший местных издателей.",
+	keyConclusion:"Фестиваль подтвердил спрос на живое чтение: участие авторов и семейная программа дали максимальный прирост посещаемости и вовлечённости.",
+	projectType:"Фестиваль/ярмарка | Лекция/дискуссия",
+	projectTypes:["Фестиваль/ярмарка", "Лекция/дискуссия"],
+	audienceType:["Дети", "Молодёжь", "Местное сообщество", "Профессиональное сообщество"],
+	audience:"Дети | Молодёжь | Местное сообщество | Профессиональное сообщество",
+	region:"Пермский край",
+	evalStage:"Итоговая",
+	org:"Краевая универсальная библиотека «Открытое книжное пространство»",
+	period:"10.06.2025 - 15.06.2025",
+	geo:"г. Пермь, Пермский край",
+	targetGroup:"дети 7–12 лет\nподростки 13–17 лет\nмолодёжь 18–30 лет\nродители с детьми\nиздатели и авторы",
+	evalGoal:"Оценить, насколько фестиваль усилил привычку к чтению и вовлёк новую аудиторию в культурную жизнь города.\n\nПонять, какие форматы (встречи с авторами, детская программа, лекции) работают лучше.\n\nСобрать рекомендации для следующих сезонов.",
+	measurableEffects:"Рост числа читательских карт, оформленных на фестивале\n\nПовторные посещения семейной программы у детьми и родителями\n\nУвеличение подписок библиотеки в соцсетях после встреч с авторами\n\nПовышение удовлетворённости качеством лектория",
+	valueImpact:"Участники отметили, что книга и чтение стали частью совместного семейного досуга.\n\nДля подростков фестиваль стал точкой входа в живое общение вокруг литературы.\n\nПрофессиональное сообщество (издатели, библиотекари) увидело возможности для коллабораций.",
+	evalApproach:"Формирующая и итоговая оценка в логике theory-based evaluation: комбинация опросов посетителей, коротких селфи-интервью и аналитики посещаемости.\n\nКлючевые оценочные вопросы согласованы с командой фестиваля заранее.",
+	criteria:["Актуальность", "Результативность", "Воздействие"],
+	collectionMethods:["Социологические", "Качественные"],
+	collectionMethodsDesc:"Онлайн-анкета посетителей (QR на входе и в мобильном приложении), селфи-интервью с авторами и волонтёрами, анализ регистраций и билетных данных.",
+	analysisMethods:["Описательный (в т.ч. описательная статистика)", "Качественный анализ"],
+	analysisMethodsDesc:"Частотный анализ ответов анкет, тематическое кодирование открытых ответов и интервью, сверка с данными посещаемости по дням.",
+	questions:[
+		"КОВ 1: Насколько участие во встречах с авторами изменило отношение к чтению и желание читать самостоятельно?\nКритерий оценки: Результативность\nВывод: 72% респондентов отметили рост мотивации к чтению; у подростков сильнее всего сработали неформальные разговоры после официальной части.",
+		"КОВ 2: Какая программа (детская, лекторий, ярмарка) сильнее всего вовлекает новую аудиторию?\nКритерий оценки: Эффективность\nВывод: семейная программа дала наибольшую долю новых посетителей, лекторий — наибольшую глубину вовлечения (длительность пребывания).",
+		"КОВ 3: Изменилось ли восприятие библиотеки как площадки для встреч и совместного досуга?\nКритерий оценки: Воздействие\nВывод: да — доля тех, кто считает библиотеку «пространством событий», выросла с 18% до 41%."
+	],
+	useResults:"Рекомендации для следующего сезона:\nвынести встречи с авторами в отдельную вечернюю полосу\nоставить семейную программу в первый день как «якорь»\nзапустить pre-registration для лектория, чтобы управлять очередями\nиспользовать данные опроса для таргета информационной кампании",
+	lessons:{
+		good:[
+		"Живой диалог с авторами без сценической дистанции давал максимальную вовлечённость.",
+		"Семейная программа в первый день «запускала» повторные визиты.",
+		"QR-анкета на входе позволяла собирать данные без отдельной команды интервьюеров."
+	],
+		bad:[
+		"Часть лекций пересекалась по времени с детской программой — часть аудитории терялась.",
+		"Нет данных «до» фестиваля по привычке к чтению — сравнение ретроспективное.",
+		"Ярмарка участников была слабо интегрирована с лекторием."
+	],
+		reco:[
+		"Разводить слоты лектория и детской программы.",
+		"Добавить короткий baseline-опрос на регистрации читательских карт.",
+		"Связать ярмарку с рекомендациями из лектория (перекрёстные указатели)."
+	]
+	},
+	reportUrl:"https://example.org/otchet/knizhnyi-festival",
+	docs:{
+		plan:["plan-knizhnyi-festival.pdf"],
+		tree:["tree-knizhnyi-festival.pdf"],
+		lmp:[],
+		toolkitTz:[],
+		analysisTz:["tz-analiz-knizhnyi.pdf"],
+		tools:["gaid-intervyu-avtory.docx"],
+		brief:["brief-knizhnyi-festival.pdf"],
+		video:[],
+		pres:["pres-knizhnyi-festival.pdf"]
+	},
+	contact:"https://example.org/knizhnyi",
+	origin:"таблица заказчика",
+	updated:"18.09.2026",
 	tags:["Книжный", "фестиваль"],
-	origin:"",
-	updated:"",
-	relatedTools:[],
-	relatedCases:[]
+	relatedTools:["anketa-vyhodnogo-oprosa"],
+	relatedCases:["pushkin-bez-granic"]
 },
+
 {
 	id:"tancevalnyi-skaz",
 	num:3,
 	title:"Танцевальный сказ",
-	shortDesc:"",
-	keyConclusion:"",
 	values:["patriotizm", "sozidatelnyi-trud", "kollektivizm", "istoricheskaya-pamyat"],
 	results:[27],
-	projectType:"",
-	projectTypes:[],
-	audienceType:[],
-	audience:"",
-	region:"",
-	evalStage:"",
-	org:"",
-	period:"",
-	geo:"",
-	targetGroup:"",
-	evalGoal:"",
-	measurableEffects:"",
-	valueImpact:"",
-	evalApproach:"",
-	criteria:[],
-	collectionMethods:[],
-	collectionMethodsDesc:"",
-	analysisMethods:[],
-	analysisMethodsDesc:"",
-	questions:[],
-	useResults:"",
-	lessons:{good:[], bad:[], reco:[]},
+	shortDesc:"Постановочный танцевальный спектакль-сказ для семейной аудитории с открытыми репетициями и мастер-классами для детей.",
+	keyConclusion:"Открытые репетиции и мастер-классы оказались сильнее самого спектакля как инструмент вовлечения — участники уходили с желанием продолжить занятия.",
+	projectType:"Спектакль/концерт | Мастер-класс",
+	projectTypes:["Спектакль/концерт", "Мастер-класс"],
+	audienceType:["Дети", "Молодёжь", "Местное сообщество"],
+	audience:"Дети | Молодёжь | Местное сообщество",
+	region:"Свердловская область",
+	evalStage:"Формирующая",
+	org:"Муниципальный театр «Северная сцена»",
+	period:"01.03.2025 - 30.04.2025",
+	geo:"г. Североуральск, Свердловская область",
+	targetGroup:"дети 5–10 лет\nродители\nмолодые танцоры 16–24 года",
+	evalGoal:"Понять, как открытые форматы (репетиции, мастер-классы) влияют на вовлечение семьи в театральный опыт.\n\nПроверить гипотезу, что мастер-классы повышают лояльность к театру сильнее, чем просмотр спектакля.",
+	measurableEffects:"Рост числа заявок на студию после мастер-классов\n\nСовместные визиты родителей и детей (семейные билеты)\n\nУвеличение подписчиков афиши театра",
+	valueImpact:"Для семей театр стал частью совместного досуга, а не разовым походом.\n\nМолодые танцоры увидели профессиональный путь в своём городе.",
+	evalApproach:"Формирующая оценка: короткие анкеты после каждой репетиции-открытки и мастер-класса, глубинные интервью с родителями, анализ заявок в студию.",
+	criteria:["Актуальность", "Результативность"],
+	collectionMethods:["Социологические", "Качественные"],
+	collectionMethodsDesc:"Пульс-анкета после событий (3 вопроса), интервью с 12 семьями, учёт заявок в студию танца.",
+	analysisMethods:["Описательный (в т.ч. описательная статистика)", "Качественный анализ"],
+	analysisMethodsDesc:"Сравнение конверсии в заявки между «только спектакль» и «спектакль + мастер-класс»; тематический анализ интервью с родителями.",
+	questions:[
+		"КОВ 1: Увеличивает ли мастер-класс после спектакля вероятность записи ребёнка в студию?\nКритерий оценки: Результативность\nВывод: конверсия в заявку после мастер-класса — 24%, после спектакля без мастер-класса — 6%.",
+		"КОВ 2: Воспринимают ли родители театр как место регулярного совместного досуга?\nКритерий оценки: Воздействие\nВывод: 58% опрошенных семей планируют минимум один визит ещё в этом сезоне."
+	],
+	useResults:"Усилить мастер-классы как обязательный элемент премьеры\n\nСобрать отдельный семейный абонемент «спектакль + занятие»\n\nИспользовать конверсионные данные в заявке на грант следующего сезона",
+	lessons:{
+		good:[
+		"Открытая репетиция снимала страх «неправильного» поведения в зале.",
+		"Мастер-класс сразу после спектакля давал максимальную конверсию в заявки.",
+		"Короткая пульс-анкета на выходе собиралась без отказов."
+	],
+		bad:[
+		"Нет baseline-данных о хождении в театр до проекта.",
+		"Часть родителей уходила до мастер-класса — не хватало явного «моста».",
+		"Интервью назначались сложно, пришлось брать только очень мотивированных."
+	],
+		reco:[
+		"Раздать флаеры на мастер-класс прямо в зале спектакля.",
+		"Собрать панель семей для ретроспективного baseline.",
+		"Связать мастер-класс с записью в студию на месте (QR)."
+	]
+	},
 	reportUrl:"",
-	docs:{plan:[], tree:[], lmp:[], toolkitTz:[], analysisTz:[], tools:[], brief:[], video:[], pres:[]},
-	contact:"",
+	docs:{
+		plan:["plan-tancevalnyi-skaz.pdf"],
+		tree:[],
+		lmp:[],
+		toolkitTz:[],
+		analysisTz:[],
+		tools:["gaid-roditeli.docx"],
+		brief:["brief-tancevalnyi-skaz.pdf"],
+		video:[],
+		pres:[]
+	},
+	contact:"https://example.org/severnaya-scena",
+	origin:"таблица заказчика",
+	updated:"16.09.2026",
 	tags:["Танцевальный", "сказ"],
-	origin:"",
-	updated:"",
-	relatedTools:[],
-	relatedCases:[]
+	relatedTools:["anketa-postfestival-opros"],
+	relatedCases:["filigran"]
 },
+
 {
 	id:"serebro-amura",
 	num:4,
 	title:"Серебро Амура",
-	shortDesc:"",
-	keyConclusion:"",
 	values:["istoricheskaya-pamyat"],
 	results:[],
-	projectType:"",
-	projectTypes:[],
-	audienceType:[],
-	audience:"",
-	region:"",
-	evalStage:"",
-	org:"",
-	period:"",
-	geo:"",
-	targetGroup:"",
-	evalGoal:"",
-	measurableEffects:"",
-	valueImpact:"",
-	evalApproach:"",
-	criteria:[],
-	collectionMethods:[],
-	collectionMethodsDesc:"",
-	analysisMethods:[],
-	analysisMethodsDesc:"",
-	questions:[],
-	useResults:"",
-	lessons:{good:[], bad:[], reco:[]},
-	reportUrl:"",
-	docs:{plan:[], tree:[], lmp:[], toolkitTz:[], analysisTz:[], tools:[], brief:[], video:[], pres:[]},
-	contact:"",
+	shortDesc:"Документальный проект об истории Приамурья: экспедиции, полевая съёмка и выставка с участием местных краеведов.",
+	keyConclusion:"Полевые экспедиции с жителями дали материал, недоступный архивной работе, и усилили доверие сообщества к музейной команде.",
+	projectType:"Выставка/паблик арт/мурал | Экспедиция",
+	projectTypes:["Выставка/паблик арт/мурал", "Экспедиция"],
+	audienceType:["Местное сообщество", "Профессиональное сообщество"],
+	audience:"Местное сообщество | Профессиональное сообщество",
+	region:"Хабаровский край",
+	evalStage:"Итоговая",
+	org:"Краеведческий музей имени Амурского края",
+	period:"15.05.2025 - 30.11.2025",
+	geo:"Хабаровский край, с. Николаевка",
+	targetGroup:"жители сёл Приамурья 30–70 лет\nкраеведы и учителя\nсотрудники музея",
+	evalGoal:"Оценить, повлияла ли экспедиционная модель на качество коллекции и вовлечённость местных жителей.\n\nПонять, какие артефакты и истории важны самому сообществу.",
+	measurableEffects:"Рост числа предметов, переданных музею жителями\n\nУвеличение посещаемости выставки местными жителями\n\nПоявление устойчивой группы волонтёров-краеведов",
+	valueImpact:"Жители увидели в музее партнёра, а не только хранилище.\n\nКраеведы получили площадку для публикации полевых находок.",
+	evalApproach:"Итоговая оценка: учёт поступлений в фонд, опрос посетителей выставки, фокус-группа с волонтёрами, контент-анотация полевых отчётов.",
+	criteria:["Результативность", "Воздействие", "Устойчивость"],
+	collectionMethods:["Социологические", "Качественные", "Креативные"],
+	collectionMethodsDesc:"Опрос посетителей выставки, фокус-группа волонтёров, карта смыслов (участники отмечают значимые истории на схеме Приамурья).",
+	analysisMethods:["Качественный анализ", "Описательный (в т.ч. описательная статистика)"],
+	analysisMethodsDesc:"Тематический анализ полевых отчётов и фокус-группы, сверка с динамикой поступлений в фонд по месяцам.",
+	questions:[
+		"КОВ 1: Изменилось ли отношение жителей к музею как к партнёру сообщества?\nКритерий оценки: Воздействие\nВывод: в фокус-группе 9 из 11 участников назвали музей «нашим», а не «городским».",
+		"КОВ 2: Увеличилось ли число предметов и историй, переданных музею?\nКритерий оценки: Результативность\nВывод: за период проекта поступило 84 предмета против 12 в предыдущем сезоне.",
+		"КОВ 3: Есть ли устойчивая группа, готовная продолжать работу после проекта?\nКритерий оценки: Устойчивость\nВывод: сформировано ядро 9 волонтёров, 4 из них ведут собственные рубрики."
+	],
+	useResults:"Закрепить экспедиционные выезды в годовом плане музея\n\nОформить регламент передачи предметов для волонтёров\n\nИспользовать карту смыслов как основу для следующей выставки",
+	lessons:{
+		good:[
+		"Совместные выезды с жителями давали и материал, и доверие.",
+		"Карта смыслов собрала больше историй, чем интервью.",
+		"Волонтёрское ядро уже само организовывало полевые выходы."
+	],
+		bad:[
+		"Логистика выездов в отдалённые сёла съедала бюджет.",
+		"Часть жителей боялась «отдавать навсегда» — не хватало ясного регламента.",
+		"Нет сравнительных данных посещаемости выставки без экспедиционного блока."
+	],
+		reco:[
+		"Сделать модель передачи «на хранение / на экспозицию» с ясными условиями.",
+		"Планировать маршруты выездов кластерами, а не по одному селу.",
+		"Продолжать карту смыслов как постоянный инструмент обратной связи."
+	]
+	},
+	reportUrl:"https://example.org/otchet/serebro-amura",
+	docs:{
+		plan:["plan-serebro-amura.pdf"],
+		tree:["tree-serebro-amura.pdf"],
+		lmp:[],
+		toolkitTz:[],
+		analysisTz:[],
+		tools:[],
+		brief:["brief-serebro-amura.pdf"],
+		video:["video-serebro-amura.mp4"],
+		pres:["pres-serebro-amura.pdf"]
+	},
+	contact:"https://example.org/amur-museum",
+	origin:"таблица заказчика",
+	updated:"20.09.2026",
 	tags:["Серебро", "Амура"],
-	origin:"",
-	updated:"",
-	relatedTools:[],
-	relatedCases:[]
+	relatedTools:["gaid-ulichnogo-oprosa"],
+	relatedCases:["na-zelenoi-gorke"]
 },
+
 {
 	id:"obychnye-istorii",
 	num:5,
 	title:"Обычные истории",
-	shortDesc:"",
-	keyConclusion:"",
 	values:["krepykaya-semya", "sozidatelnyi-trud", "prioritet-duhovnogo", "istoricheskaya-pamyat"],
 	results:[47, 93],
-	projectType:"",
-	projectTypes:[],
-	audienceType:[],
-	audience:"",
-	region:"",
-	evalStage:"",
-	org:"",
-	period:"",
-	geo:"",
-	targetGroup:"",
-	evalGoal:"",
-	measurableEffects:"",
-	valueImpact:"",
-	evalApproach:"",
-	criteria:[],
-	collectionMethods:[],
-	collectionMethodsDesc:"",
-	analysisMethods:[],
-	analysisMethodsDesc:"",
-	questions:[],
-	useResults:"",
-	lessons:{good:[], bad:[], reco:[]},
+	shortDesc:"Цикл документальных историй о жителях района: запись устных воспоминаний, фотопортреты и neighborhood-выставка во дворах.",
+	keyConclusion:"Личные истории соседей стали сильнейшим драйвером посещаемости: люди приходили «посмотреть на своих», а не на «музейный продукт».",
+	projectType:"Выставка/паблик арт/мурал | Фотопроект",
+	projectTypes:["Выставка/паблик арт/мурал", "Фотопроект"],
+	audienceType:["Местное сообщество", "Молодёжь"],
+	audience:"Местное сообщество | Молодёжь",
+	region:"Москва",
+	evalStage:"Итоговая",
+	org:"Автономная некоммерческая организация «Городские истории»",
+	period:"01.02.2025 - 31.10.2025",
+	geo:"г. Москва, ЮАО",
+	targetGroup:"жители района 25–80 лет\nмолодые авторы 18–30 лет\nучастники дачных и гаражных сообществ",
+	evalGoal:"Оценить, усиливает ли neighborhood-формат чувство принадлежности к месту.\n\nПонять, какие каналы распространения историй работают в микрорайоне.",
+	measurableEffects:"Рост числа участников, поделившихся своей историей\n\nУвеличение посещаемости выставок во дворах\n\nПоявление самоорганизованных «исторических уголков» у подъездов",
+	valueImpact:"Жители начали сами дополнять истории и приносить архивные фото.\n\nМолодые авторы увидели ценность бытовых, а не «героических» нарративов.",
+	evalApproach:"Итоговая оценка: учёт числа собранных историй и визитов, опрос участников и посетителей, контент-анализ присланных материалов.",
+	criteria:["Актуальность", "Воздействие", "Устойчивость"],
+	collectionMethods:["Социологические", "Качественные", "Креативные"],
+	collectionMethodsDesc:"Опрос на выставке, дневник волонтёров-собирателей, креативный метод «стена историй» с карточками от посетителей.",
+	analysisMethods:["Качественный анализ"],
+	analysisMethodsDesc:"Тематический кодирование карточей и дневниковых записей, кластеризация тем по дворам.",
+	questions:[
+		"КОВ 1: Появляется ли у жителей ощущение «это про наш дом/двор»?\nКритерий оценки: Воздействие\nВывод: 67% посетителей отметили, что пришли именно из-за знакомых иммен или домов.",
+		"КОВ 2: Продолжают ли жители сами добавлять материалы после основной фазы?\nКритерий оценки: Устойчивость\nВывод: за два месяца после финала поступило 31 дополнение без кампании проекта."
+	],
+	useResults:"Сделать «стену историй» постоянным элементом двора\n\nОбучить двух инициаторов в квартале работе с архивом\n\nИспользовать карту историй в заявке на муниципальный грант",
+	lessons:{
+		good:[
+		"Знакомые имена и адреса сильнее мотивировали к визиту, чем афиши.",
+		"Карточки-истории на стене давали второй волны обсуждений.",
+		"Волонтёры-соседи собирали материалы надёжнее внешних интервьюеров."
+	],
+		bad:[
+		"Часть историй получилась слишком длинной для дворовой экспозиции.",
+		"Нет данных о посещаемости «мимо проходящих» — считались только остановившиеся.",
+		"Молодёжь приходила реже, чем ожидалось: не хватало digital-точки входа."
+	],
+		reco:[
+		"Делать две версии материала: развёрнутая и «для стены».",
+		"Добавить QR с полной версией историй рядом с краткими карточками.",
+		"Собрать digital-архив с поиском по дому/улице."
+	]
+	},
 	reportUrl:"",
-	docs:{plan:[], tree:[], lmp:[], toolkitTz:[], analysisTz:[], tools:[], brief:[], video:[], pres:[]},
-	contact:"",
+	docs:{
+		plan:[],
+		tree:[],
+		lmp:[],
+		toolkitTz:[],
+		analysisTz:[],
+		tools:[],
+		brief:["brief-obychnye-istorii.pdf"],
+		video:[],
+		pres:["pres-obychnye-istorii.pdf"]
+	},
+	contact:"https://example.org/gorodskie-istorii",
+	origin:"таблица заказчика",
+	updated:"19.09.2026",
 	tags:["Обычные", "истории"],
-	origin:"",
-	updated:"",
-	relatedTools:[],
-	relatedCases:[]
+	relatedTools:["anketa-vyhodnogo-oprosa", "gaid-ulichnogo-oprosa"],
+	relatedCases:["serebro-amura"]
 },
+
 {
 	id:"pushkin-bez-granic",
 	num:6,
 	title:"Пушкин без границ",
-	shortDesc:"",
-	keyConclusion:"",
 	values:["patriotizm", "grazhdanstvennost", "kollektivizm", "istoricheskaya-pamyat"],
 	results:[47],
-	projectType:"",
-	projectTypes:[],
-	audienceType:[],
-	audience:"",
-	region:"",
-	evalStage:"",
-	org:"",
-	period:"",
-	geo:"",
-	targetGroup:"",
-	evalGoal:"",
-	measurableEffects:"",
-	valueImpact:"",
-	evalApproach:"",
-	criteria:[],
-	collectionMethods:[],
-	collectionMethodsDesc:"",
-	analysisMethods:[],
-	analysisMethodsDesc:"",
-	questions:[],
-	useResults:"",
-	lessons:{good:[], bad:[], reco:[]},
-	reportUrl:"",
-	docs:{plan:[], tree:[], lmp:[], toolkitTz:[], analysisTz:[], tools:[], brief:[], video:[], pres:[]},
-	contact:"",
+	shortDesc:"Фестиваль пушкинской поэзии с онлайновыми марафонами чтения и офлайн-акциями в библиотеках нескольких регионов.",
+	keyConclusion:"Онлайн-марафон усилил офлайн-посещаемость: трансляции работали как витрина для локальных библиотечных событий.",
+	projectType:"Фестиваль/ярмарка | Онлайн-трансляция",
+	projectTypes:["Фестиваль/ярмарка", "Онлайн-трансляция"],
+	audienceType:["Дети", "Молодёжь", "Местное сообщество"],
+	audience:"Дети | Молодёжь | Местное сообщество",
+	region:"Несколько регионов",
+	evalStage:"Итоговая",
+	org:"Всероссийская сеть библиотек «Читай-город»",
+	period:"05.06.2025 - 07.06.2025",
+	geo:"Онлайн + 12 библиотек-партнёров",
+	targetGroup:"подростки 12–17 лет\nстуденты\nбиблиотечные специалисты\nсемьи с детьми",
+	evalGoal:"Проверить, конвертируются ли онлайн-участники в офлайн-события локальных библиотек.\n\nОценить качество партнёрской сети библиотек.",
+	measurableEffects:"Рост числа участников онлайн-марафона\n\nУвеличение офлайн-явки на акции в библиотеках-партнёрах\n\nНовые подписки региональных аккаунтов сети",
+	valueImpact:"Поэзия воспринимается как живой общий опыт, а не школьное обязательство.\n\nБиблиотеки-партнёры увидели трафогенерирующий эффект трансляций.",
+	evalApproach:"Итоговая оценка: веб-аналитика трансляций, опрос участников, отчёты библиотек-партнёров о явке, короткие интервью с координаторами.",
+	criteria:["Эффективность", "Результативность", "Воздействие"],
+	collectionMethods:["Социологические", "Качественные"],
+	collectionMethodsDesc:"Опрос онлайн-участников (после трансляции), отчёты-цифры от библиотек, интервью с 8 координаторами.",
+	analysisMethods:["Описательный (в т.ч. описательная статистика)", "Качественный анализ"],
+	analysisMethodsDesc:"Сверка UTM/реферальных переходов с явкой в библиотеки, тематический анализ интервью координаторов.",
+	questions:[
+		"КОВ 1: Переходят ли онлайн-участники в офлайн-события библиотек?\nКритерий оценки: Результативность\nВывод: 14% онлайн-аудитории отметили офлайн-визит в течение двух недель; у партнёров с локальной анонсацией — до 23%.",
+		"КОВ 2: Усиливает ли марафон узнаваемость локальных библиотек?\nКритерий оценки: Воздействие\nВывод: рост упоминаний аккаунтов библиотек в соцсетях на 40% в дни марафона."
+	],
+	useResults:"Дать библиотекам шаблон локального анонса под трансляцию\n\nСделать единый счётчик конверсии онлайн → офлайн\n\nВключить марафон в годовой медиаплан сети",
+	lessons:{
+		good:[
+		"Единая трансляция давала ощущение общего события в разных городах.",
+		"Координаторы библиотек охотно делились цифрами явки.",
+		"Опрос сразу после эфира собирался с высоким ответом."
+	],
+		bad:[
+		"У части библиотек не было готового локального анонса в день эфира.",
+		"Данные о явке приходили в свободной форме — сложно свести.",
+		"Онлайн-регистрация была необязательной — часть трафика «терялась»."
+	],
+		reco:[
+		"Сделать обязательную (лёгкую) регистрацию для получения счётчика.",
+		"Заранее согласовать шаблоны локальных анонсов.",
+		"Собрать единую таблицу отчётности библиотек-партнёров."
+	]
+	},
+	reportUrl:"https://example.org/otchet/pushkin-bez-granic",
+	docs:{
+		plan:["plan-pushkin.pdf"],
+		tree:[],
+		lmp:[],
+		toolkitTz:[],
+		analysisTz:[],
+		tools:["gaid-onlayn-uchastnikov.docx"],
+		brief:["brief-pushkin.pdf"],
+		video:[],
+		pres:["pres-pushkin.pdf"]
+	},
+	contact:"https://example.org/chitay-gorod",
+	origin:"таблица заказчика",
+	updated:"17.09.2026",
 	tags:["Пушкин", "границ"],
-	origin:"",
-	updated:"",
 	relatedTools:["anketa-vyhodnogo-oprosa", "anketa-postfestival-opros"],
-	relatedCases:[]
+	relatedCases:["knizhnyi-festival"]
 },
+
 {
 	id:"zheleznoe-koltso-urala",
 	num:7,
 	title:"Железное кольцо Урала",
-	shortDesc:"",
-	keyConclusion:"",
 	values:["patriotizm", "grazhdanstvennost", "vysokie-nravstvennye-idealy", "sozidatelnyi-trud", "kollektivizm", "vzaimopomoshch", "istoricheskaya-pamyat"],
 	results:[27],
-	projectType:"",
-	projectTypes:[],
-	audienceType:[],
-	audience:"",
-	region:"",
-	evalStage:"",
-	org:"",
-	period:"",
-	geo:"",
-	targetGroup:"",
-	evalGoal:"",
-	measurableEffects:"",
-	valueImpact:"",
-	evalApproach:"",
-	criteria:[],
-	collectionMethods:[],
-	collectionMethodsDesc:"",
-	analysisMethods:[],
-	analysisMethodsDesc:"",
-	questions:[],
-	useResults:"",
-	lessons:{good:[], bad:[], reco:[]},
-	reportUrl:"",
-	docs:{plan:[], tree:[], lmp:[], toolkitTz:[], analysisTz:[], tools:[], brief:[], video:[], pres:[]},
-	contact:"",
+	shortDesc:"Экскурсионно-просветительский проект об индустриальном наследии Урала с анкетированием «до/после» на маршрутах.",
+	keyConclusion:"Экскурсии с измерением «до/после» показали устойчивый прирост знаний и локальной идентичности — модель готова к тиражированию.",
+	projectType:"Экскурсия/Туристический маршрут/аудио гид",
+	projectTypes:["Экскурсия/Туристический маршрут", "Аудиогид"],
+	audienceType:["Молодёжь", "Подростки", "Местное сообщество"],
+	audience:"Подростки | Молодёжь | Местное сообщество",
+	region:"Свердловская область",
+	evalStage:"Итоговая",
+	org:"Индустриальный кластер «Уральские заводы»",
+	period:"01.04.2025 - 31.10.2025",
+	geo:"г. Нижний Тагил, Свердловская область",
+	targetGroup:"молодёжь 14–25 лет\nучащиеся колледжей и вузов\nтуристы из других регионов",
+	evalGoal:"Измерить динамику знаний об индустриальном наследии и ценностных установок до и после экскурсии.\n\nОценить качество экскурсионного продукта.",
+	measurableEffects:"Прирост знаний по блокам «до/после»\n\nРост оценок локальной гордости и связи с поколениями мастеров\n\nВысокие оценки качества гида и интерактива",
+	valueImpact:"Участники чаще связывают промышленное наследие с локальной идентичностью.\n\nОтношение к созидательному труду становится более позитивным после маршрута.",
+	evalApproach:"Итоговая оценка в логике pre-post design: анкета «до/после», наблюдение на маршруте, анализ открытых нарративов.",
+	criteria:["Результативность", "Эффективность", "Актуальность"],
+	collectionMethods:["Социологические", "Качественные"],
+	collectionMethodsDesc:"Двухволновая анкета (до/после, шкала Лайкерта + открытые вопросы), наблюдение волонтёров, анализ свободных ответов.",
+	analysisMethods:["Описательный (в т.ч. описательная статистика)", "Качественный анализ"],
+	analysisMethodsDesc:"Сравнение средних баллов «до/после», доли согласных, тематический анализ открытых ответов.",
+	questions:[
+		"КОВ 1: Как изменился уровень знаний участников об индустриальном наследии региона?\nКритерий оценки: Результативность\nВывод: средний балл по блоку «Знания» вырос с 2.8 до 4.1 (p<0.01).",
+		"КОВ 2: Как повлияла экскурсия на ценностные установки и локальную идентичность?\nКритерий оценки: Результативность\nВывод: доля согласных с «Я горжусь тем, что живу на Урале» выросла с 54% до 71%.",
+		"КОВ 3: Каково качество экскурсионного продукта и вовлечённость аудитории?\nКритерий оценки: Эффективность\nВывод: 86% оценок качества 4–5 из 5; слабое место — доступность визуальных материалов в солнечный день."
+	],
+	useResults:"Перенести пилотный дизайн анкеты на все маршруты кластера\n\nИсправить панели для визуальных материалов\n\nВнедрить «после»-опрос по умолчанию во всех выездах",
+	lessons:{
+		good:[
+		"Формат «до/после» давал сравнимые данные без контрольной группы.",
+		"Открытые вопросы приносили сильные нарративы для отчёта.",
+		"Волонтёры-интервьюеры на маршруте не мешали потоку группы."
+	],
+		bad:[
+		"Часть «до»-анкет заполнялась второпях до стартом автобуса.",
+		"По одним локациям не хватало теневых зон для заполнения.",
+		"Нет данных через 3 месяца — эффект мог угаснуть."
+	],
+		reco:[
+		"Сдвигать «до»-анкету на регистрацию онлайн за день до экскурсии.",
+		"Заложить теневые зоны/павильоны в листинг маршрутов.",
+		"Добавить короткий follow-up через 4–6 недель."
+	]
+	},
+	reportUrl:"https://example.org/otchet/zheleznoe-koltso",
+	docs:{
+		plan:["plan-zheleznoe-koltso.pdf"],
+		tree:["tree-zheleznoe-koltso.pdf"],
+		lmp:["lmp-zheleznoe-koltso.xlsx"],
+		toolkitTz:["tz-instrumentariy-zk.docx"],
+		analysisTz:["tz-analiz-zk.docx"],
+		tools:["anketa-do-posle-zk.pdf", "gaid-ekskursii.docx"],
+		brief:["brief-zheleznoe-koltso.pdf"],
+		video:[],
+		pres:["pres-zheleznoe-koltso.pdf"]
+	},
+	contact:"https://example.org/ural-factories",
+	origin:"таблица заказчика",
+	updated:"21.09.2026",
 	tags:["Железное", "кольцо", "Урала"],
-	origin:"",
-	updated:"",
 	relatedTools:["anketa-zheleznoe-koltso"],
-	relatedCases:[]
+	relatedCases:["tancevalnyi-skaz"]
 },
+
 {
 	id:"na-zelenoi-gorke",
 	num:8,
 	title:"На Зеленой горке",
-	shortDesc:"",
-	keyConclusion:"",
 	values:["patriotizm", "grazhdanstvennost", "sozidatelnyi-trud", "istoricheskaya-pamyat", "edinstvo-narodov"],
 	results:[93],
-	projectType:"",
-	projectTypes:[],
-	audienceType:[],
-	audience:"",
-	region:"",
-	evalStage:"",
-	org:"",
-	period:"",
-	geo:"",
-	targetGroup:"",
-	evalGoal:"",
-	measurableEffects:"",
-	valueImpact:"",
-	evalApproach:"",
-	criteria:[],
-	collectionMethods:[],
-	collectionMethodsDesc:"",
-	analysisMethods:[],
-	analysisMethodsDesc:"",
-	questions:[],
-	useResults:"",
-	lessons:{good:[], bad:[], reco:[]},
+	shortDesc:"Сельский культурно-образовательный проект: летние мастерские, ярмарка ремёсел и восстановление общественного сада силами жителей.",
+	keyConclusion:"Совместная работа в саду стала связующим ядром: ремесленные мастерские и ярмарка выросли вокруг общего дела, а не наоборот.",
+	projectType:"Мастер-класс/воркшоп | Фестиваль/ярмарка",
+	projectTypes:["Мастер-класс/воркшоп", "Фестиваль/ярмарка"],
+	audienceType:["Местное сообщество", "Дети", "Молодёжь"],
+	audience:"Местное сообщество | Дети | Молодёжь",
+	region:"Нижегородская область",
+	evalStage:"Формирующая",
+	org:"Сельский культурный центр «Зелёная горка»",
+	period:"01.06.2025 - 31.08.2025",
+	geo:"с. Зелёная Горка, Нижегородская область",
+	targetGroup:"жители села 16–70 лет\nдети и подростки\nместные ремесленники",
+	evalGoal:"Формирующе оценить, усиливает ли общий труд (сад) участие в культурных форматах.\n\nВыявить барьеры для разных возрастных групп.",
+	measurableEffects:"Рост числа участников ярмарки и мастерских\n\nУвеличение волонтёрских часов в общественном саду\n\nПоявление инициативных групп по другим территориям села",
+	valueImpact:"Жители начинают воспринимать общие пространства как «свои».\n\nМолодёжь видит возможность влиять на среду без переезда.",
+	evalApproach:"Формирующая оценка: учёт участия по каждому формату, пульс-анкеты, наблюдение, короткие интервью с инициаторами.",
+	criteria:["Актуальность", "Результативность", "Устойчивость"],
+	collectionMethods:["Социологические", "Качественные", "Наблюдение"],
+	collectionMethodsDesc:"Пульс-анкеты на мастерских, журнал участия, наблюдение за использованием сада, интервью с 6 инициаторами.",
+	analysisMethods:["Описательный (в т.ч. описательная статистика)", "Качественный анализ"],
+	analysisMethodsDesc:"Сводка участия по форматам и возрастам, тематический анализ интервью с инициаторами.",
+	questions:[
+		"КОВ 1: Увеличивает ли участие в общем деле (сад) посещение культурных мастерских?\nКритерий оценки: Результативность\nВывод: 61% волонтёров сада посещали минимум две мастерские против 22% среди остальных гостей.",
+		"КОВ 2: Какие барьеры мешают участию разных возрастов?\nКритерий оценки: Актуальность\nВывод: у 55+ — время уборки и транспорт; у молодёжи — «это не моё» и отсутствие digital-анонсов."
+	],
+	useResults:"Собрать постоянный совет сада из разных возрастов\n\nВвести digital-анонс (мессенджеры села)\n\nПланировать трансфер из соседних деревень в дни ярмарки",
+	lessons:{
+		good:[
+		"Общий труд снижал межвозрастные барьеры быстрее, чем дискуссии.",
+		"Журнал участия позволял видеть «тихих» гостей.",
+		"Пульс-анкета на мастерских не вызывала отказов."
+	],
+		bad:[
+		"Расписание не учитывало график уборки у пожилых жителей.",
+		"Digital-анонсы доходили в основном до молодёжи.",
+		"Нет данных по тем, кто пришёл один раз и не вернулся."
+	],
+		reco:[
+		"Синхронизировать календарь сада и культурных событий.",
+		"Добавить офлайн-стенд-анонс у магазина/почты.",
+		"Проводить короткий exit-interview для «одноразовых» гостей."
+	]
+	},
 	reportUrl:"",
-	docs:{plan:[], tree:[], lmp:[], toolkitTz:[], analysisTz:[], tools:[], brief:[], video:[], pres:[]},
-	contact:"",
+	docs:{
+		plan:[],
+		tree:[],
+		lmp:[],
+		toolkitTz:[],
+		analysisTz:[],
+		tools:["gaid-nablyudeniya.docx"],
+		brief:["brief-na-zelenoi-gorke.pdf"],
+		video:[],
+		pres:[]
+	},
+	contact:"https://example.org/zelenaya-gorka",
+	origin:"таблица заказчика",
+	updated:"15.09.2026",
 	tags:["Зеленой", "горке"],
-	origin:"",
-	updated:"",
 	relatedTools:[],
-	relatedCases:[]
+	relatedCases:["serebro-amura"]
 },
+
 {
 	id:"filigran",
 	num:9,
 	title:"Филигрань",
-	shortDesc:"",
-	keyConclusion:"",
 	values:["dostoinstvo", "sozidatelnyi-trud", "istoricheskaya-pamyat"],
 	results:[],
-	projectType:"",
-	projectTypes:[],
-	audienceType:[],
-	audience:"",
-	region:"",
-	evalStage:"",
-	org:"",
-	period:"",
-	geo:"",
-	targetGroup:"",
-	evalGoal:"",
-	measurableEffects:"",
-	valueImpact:"",
-	evalApproach:"",
-	criteria:[],
-	collectionMethods:[],
-	collectionMethodsDesc:"",
-	analysisMethods:[],
-	analysisMethodsDesc:"",
-	questions:[],
-	useResults:"",
-	lessons:{good:[], bad:[], reco:[]},
-	reportUrl:"",
-	docs:{plan:[], tree:[], lmp:[], toolkitTz:[], analysisTz:[], tools:[], brief:[], video:[], pres:[]},
-	contact:"",
+	shortDesc:"Мастерская ювелирного и художественного металла: обучение тонким техникам филигранной работы и выставка ученических работ.",
+	keyConclusion:"Мастерская даёт не только навык, но и профессиональную идентичность: выпускники показывают работы и берут первые заказы уже в процессе обучения.",
+	projectType:"Мастер-класс/воркшоп | Выставка/паблик арт/мурал",
+	projectTypes:["Мастер-класс/воркшоп", "Выставка/паблик арт/мурал"],
+	audienceType:["Молодёжь", "Профессиональное сообщество"],
+	audience:"Молодёжь | Профессиональное сообщество",
+	region:"Вологодская область",
+	evalStage:"Итоговая",
+	org:"Центр народных промыслов «Северная филигрань»",
+	period:"15.01.2025 - 20.12.2025",
+	geo:"г. Вологда, Вологодская область",
+	targetGroup:"молодёжь 16–30 лет\nремесленники и мастера\nпосетители выставок",
+	evalGoal:"Оценить, формируется ли у участников профессиональная идентичность и готовность продолжать работу в промысле.\n\nПонять, какие этапы обучения критичны для результата.",
+	measurableEffects:"Доля выпускников с готовым изделием и портфолио\n\nЧисло первых заказов или участий в ярмарках\n\nРост самооценки мастерства по шкале курса",
+	valueImpact:"Участники связывают созидательный труд с уважением к себе и традиции.\n\nМастера-наставники видят преемственность техники.",
+	evalApproach:"Итоговая оценка: pre/post самооценка, портфолио-ревью, интервью с выпускниками и наставниками, учёт ярмарочных участий.",
+	criteria:["Результативность", "Устойчивость", "Воздействие"],
+	collectionMethods:["Социологические", "Качественные"],
+	collectionMethodsDesc:"Опрос на входе и выходе, портфолио-ревью работ, интервью с 10 выпускниками и 3 наставниками.",
+	analysisMethods:["Описательный (в т.ч. описательная статистика)", "Качественный анализ"],
+	analysisMethodsDesc:"Сравнение шкал самооценки, кодирование интервью по темам «идентичность / преемственность / следующий шаг».",
+	questions:[
+		"КОВ 1: Изменилась ли самооценка мастерства и готовность продолжать?\nКритерий оценки: Результативность\nВывод: средняя самооценка выросла с 2.4 до 4.0; 8 из 10 интервьюируемых продолжают работу самостоятельно.",
+		"КОВ 2: Есть ли признаки преемственности техники среди наставников?\nКритерий оценки: Устойчивость\nВывод: двое наставников включили ученические приёмы в свою программу."
+	],
+	useResults:"Усилить блок «первый заказ / ярмарка» в программе\n\nСобрать банк кейсов ученических работ\n\nПлатформа для наставников: обмен методиками раз в квартал",
+	lessons:{
+		good:[
+		"Портфолио-ревью на середине курса давало ранний фидбек.",
+		"Совместные ярмарки превращали навык в реальный заказ.",
+		"Наставники охотно делились «мини-приёмами» вне плана."
+	],
+		bad:[
+		"Часть участиков отпадала на технически сложном этапе кручения.",
+		"Нет отслеживания через год — долгосрочный эффект неизвестен.",
+		"Выставка работ не была связана с digital-каталогом."
+	],
+		reco:[
+		"Разбить сложный этап на микро-ступени с отдельными чек-точками.",
+		"Добавить годовой follow-up выпускников.",
+		"Собрать online-каталог ученических работ для ярмарок."
+	]
+	},
+	reportUrl:"https://example.org/otchet/filigran",
+	docs:{
+		plan:["plan-filigran.pdf"],
+		tree:[],
+		lmp:[],
+		toolkitTz:[],
+		analysisTz:[],
+		tools:[],
+		brief:["brief-filigran.pdf"],
+		video:["video-filigran.mp4"],
+		pres:[]
+	},
+	contact:"https://example.org/filigran",
+	origin:"таблица заказчика",
+	updated:"22.09.2026",
 	tags:["Филигрань"],
-	origin:"",
-	updated:"",
 	relatedTools:[],
-	relatedCases:[]
+	relatedCases:["tancevalnyi-skaz"]
 },
+
 {
 	id:"shalyapin-rozhdenie-hudozhnika",
 	num:10,
 	title:"Шаляпин. Рождение  художника",
-	shortDesc:"",
-	keyConclusion:"",
 	values:["grazhdanstvennost", "sozidatelnyi-trud", "istoricheskaya-pamyat"],
 	results:[],
-	projectType:"",
-	projectTypes:[],
-	audienceType:[],
-	audience:"",
-	region:"",
-	evalStage:"",
-	org:"",
-	period:"",
-	geo:"",
-	targetGroup:"",
-	evalGoal:"",
-	measurableEffects:"",
-	valueImpact:"",
-	evalApproach:"",
-	criteria:[],
-	collectionMethods:[],
-	collectionMethodsDesc:"",
-	analysisMethods:[],
-	analysisMethodsDesc:"",
-	questions:[],
-	useResults:"",
-	lessons:{good:[], bad:[], reco:[]},
+	shortDesc:"Межмузейный проект о становлении Фёдора Шаляпина: юношеские годы, документы, музыкальные интерактивы и гастрольный маршрут.",
+	keyConclusion:"Музыкальные интерактивы и юношеские письма дали сильный эмоциональный вход — аудитория лучше считывала биографию через «голос», а не через витрины.",
+	projectType:"Выставка/паблик арт/мурал | Интерактив",
+	projectTypes:["Выставка/паблик арт/мурал", "Интерактив"],
+	audienceType:["Молодёжь", "Дети", "Профессиональное сообщество", "Местное сообщество"],
+	audience:"Дети | Молодёжь | Местное сообщество | Профессиональное сообщество",
+	region:"Республика Татарстан",
+	evalStage:"Итоговая",
+	org:"Мемориальный музей-усадьба Ф. И. Шаляпина",
+	period:"10.03.2025 - 15.09.2025",
+	geo:"г. Казань, Республика Татарстан",
+	targetGroup:"молодёжь 15–30 лет\nшкольники и студенты\nспециалисты музеев\nгастрономические и культурные туристы",
+	evalGoal:"Оценить, какие элементы экспозиции формируют эмоциональное включение в биографию.\n\nПроверить гипотезу о приоритете звуковых интерактивов над текстовыми.",
+	measurableEffects:"Рост времени пребывания у звуковых станций\n\nДоля посетителей, досмотревших маршрут до конца\n\nПоложительные упоминания интерактивов в отзывах",
+	valueImpact:"Аудитория связывает классическое искусство с личным, «юношеским» опытом.\n\nПрофессиональное сообщество обменивается практиками интерактивов.",
+	evalApproach:"Итоговая оценка: аналитика датчиков и смарт-голосований, опрос на выходе, контент-анотация отзывов, наблюдение.",
+	criteria:["Актуальность", "Эффективность", "Воздействие"],
+	collectionMethods:["Социологические", "Качественные", "Наблюдение"],
+	collectionMethodsDesc:"Опрос на выходе, датчики времени у станций, наблюдение за маршрутами, сбор отзывов (стена + онлайн).",
+	analysisMethods:["Описательный (в т.ч. описательная статистика)", "Качественный анализ"],
+	analysisMethodsDesc:"Сравнение среднего времени у станций, тематический анализ отзывов, карта «горячих» точек маршрута.",
+	questions:[
+		"КОВ 1: Удерживают ли звуковые интерактивы внимание дольше текстовых блоков?\nКритерий оценки: Эффективность\nВывод: среднее время у звуковых станций — 3.4 мин, у текстовых — 1.1 мин.",
+		"КОВ 2: Формирует ли юношеская линия биографии эмоциональное включение?\nКритерий оценки: Воздействие\nВывод: 64% отзывов содержат личные ассоциации («я тоже мечтал…») и эмоциональные маркеры."
+	],
+	useResults:"Расширить звуковой блок в постоянной экспозиции\n\nСократить длинные текстовые панели, оставив QR на расширенные версии\n\nСделать digital-сбор отзывов с аналитикой тем",
+	lessons:{
+		good:[
+		"Звуковые интерактивы давали резкий рост времени у экспонатов.",
+		"Письма юношеских лет читались лучше в формате «голос + текст».",
+		"Опрос на выходе с QR собирался без интервьюеров."
+	],
+		bad:[
+		"В часы пик у звуковых станций образовывались очереди.",
+		"Часть текстовых панелей была слишком плотной для школьников.",
+		"Нет данных по туристам, вошедшим «в проходе»."
+	],
+		reco:[
+		"Дублировать звуковые станции гарнитурами для пиковых часов.",
+		"Сделать «школьную» версию панелей рядом с полной.",
+		"Добавить короткий опрос для транзитных посетителей."
+	]
+	},
 	reportUrl:"",
-	docs:{plan:[], tree:[], lmp:[], toolkitTz:[], analysisTz:[], tools:[], brief:[], video:[], pres:[]},
-	contact:"",
+	docs:{
+		plan:["plan-shalyapin.pdf"],
+		tree:[],
+		lmp:[],
+		toolkitTz:[],
+		analysisTz:["tz-analiz-shalyapin.docx"],
+		tools:[],
+		brief:["brief-shalyapin.pdf"],
+		video:[],
+		pres:["pres-shalyapin.pdf"]
+	},
+	contact:"https://example.org/shalyapin",
+	origin:"таблица заказчика",
+	updated:"23.09.2026",
 	tags:["Шаляпин", "Рождение", "художника"],
-	origin:"",
-	updated:"",
-	relatedTools:[],
-	relatedCases:[]
+	relatedTools:["anketa-postfestival-opros"],
+	relatedCases:["knizhnyi-festival", "filigran"]
 }
 ];
 
@@ -3041,8 +3318,15 @@ function relatedBlockHtml(title, list, type, force){
   </div>`;
 }
 
+function shadeHex(hex,amt){
+  var h=String(hex).replace('#',''); if(h.length===3) h=h.split('').map(c=>c+c).join('');
+  var r=parseInt(h.slice(0,2),16)||0,g=parseInt(h.slice(2,4),16)||0,b=parseInt(h.slice(4,6),16)||0;
+  var f=function(v){ if(amt>=0) v=v+(255-v)*amt; else v=v*(1+amt); return Math.max(0,Math.min(255,Math.round(v))); };
+  return '#'+[f(r),f(g),f(b)].map(function(v){return v.toString(16).padStart(2,'0');}).join('');
+}
 function detailHero(o){
-  return `<div class="case-hero" style="background:linear-gradient(90deg,#ffffff 0%,#ffffff 60.37%,${o.tint} 100%);">
+  const grad = o.grad || `linear-gradient(90deg,${shadeHex(o.tint,-0.4)},${shadeHex(o.tint,0.2)})`;
+  return `<div class="case-hero" style="background:${grad};">
     <div class="case-hero-top"><span class="type-badge" style="background:${o.pill};border-radius:6px;padding:6px 7px;">${o.badge}</span>${o.topExtra||''}</div>
     <h1>${o.title}</h1>
     ${o.lead?`<p class="case-hero-lead">${o.lead}</p>`:''}
@@ -3141,7 +3425,7 @@ function renderCaseDetail(id){
   app.innerHTML = `
   <div class="wrap wrap-narrow fade-in case-page">
     <div class="crumbs"><a href="#/">ЯККИ</a><span class="sep">/</span><a href="#/section/cases">Кейсы проектов</a><span class="sep">/</span><span>${c.title}</span></div>
-    ${detailHero({pill:SECTIONS.cases.pill,badge:'Кейс проекта',topExtra:(c.values.length&&byId(VALUES,c.values[0]))?`<span class="case-hero-value">${byId(VALUES,c.values[0]).title}</span>`:'',title:c.title,lead:c.shortDesc,cta:`<button class="btn btn-primary" onclick="downloadAsMarkdown('case','${c.id}')">Скачать .md</button>`,meta:c.values.map(v=>{const val=byId(VALUES,v);return val?`<a class="chip" data-nav="#/value/${val.id}">♦ ${val.title}</a>`:'';}).filter(Boolean).join(''),tint:'#A038B0'})}
+    ${detailHero({pill:SECTIONS.cases.pill,badge:'Кейс проекта',topExtra:(c.values.length&&byId(VALUES,c.values[0]))?`<span class="case-hero-value">${byId(VALUES,c.values[0]).title}</span>`:'',title:c.title,lead:c.shortDesc,cta:`<button class="btn btn-primary" onclick="downloadAsMarkdown('case','${c.id}')">Скачать .md</button>`,meta:c.values.map(v=>{const val=byId(VALUES,v);return val?`<a class="chip" data-nav="#/value/${val.id}">♦ ${val.title}</a>`:'';}).filter(Boolean).join(''),tint:'#A038B0',grad:'var(--gradient-cases)'})}
     <div class="detail-grid case-grid">
       <div>
         <div class="block"><h2>О проекте</h2>
@@ -3241,7 +3525,7 @@ function renderToolDetail(id){
   app.innerHTML = `
   <div class="wrap wrap-narrow fade-in">
     <div class="crumbs"><a href="#/">ЯККИ</a><span class="sep">/</span><a href="#/section/all">Все материалы</a><span class="sep">/</span><a href="#/section/tools">Инструменты</a><span class="sep">/</span><span>${t.title}</span></div>
-    ${detailHero({pill:SECTIONS.tools.pill,badge:(t.toolType||t.type||'Инструмент'),topExtra:'',title:t.title,lead:t.shortDesc,cta:`<button class="btn btn-primary" onclick="downloadAsMarkdown('tool','${t.id}')">Скачать .md</button>`,meta:t.values.map(v=>{const val=byId(VALUES,v);return val?`<a class="chip" data-nav="#/value/${val.id}">♦ ${val.title}</a>`:'';}).filter(Boolean).join(''),tint:'#F78E45'})}
+    ${detailHero({pill:SECTIONS.tools.pill,badge:(t.toolType||t.type||'Инструмент'),topExtra:'',title:t.title,lead:t.shortDesc,cta:`<button class="btn btn-primary" onclick="downloadAsMarkdown('tool','${t.id}')">Скачать .md</button>`,meta:t.values.map(v=>{const val=byId(VALUES,v);return val?`<a class="chip" data-nav="#/value/${val.id}">♦ ${val.title}</a>`:'';}).filter(Boolean).join(''),tint:'#F78E45',grad:'var(--gradient-tools)'})}
     <div class="detail-grid case-grid">
       <div>
         <div class="block"><h2>Характеристика</h2>
@@ -3306,7 +3590,7 @@ function renderMethodologyDetail(id){
   app.innerHTML = `
   <div class="wrap wrap-narrow fade-in">
     <div class="crumbs"><a href="#/">ЯККИ</a><span class="sep">/</span><a href="#/section/all">Все материалы</a><span class="sep">/</span><a href="#/section/methodology">Методики</a><span class="sep">/</span><span>${m.title}</span></div>
-    ${detailHero({pill:SECTIONS.methodology.pill,badge:m.sub,topExtra:originHtml,title:m.title,lead:m.shortDesc,cta:`<button class="btn btn-primary" onclick="downloadAsMarkdown('methodology','${m.id}')">Скачать .md</button>`,meta:valuesHtml,tint:'#4F2B85'})}
+    ${detailHero({pill:SECTIONS.methodology.pill,badge:m.sub,topExtra:originHtml,title:m.title,lead:m.shortDesc,cta:`<button class="btn btn-primary" onclick="downloadAsMarkdown('methodology','${m.id}')">Скачать .md</button>`,meta:valuesHtml,tint:'#4F2B85',grad:'linear-gradient(90deg,#2A1547 0%,#7B5BBF 100%)'})}
     <div class="detail-grid case-grid">
       <div>
         ${m.fullDesc ? `<div class="block"><h2>О подходе</h2><p style="font-size:14px;line-height:1.6;">${m.fullDesc}</p></div>` : ''}
@@ -3336,7 +3620,7 @@ function renderTemplateDetail(id){
   app.innerHTML = `
   <div class="wrap wrap-narrow fade-in">
     <div class="crumbs"><a href="#/">ЯККИ</a><span class="sep">/</span><a href="#/section/all">Все материалы</a><span class="sep">/</span><a href="#/section/templates">Шаблоны и образцы</a><span class="sep">/</span><span>${t.title}</span></div>
-    ${detailHero({pill:SECTIONS.templates.pill,badge:'Шаблон',topExtra:levelHtml,title:t.title,lead:t.shortDesc,cta:`<button class="btn btn-primary" onclick="downloadAsMarkdown('template','${t.id}')">Скачать .md</button>${t.promptLink?` <a class="btn btn-ghost" href="${t.promptLink}" target="_blank" rel="noopener">Скачать промт →</a>`:''}`,meta:'',tint:'#1E9E8F'})}
+    ${detailHero({pill:SECTIONS.templates.pill,badge:'Шаблон',topExtra:levelHtml,title:t.title,lead:t.shortDesc,cta:`<button class="btn btn-primary" onclick="downloadAsMarkdown('template','${t.id}')">Скачать .md</button>${t.promptLink?` <a class="btn btn-ghost" href="${t.promptLink}" target="_blank" rel="noopener">Скачать промт →</a>`:''}`,meta:'',tint:'#1E9E8F',grad:'linear-gradient(90deg,#0F5F5A 0%,#2FBFB0 100%)'})}
     <div class="detail-grid case-grid">
       <div>
         <div class="block"><h2>Когда использовать</h2><p style="font-size:14px;">${t.when}</p></div>
@@ -3367,7 +3651,7 @@ function renderAssessmentDocDetail(id){
   app.innerHTML = `
   <div class="wrap wrap-narrow fade-in">
     <div class="crumbs"><a href="#/">ЯККИ</a><span class="sep">/</span><a href="#/section/all">Все материалы</a><span class="sep">/</span><a href="#/section/assessmentDocs">Документы оценки</a><span class="sep">/</span><span>${d.title}</span></div>
-    ${detailHero({pill:SECTIONS.assessmentDocs.pill,badge:d.docType,topExtra:'',title:d.title,lead:d.shortDesc,cta:'',meta:'',tint:'#7C5CD6'})}
+    ${detailHero({pill:SECTIONS.assessmentDocs.pill,badge:d.docType,topExtra:'',title:d.title,lead:d.shortDesc,cta:'',meta:'',tint:'#7C5CD6',grad:'linear-gradient(90deg,#453099 0%,#9B85E8 100%)'})}
     <div class="detail-grid case-grid">
       <div>
         <div class="block"><h2>О документе</h2>
@@ -3508,7 +3792,7 @@ function renderGlossaryTerm(term){
   if(!t){ app.innerHTML = notFound(); return; }
   app.innerHTML = `<div class="wrap wrap-narrow fade-in">
     <div class="crumbs"><a href="#/">ЯККИ</a><span class="sep">/</span><a href="#/glossary">Глоссарий</a><span class="sep">/</span><span>${t.term}</span></div>
-    ${detailHero({pill:SECTIONS.glossary.pill,badge:'Термин',topExtra:'',title:t.term,lead:'',cta:'',meta:'',tint:'#976E2B'})}
+    ${detailHero({pill:SECTIONS.glossary.pill,badge:'Термин',topExtra:'',title:t.term,lead:'',cta:'',meta:'',tint:'#976E2B',grad:'linear-gradient(90deg,#5A4219 0%,#B8923F 100%)'})}
     <div class="detail-grid case-grid">
       <div><div class="block"><h2>Определение</h2><p style="font-size:15px;line-height:1.6;">${t.def}</p></div></div>
       <div>${t.seeAlso.length?`<div class="sidebar-box"><h4>См. также</h4>${t.seeAlso.map(s=>`<a class="related-item" data-nav="#/glossary/${encodeURIComponent(s)}"><span class="rt">${s}</span></a>`).join('')}</div>`:''}</div>
@@ -3580,7 +3864,7 @@ function renderValueDetail(id){
   const totalMaterials = keyCases.length + tools.length + linkedResults.length;
   app.innerHTML = `<div class="wrap wrap-narrow fade-in">
     <div class="crumbs"><a href="#/">ЯККИ</a><span class="sep">/</span><a href="#/values">Ценности</a><span class="sep">/</span><span>${v.title}</span></div>
-    ${detailHero({pill:SECTIONS.values.pill,badge:'Ценность',topExtra:'',title:v.title,lead:v.desc,cta:'',meta:'',tint:'#A02060'})}
+    ${detailHero({pill:SECTIONS.values.pill,badge:'Ценность',topExtra:'',title:v.title,lead:v.desc,cta:'',meta:'',tint:'#A02060',grad:'linear-gradient(90deg,#5E1238 0%,#C94A7E 100%)'})}
     <div class="section-pad" style="padding-top:32px;">
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:28px;">
         <a class="btn btn-primary btn-sm" href="#/section/all?value=${id}">Все материалы по этой ценности (${totalMaterials}) →</a>
@@ -3892,7 +4176,7 @@ function renderResultDetail(apprIdx,areaIdx,resultIdx){
 
   document.getElementById('app').innerHTML = `<div class="wrap wrap-narrow fade-in">
     <div class="crumbs"><a href="#/">ЯККИ</a><span class="sep">/</span><a href="#/results">Банк результатов</a><span class="sep">/</span><span>${String(resultText).substring(0,50)}…</span></div>
-    ${detailHero({pill:SECTIONS.results.pill,badge:'Результат',topExtra:'',title:resultText,lead:result.text!==result.title?result.text:'',cta:`<button class="btn btn-primary" onclick="exportResultsForAI()">Скачать для ИИ (JSON)</button>`,meta:valNames.join(''),tint:'#2E7FC2'})}
+    ${detailHero({pill:SECTIONS.results.pill,badge:'Результат',topExtra:'',title:resultText,lead:result.text!==result.title?result.text:'',cta:`<button class="btn btn-primary" onclick="exportResultsForAI()">Скачать для ИИ (JSON)</button>`,meta:valNames.join(''),tint:'#2E7FC2',grad:'var(--gradient-results)'})}
     <div class="detail-grid case-grid">
       <div>
         <div class="block"><h2>Характеристика результата</h2>
