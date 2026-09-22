@@ -540,14 +540,20 @@ body.pg-all .paint-stroke,body.pg-cases .paint-stroke,body.pg-tools .paint-strok
 .paint-stroke.tr{top:-40px;right:20px;width:380px;height:440px;background-image:url(assets/stroke-blue.png);}
 .paint-stroke.bl{left:-140px;bottom:60px;width:480px;height:520px;background-image:url(assets/stroke-blue.png);}
 main{position:relative;z-index:1;}
-body.pg-all #strokeTr{transform:rotate(-14deg);}
+body.pg-all #strokeTr{transform:rotate(-14deg);right:-25px;}
 body.pg-all #strokeBl{background-image:url(assets/stroke-orange.png);transform:rotate(-172deg);}
-body.pg-cases #strokeTr{display:none;}
+body.pg-home #strokeTr{background-image:url(assets/stroke-periwinkle.png);top:560px;right:-30px;width:380px;height:160px;}
+body.pg-home #strokeBl{display:none;}
+body.pg-methodology #strokeTr{background-image:url(assets/stroke-maroon.png);top:-40px;right:20px;width:340px;height:430px;}
+body.pg-methodology #strokeBl{display:none;}
+body.pg-templates #strokeTr{background-image:url(assets/stroke-teal.png);top:-40px;right:20px;width:340px;height:485px;}
+body.pg-templates #strokeBl{display:none;}
+body.pg-cases #strokeTr{display:block;background-image:url(assets/stroke-terracotta.png);top:-30px;right:40px;width:200px;height:186px;}
 body.pg-cases #strokeBl{background-image:url(assets/stroke-green.png);transform:rotate(-18deg);}
 body.pg-tools #strokeTr{background-image:url(assets/stroke-yellow.png);top:-20px;right:37px;width:311px;height:358px;}
 body.pg-tools #strokeBl{display:none;}
 body.pg-values #strokeTr{display:none;}
-body.pg-values #strokeBl{background-image:url(assets/stroke-sky.png);left:auto;right:-100px;bottom:40px;width:420px;height:420px;}
+body.pg-values #strokeBl{background-image:url(assets/stroke-sky.png);left:auto;right:-60px;bottom:-100px;width:460px;height:460px;}
 body.pg-case #strokeTr,body.pg-case #strokeBl{display:none;}
 @media (max-width:760px){.paint-stroke.tr{width:240px;height:280px;right:-30px;top:-20px;}.paint-stroke.bl{display:none;}}
 
@@ -1716,7 +1722,9 @@ function downloadAsMarkdown(type, id){
   a.download = `${type}-${id}.md`; a.click();
 }
 function doHeaderSearch(){
-  const v = document.getElementById('headerSearchInput').value.trim();
+  const el = document.getElementById('headerSearchInput');
+  if(!el) return;
+  const v = el.value.trim();
   if(!v){go('#/search');return;}
   go('#/search?q='+encodeURIComponent(v));
 }
@@ -3538,9 +3546,12 @@ function renderResultDetail(apprIdx,areaIdx,resultIdx){
 
 function pageClass(parts){
   const a = parts[0]||'', b = parts[1]||'';
+  if(!a) return 'pg-home';
   if(a==='section' && b==='all') return 'pg-all';
   if(a==='section' && b==='cases') return 'pg-cases';
   if(a==='section' && b==='tools') return 'pg-tools';
+  if(a==='section' && b==='methodology') return 'pg-methodology';
+  if(a==='section' && b==='templates') return 'pg-templates';
   if(a==='values' || a==='value') return 'pg-values';
   if(a==='results') return 'pg-results';
   if(a==='card' && b==='case') return 'pg-case';
