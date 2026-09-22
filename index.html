@@ -3118,7 +3118,7 @@ function renderValues(){
         const n = nCases + nTools + nMethod + nResults;
         return `<a class="value-card" data-nav="#/value/${v.id}" style="text-decoration:none;color:inherit;display:block;">
           <div class="n">♦ ЦЕННОСТЬ</div><h3>${v.title}</h3><p>${v.desc}</p>
-          <div class="link-count">${n} связанных материал${n===1?'':n<5?'а':'ов'}</div>
+          <div class="link-count">${n} материал${n===1?'':n<5?'а':'ов'}</div>
           <span class="go" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg></span>
         </a>`;
       }).join('')}
