@@ -605,15 +605,15 @@ table.qtable td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-al
 .values-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:26px;}
 @media (max-width:860px){.values-grid{grid-template-columns:repeat(2,1fr);}}
 @media (max-width:560px){.values-grid{grid-template-columns:1fr;}}
-.value-card{display:block;position:relative;background:var(--color-surface);border:none;border-radius:12px;padding:24px;height:350px;overflow:hidden;cursor:pointer;transition:transform .15s ease,box-shadow .15s ease;}
-.value-card:hover{transform:translateY(-2px);box-shadow:var(--shadow);}
+.value-card{position:relative;background:var(--color-surface);border:none;border-radius:6px;padding:24px 24px 96px;min-height:300px;transition:transform .18s ease,box-shadow .18s ease;}
+.value-card:hover{transform:translateY(-3px);box-shadow:0 13px 27px -5px rgb(99 173 242 / 24%),0 8px 16px -8px rgb(99 173 242 / 30%);}
 .value-card .n{display:none;}
-.value-card .card-body{height:100%;display:flex;flex-direction:column;min-width:0;padding:0;}
-.value-card h3{font-family:var(--font-body);font-weight:700;font-size:22px;line-height:1.15;color:var(--color-ink);overflow-wrap:break-word;hyphens:auto;}
-.value-card .desc{font-size:15px;font-weight:400;color:var(--ink-soft);margin-top:12px;line-height:1.4;display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden;}
-.value-card .link-count{margin:auto 0 0;padding-top:12px;font-size:13.5px;font-weight:500;color:var(--yakki-purple);display:flex;align-items:center;gap:8px;}
-.value-card .link-count::before{content:'';width:2px;height:14px;background:currentColor;opacity:.55;border-radius:2px;}
-.value-card .go{display:none;}
+.value-card h3{font-family:var(--font-body);font-weight:700;font-size:24px;line-height:1.15;color:var(--color-ink);overflow-wrap:break-word;hyphens:auto;}
+.value-card p{font-size:16px;font-weight:300;color:var(--ink-soft);margin-top:12px;line-height:1.4;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;}
+.value-card .link-count{position:absolute;left:24px;bottom:24px;margin:0;font-size:18px;font-weight:600;color:var(--color-blue);}
+.value-card .go{position:absolute;right:24px;bottom:24px;width:54px;height:54px;border-radius:6px;background:var(--color-blue);display:flex;align-items:center;justify-content:center;transition:background .18s ease;}
+.value-card:hover .link-count{color:var(--color-purple-dark);}
+.value-card:hover .go{background:var(--color-purple-dark);}
 /* tinted page band (values) */
 .page-tint{background:#F5F3F8;padding-bottom:4px;}
 
@@ -874,7 +874,9 @@ body.pg-case #strokeTr,body.pg-case #strokeBl{display:none;}
   .values-grid{gap:12px;}
   .value-card{padding:20px;height:auto;min-height:230px;}
   .value-card h3{font-size:20px !important;}
-  .value-card .desc{font-size:14px;}
+  .value-card p{font-size:14px;}
+  .value-card .link-count{left:20px;bottom:20px;}
+  .value-card .go{right:20px;bottom:20px;}
 }
 
 /* --- Results tree --- */
@@ -4128,12 +4130,9 @@ function renderValues(){
         RESULTS_TREE.forEach(appr=>appr.influenceAreas.forEach(area=>area.results.forEach(r=>{if(r.values&&r.values.includes(v.id)) nResults++;})));
         const n = nCases + nTools + nMethod + nResults;
         return `<a class="value-card" data-nav="#/value/${v.id}" style="text-decoration:none;color:inherit;display:block;">
-          <div class="card-body">
-            <div class="card-topline"><span class="type-badge" style="background:#6B5B95;">♦ Ценность</span></div>
-            <div class="card-head"><h3>${v.title}</h3></div>
-            <div class="desc">${v.desc}</div>
-            <div class="link-count">${n} материал${n===1?'':n<5?'а':'ов'}</div>
-          </div>
+          <div class="n">♦ ЦЕННОСТЬ</div><h3>${v.title}</h3><p>${v.desc}</p>
+          <div class="link-count">${n} материал${n===1?'':n<5?'а':'ов'}</div>
+          <span class="go" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg></span>
         </a>`;
       }).join('')}
     </div>
@@ -4191,20 +4190,14 @@ function renderValueDetail(id){
         </div>
         <div style="margin-top:16px;"><button class="btn btn-ghost btn-sm" onclick="goToResultsForValue('${id}')">Все результаты</button></div>
         </div>` : ''}
-        ${bestCases.length ? `<div class="block"><h2>Ключевые кейсы</h2>
-        <div class="card-list">${renderCardList('cases',bestCases)}</div>
-        <div style="margin-top:12px;"><a class="btn btn-ghost btn-sm" href="#/section/cases?value=${id}">Все кейсы</a></div>
-        </div>` : ''}
-        ${bestTools.length ? `<div class="block"><h2>Ключевые инструменты</h2>
-        <div class="card-list">${renderCardList('tools',bestTools)}</div>
-        <div style="margin-top:12px;"><a class="btn btn-ghost btn-sm" href="#/section/tools?value=${id}">Все инструменты</a></div>
-        </div>` : ''}
-        <div style="margin-top:8px;"><a class="btn btn-primary btn-sm" href="#/section/all?value=${id}">Все материалы по этой ценности (${totalMaterials}) →</a></div>
       </div>
       <div>
         ${valueNavHtml}
       </div>
     </div>
+    ${bestCases.length ? relatedCollectionHtml('Ключевые кейсы', bestCases, 'cases', 'Все кейсы', '#/section/cases?value='+id) : ''}
+    ${bestTools.length ? relatedCollectionHtml('Ключевые инструменты', bestTools, 'tools', 'Все инструменты', '#/section/tools?value='+id) : ''}
+    <div style="margin-top:16px;"><a class="btn btn-primary btn-sm" href="#/section/all?value=${id}">Все материалы по этой ценности (${totalMaterials}) →</a></div>
     <a class="back-link" href="#/values">← Ко всем ценностям</a>
   </div>`;
 }
