@@ -367,6 +367,7 @@ main{min-height:60vh;padding-bottom:100px;}
 .detail-meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;}
 .detail-actions{display:flex;gap:10px;flex-shrink:0;}
 .detail-grid{display:grid;grid-template-columns:1fr 300px;gap:32px;margin-top:32px;align-items:start;}
+.detail-grid>*{min-width:0;}
 @media (max-width:900px){.detail-grid{grid-template-columns:1fr;}}
 .block{background:var(--paper-raised);border:1px solid var(--line);border-radius:12px;padding:30px 36px;margin-bottom:18px;}
 .block h2{font-size:30px;font-weight:700;color:var(--color-ink);margin-bottom:20px;}
@@ -836,10 +837,13 @@ body.pg-case #strokeTr,body.pg-case #strokeBl{display:none;}
 }
 
 /* --- Filter toggle (mobile) --- */
+.filter-toggle{display:none;width:100%;margin-bottom:8px;min-height:44px;justify-content:center;}
 @media (max-width:860px){
   .filter-toggle{display:flex;}
   .filters{display:none;}
   .filters.filter-open{display:block;position:static;margin-top:12px;}
+  .filters .actions{flex-wrap:wrap;}
+  .filters .actions .btn{width:100%;flex:1 1 100%;min-height:44px;}
 }
 
 /* --- Detail page actions --- */
@@ -2209,7 +2213,7 @@ const DOC_TYPES = ['План оценки','ЛМП','ТЗ на инструме�
 /* ============================================================
    СОСТОЯНИЕ И МАРШРУТИЗАЦИЯ
    ============================================================ */
-const state = { audience:'all', startPath:'newbie', startScenario:'plan', filters:{cases:{}, tools:{}, methodology:{}, templates:{}}, resultsSel:{approach:null, area:null} };
+const state = { audience:'all', startPath:'newbie', startScenario:'plan', filters:{cases:{}, tools:{}, methodology:{}, templates:{}}, resultsSel:{approach:null, area:null}, filtersOpen:false };
 
 function byId(arr,id){return arr.find(x=>x.id===id);}
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
@@ -2734,7 +2738,7 @@ function renderSection(key){
 
   const sectionParams = new URLSearchParams(window.location.hash.split('?')[1]||'');
   if(!isAll && [...sectionParams].length){
-    const keyToParams = {cases:['projectType','audienceType','region','evalStage','value'], tools:['type','method','projectType','status','evalStage','value'], methodology:['sub','value'], templates:['templateType','evalStage','format','value']};
+    const keyToParams = {cases:['projectType','audienceType','region','evalStage','value'], tools:['type','method','projectType','status','evalStage','value'], methodology:['sub','value'], templates:['templateType','evalStage','format','value'], assessmentDocs:['docType','projectType','caseId']};
     const f = state.filters[key] || (state.filters[key]={});
     Object.keys(f).forEach(k=>{ f[k]=null; });
     (keyToParams[key]||[]).forEach(k=>{ f[k]=sectionParams.get(k)||null; });
@@ -2767,8 +2771,8 @@ function renderSection(key){
         <h1 style="margin-top:0;">${s.label}</h1>
       </div>
       <div class="catalog-body">
-        <button class="btn btn-ghost btn-sm filter-toggle" style="display:none;width:100%;margin-bottom:8px;" data-closed="Показать фильтры (${activeFilterCount(state.filters[key])}) ▼" onclick="const t=this;if(t.textContent.includes('Показать')){t.dataset.closed=t.textContent;t.textContent='Скрыть фильтры ▲';}else{t.textContent=t.dataset.closed;}document.querySelector('.filters').classList.toggle('filter-open')">Показать фильтры (${activeFilterCount(state.filters[key])}) ▼</button>
-        <div class="filters">
+        <button class="btn btn-ghost btn-sm filter-toggle" data-count="${activeFilterCount(state.filters[key])}" onclick="toggleFilters(this)">${state.filtersOpen?'Скрыть фильтры ▲':`Показать фильтры (${activeFilterCount(state.filters[key])}) ▼`}</button>
+        <div class="filters${state.filtersOpen?' filter-open':''}">
           <div class="local-search">
             <input id="localSearch" value="${esc((state.filters[key]&&state.filters[key].q)||'')}" placeholder="Искать в разделе «${s.short}»…" oninput="localSearchFilter('${key}')">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#706e73" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
@@ -2857,7 +2861,6 @@ function renderSection(key){
     templates: filterPanelTemplatesAll
   };
   const typePanelHtml = typeParam && allFilterPanels[typeParam] ? allFilterPanels[typeParam]() : '';
-  const valTitle = valueFilter ? ((byId(VALUES,valueFilter)||{}).title||valueFilter) : '';
   const activeN = activeFilterCount(state.filters[typeParam])+(valueFilter?1:0);
 
   const sLabel = 'Все материалы';
@@ -2868,8 +2871,8 @@ function renderSection(key){
       <h1 style="margin-top:0;">${sLabel}</h1>
     </div>
     <div class="catalog-body">
-      <button class="btn btn-ghost btn-sm filter-toggle" style="display:none;width:100%;margin-bottom:8px;" data-closed="Показать фильтры (${activeN}) ▼" onclick="const t=this;if(t.textContent.includes('Показать')){t.dataset.closed=t.textContent;t.textContent='Скрыть фильтры ▲';}else{t.textContent=t.dataset.closed;}document.querySelector('.filters').classList.toggle('filter-open')">Показать фильтры (${activeN}) ▼</button>
-      <div class="filters">
+      <button class="btn btn-ghost btn-sm filter-toggle" data-count="${activeN}" onclick="toggleFilters(this)">${state.filtersOpen?'Скрыть фильтры ▲':`Показать фильтры (${activeN}) ▼`}</button>
+      <div class="filters${state.filtersOpen?' filter-open':''}">
         <div class="local-search">
           <input id="allLocalSearch" placeholder="Поиск по всем материалам…" value="${esc(q)}" oninput="localSearchFilter('all')">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#706e73" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
@@ -2888,7 +2891,6 @@ function renderSection(key){
         </div>
         ${typePanelHtml}
         <div class="actions">
-          ${valueFilter?`<span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;background:var(--navy);color:#fff;border-radius:999px;padding:4px 10px;margin-right:8px;">Ценность: ${esc(valTitle)} <button type="button" onclick="filterAllClearValue()" style="background:none;border:none;color:#fff;cursor:pointer;font-size:14px;line-height:1;padding:0;" aria-label="Сбросить">×</button></span>`:''}
           <button class="btn btn-ghost btn-sm" onclick="go('#/section/all')">Сбросить фильтры</button>
         </div>
       </div>
@@ -2928,6 +2930,24 @@ function filterTools(){
 function activeFilterCount(f){
   if(!f) return 0;
   return Object.keys(f).filter(k=>{const v=f[k];return v!==null&&v!==undefined&&v!=='';}).length;
+}
+function toggleFilters(btn){
+  state.filtersOpen = !state.filtersOpen;
+  const n = btn.dataset.count||0;
+  btn.textContent = state.filtersOpen ? 'Скрыть фильтры ▲' : `Показать фильтры (${n}) ▼`;
+  const panel = document.querySelector('.filters');
+  if(panel) panel.classList.toggle('filter-open', state.filtersOpen);
+}
+function sectionFilterApply(key){
+  const f = state.filters[key]||{};
+  const params = new URLSearchParams();
+  Object.entries(f).forEach(([k,v])=>{
+    if(v!==null&&v!==undefined&&v!=='') params.set(k, String(v));
+  });
+  const qs = params.toString();
+  const target = '#/section/'+key+(qs?'?'+qs:'');
+  if(location.hash===target) renderSection(key);
+  else go(target);
 }
 function localSearchFilter(key){
   if(key==='all'){
@@ -3032,32 +3052,32 @@ function filterPanelCases(){
       <option value="#/section/cases" selected>Кейсы проектов</option>
     </select></div>
   <div class="filter-group"><label>Тип проекта</label>
-    <select onchange="state.filters.cases.projectType=this.value||null;renderSection('cases')">
+    <select onchange="state.filters.cases.projectType=this.value||null;sectionFilterApply('cases')">
       <option value="">Все типы</option>
       ${projTypes.map(t=>`<option ${f.projectType===t?'selected':''}>${t}</option>`).join('')}
     </select></div>
   <div class="filter-group"><label>Целевая аудитория</label>
-    <select onchange="state.filters.cases.audienceType=this.value||null;renderSection('cases')">
+    <select onchange="state.filters.cases.audienceType=this.value||null;sectionFilterApply('cases')">
       <option value="">Любая</option>
       ${AUDIENCE_TYPES.map(t=>`<option ${f.audienceType===t?'selected':''}>${t}</option>`).join('')}
     </select></div>
   <div class="filter-group"><label>Регион / география</label>
-    <select onchange="state.filters.cases.region=this.value||null;renderSection('cases')">
+    <select onchange="state.filters.cases.region=this.value||null;sectionFilterApply('cases')">
       <option value="">Все регионы</option>
       ${regions.map(r=>`<option ${f.region===r?'selected':''}>${r}</option>`).join('')}
     </select></div>
   <div class="filter-group"><label>Этап оценки</label>
-    <select onchange="state.filters.cases.evalStage=this.value||null;renderSection('cases')">
+    <select onchange="state.filters.cases.evalStage=this.value||null;sectionFilterApply('cases')">
       <option value="">Все этапы</option>
       ${caseEvalStages.map(s=>`<option ${f.evalStage===s?'selected':''}>${s}</option>`).join('')}
     </select></div>
   <div class="filter-group"><label>Ценность</label>
-    <select onchange="state.filters.cases.value=this.value||null;renderSection('cases')">
+    <select onchange="state.filters.cases.value=this.value||null;sectionFilterApply('cases')">
       <option value="">Любая ценность</option>
       ${VALUES.map(v=>`<option value="${v.id}" ${f.value===v.id?'selected':''}>${v.title}</option>`).join('')}
     </select></div>
   <div class="actions">
-    <button class="btn btn-ghost btn-sm" onclick="state.filters.cases={};renderSection('cases')">Сбросить фильтры</button>
+    <button class="btn btn-ghost btn-sm" onclick="state.filters.cases={};sectionFilterApply('cases')">Сбросить фильтры</button>
   </div>`;
 }
 function filterPanelTools(){
@@ -3074,37 +3094,37 @@ function filterPanelTools(){
       <option value="#/section/tools" selected>Инструменты</option>
     </select></div>
   <div class="filter-group"><label>Тип инструмента</label>
-    <select onchange="state.filters.tools.type=this.value||null;renderSection('tools')">
+    <select onchange="state.filters.tools.type=this.value||null;sectionFilterApply('tools')">
       <option value="">Все типы</option>
       ${toolTypeOpts.map(t=>`<option ${f.type===t?'selected':''}>${t}</option>`).join('')}
     </select></div>
   <div class="filter-group"><label>Метод / подтип</label>
-    <select onchange="state.filters.tools.method=this.value||null;renderSection('tools')">
+    <select onchange="state.filters.tools.method=this.value||null;sectionFilterApply('tools')">
       <option value="">Все методы</option>
       ${toolSubtypes.map(s=>`<option ${f.method===s?'selected':''}>${s}</option>`).join('')}
     </select></div>
   <div class="filter-group"><label>Тип проекта</label>
-    <select onchange="state.filters.tools.projectType=this.value||null;renderSection('tools')">
+    <select onchange="state.filters.tools.projectType=this.value||null;sectionFilterApply('tools')">
       <option value="">Все типы проектов</option>
       ${toolProjTypes.map(t=>`<option ${f.projectType===t?'selected':''}>${t}</option>`).join('')}
     </select></div>
   <div class="filter-group"><label>Статус</label>
-    <select onchange="state.filters.tools.status=this.value||null;renderSection('tools')">
+    <select onchange="state.filters.tools.status=this.value||null;sectionFilterApply('tools')">
       <option value="">Все статусы</option>
       ${toolStatuses.map(s=>`<option ${f.status===s?'selected':''}>${s}</option>`).join('')}
     </select></div>
   <div class="filter-group"><label>Этап оценки</label>
-    <select onchange="state.filters.tools.evalStage=this.value||null;renderSection('tools')">
+    <select onchange="state.filters.tools.evalStage=this.value||null;sectionFilterApply('tools')">
       <option value="">Все этапы</option>
       ${toolEvalStages.map(s=>`<option ${f.evalStage===s?'selected':''}>${s}</option>`).join('')}
     </select></div>
   <div class="filter-group"><label>Ценность (сквозной фильтр)</label>
-    <select onchange="state.filters.tools.value=this.value||null;renderSection('tools')">
+    <select onchange="state.filters.tools.value=this.value||null;sectionFilterApply('tools')">
       <option value="">Любая ценность</option>
       ${VALUES.map(v=>`<option value="${v.id}" ${f.value===v.id?'selected':''}>${v.title}</option>`).join('')}
     </select></div>
   <div class="actions">
-    <button class="btn btn-ghost btn-sm" onclick="state.filters.tools={};renderSection('tools')">Сбросить фильтры</button>
+    <button class="btn btn-ghost btn-sm" onclick="state.filters.tools={};sectionFilterApply('tools')">Сбросить фильтры</button>
   </div>`;
 }
 function filterPanelMethodology(){
@@ -3112,17 +3132,17 @@ function filterPanelMethodology(){
   const subs = [...new Set(METHODOLOGY.map(m=>m.sub))];
   return `
   <div class="filter-group"><label>Тема / раздел</label>
-    <select onchange="state.filters.methodology.sub=this.value||null;renderSection('methodology')">
+    <select onchange="state.filters.methodology.sub=this.value||null;sectionFilterApply('methodology')">
       <option value="">Все разделы</option>
       ${subs.map(s=>`<option ${f.sub===s?'selected':''}>${s}</option>`).join('')}
     </select></div>
   <div class="filter-group"><label>Ценность</label>
-    <select onchange="state.filters.methodology.value=this.value||null;renderSection('methodology')">
+    <select onchange="state.filters.methodology.value=this.value||null;sectionFilterApply('methodology')">
       <option value="">Любая ценность</option>
       ${VALUES.map(v=>`<option value="${v.id}" ${f.value===v.id?'selected':''}>${v.title}</option>`).join('')}
     </select></div>
   <div class="actions">
-    <button class="btn btn-ghost btn-sm" onclick="state.filters.methodology={};renderSection('methodology')">Сбросить фильтры</button>
+    <button class="btn btn-ghost btn-sm" onclick="state.filters.methodology={};sectionFilterApply('methodology')">Сбросить фильтры</button>
   </div>`;
 }
 function filterPanelTemplates(){
@@ -3131,44 +3151,44 @@ function filterPanelTemplates(){
   const templateEvalStages = (typeof EVAL_STAGES!=='undefined') ? EVAL_STAGES : [...new Set(TEMPLATES.map(t=>t.evalStage).filter(Boolean))];
   return `
   <div class="filter-group"><label>Тип шаблона</label>
-    <select onchange="state.filters.templates.templateType=this.value||null;renderSection('templates')">
+    <select onchange="state.filters.templates.templateType=this.value||null;sectionFilterApply('templates')">
       <option value="">Все типы</option>
       ${TEMPLATE_TYPES.map(t=>`<option ${f.templateType===t?'selected':''}>${t}</option>`).join('')}
     </select></div>
   <div class="filter-group"><label>Стадия оценки</label>
-    <select onchange="state.filters.templates.evalStage=this.value||null;renderSection('templates')">
+    <select onchange="state.filters.templates.evalStage=this.value||null;sectionFilterApply('templates')">
       <option value="">Все стадии</option>
       ${templateEvalStages.map(s=>`<option ${f.evalStage===s?'selected':''}>${s}</option>`).join('')}
     </select></div>
   <div class="filter-group"><label>Формат файла</label>
-    <select onchange="state.filters.templates.format=this.value||null;renderSection('templates')">
+    <select onchange="state.filters.templates.format=this.value||null;sectionFilterApply('templates')">
       <option value="">Все форматы</option>
       ${allFormats.map(fmt=>`<option ${f.format===fmt?'selected':''}>${fmt}</option>`).join('')}
     </select></div>
   <div class="actions">
-    <button class="btn btn-ghost btn-sm" onclick="state.filters.templates={};renderSection('templates')">Сбросить фильтры</button>
+    <button class="btn btn-ghost btn-sm" onclick="state.filters.templates={};sectionFilterApply('templates')">Сбросить фильтры</button>
   </div>`;
 }
 function filterPanelAssessmentDocs(){
   const f = state.filters.assessmentDocs || {};
   return `
   <div class="filter-group"><label>Тип документа</label>
-    <select onchange="state.filters.assessmentDocs.docType=this.value||null;renderSection('assessmentDocs')">
+    <select onchange="state.filters.assessmentDocs.docType=this.value||null;sectionFilterApply('assessmentDocs')">
       <option value="">Все типы</option>
       ${DOC_TYPES.map(t=>`<option ${f.docType===t?'selected':''}>${t}</option>`).join('')}
     </select></div>
   <div class="filter-group"><label>Тип проекта</label>
-    <select onchange="state.filters.assessmentDocs.projectType=this.value||null;renderSection('assessmentDocs')">
+    <select onchange="state.filters.assessmentDocs.projectType=this.value||null;sectionFilterApply('assessmentDocs')">
       <option value="">Все типы</option>
       ${PROJECT_TYPES.map(t=>`<option ${f.projectType===t?'selected':''}>${t}</option>`).join('')}
     </select></div>
   <div class="filter-group"><label>Связанный кейс</label>
-    <select onchange="state.filters.assessmentDocs.caseId=this.value||null;renderSection('assessmentDocs')">
+    <select onchange="state.filters.assessmentDocs.caseId=this.value||null;sectionFilterApply('assessmentDocs')">
       <option value="">Все кейсы</option>
       ${CASES.map(c=>`<option value="${c.id}" ${f.caseId===c.id?'selected':''}>${c.title}</option>`).join('')}
     </select></div>
   <div class="actions">
-    <button class="btn btn-ghost btn-sm" onclick="state.filters.assessmentDocs={};renderSection('assessmentDocs')">Сбросить</button>
+    <button class="btn btn-ghost btn-sm" onclick="state.filters.assessmentDocs={};sectionFilterApply('assessmentDocs')">Сбросить</button>
   </div>`;
 }
 
