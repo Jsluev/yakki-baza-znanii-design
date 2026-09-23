@@ -218,8 +218,10 @@ nav.mainnav .dd:last-child .dd-menu{left:auto;right:0;}
 .lesson-col{padding:16px 18px;border-radius:9px;}
 .lesson-col.good{background:var(--green-soft);}
 .lesson-col.bad{background:var(--red-soft);}
+.lesson-col.reco{background:#EBE1F7;}
 .lesson-col.good h4{color:#1A7A50;}
 .lesson-col.bad h4{color:#C0392B;}
+.lesson-col.reco h4{color:var(--yakki-purple);}
 .case-page .subhead + .lesson-cols{margin-top:8px;}
 .lesson-cols + .subhead{margin-top:18px;}
 .block .doc-group{background:#FBFBFD;}
@@ -3759,8 +3761,7 @@ function renderCaseDetail(id){
             <div class="lesson-col good"><h4>Что сработало</h4>${linesUl(c.lessons.good)||FIELD_PH}</div>
             <div class="lesson-col bad"><h4>Что не сработало</h4>${linesUl(c.lessons.bad)||FIELD_PH}</div>
           </div>
-          <div class="subhead">Рекомендации для будущих проектов</div>
-          ${linesUl(c.lessons.reco)||FIELD_PH}
+          <div class="lesson-col reco" style="margin-top:16px;"><h4>Рекомендации для будущих проектов</h4>${linesUl(c.lessons.reco)||FIELD_PH}</div>
         </div>
         <div class="block" id="documents">
           <h2><span class="section-number">04 ·</span>Документация кейса</h2>
