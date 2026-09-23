@@ -78,7 +78,7 @@ nav.mainnav .chev{width:18px;height:18px;margin-left:3px;flex-shrink:0;}
 .dd{position:relative;}
 .dd-menu{display:none;position:absolute;top:110%;left:0;background:var(--paper-raised);border:1px solid var(--line);border-radius:var(--radius-sm);box-shadow:var(--shadow);min-width:210px;padding:6px;z-index:60;}
 .dd:hover .dd-menu, .dd:focus-within .dd-menu{display:block;}
-.dd-menu a{display:flex;align-items:center;gap:8px;padding:9px 10px;font-size:15px;border-radius:6px;}
+.dd-menu a{display:flex;align-items:center;gap:8px;padding:10px 12px;font-size:17px;border-radius:6px;}
 .dd-menu a:hover{background:var(--paper-sunk);}
 .dd-menu.dd-open{display:block;}
 nav.mainnav .dd:last-child .dd-menu{left:auto;right:0;}
@@ -471,7 +471,7 @@ table.qtable td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-al
 .values-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:26px;}
 @media (max-width:860px){.values-grid{grid-template-columns:repeat(2,1fr);}}
 @media (max-width:560px){.values-grid{grid-template-columns:1fr;}}
-.value-card{position:relative;background:var(--color-surface);border:none;border-radius:6px;padding:24px 24px 72px;min-height:300px;transition:transform .18s ease,box-shadow .18s ease;}
+.value-card{position:relative;background:var(--color-surface);border:none;border-radius:6px;padding:24px 24px 96px;min-height:300px;transition:transform .18s ease,box-shadow .18s ease;}
 .value-card:hover{transform:translateY(-3px);box-shadow:0 13px 27px -5px rgb(99 173 242 / 24%),0 8px 16px -8px rgb(99 173 242 / 30%);}
 .value-card .n{display:none;}
 .value-card h3{font-family:var(--font-body);font-weight:700;font-size:24px;line-height:1.15;color:var(--color-ink);overflow-wrap:break-word;hyphens:auto;}
@@ -3962,8 +3962,6 @@ function renderResults(){
         <p style="max-width:528px;">Готовые формулировки результатов для теории изменений. Каждый подход имеет свой набор областей влияния.</p>
       </div>
       <div class="ai-callout">
-        <p>Для работы с искусственным интеллектом или внешними инструментами</p>
-        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#4f2b85" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 5v8a5 5 0 0 0 5 5h6"/><path d="M14 15l4 3-4 3"/></svg>
         <div><button class="btn btn-primary" onclick="exportResultsForAI()">Скачать для ИИ (JSON)</button></div>
       </div>
     </div>
