@@ -2741,22 +2741,19 @@ function renderSection(key){
     if(sectionParams.get('q')) f.q = sectionParams.get('q');
   }
 
-  let allItems = [];
-  const typeCounts = {};
-  VISIBLE_SECTIONS.forEach(sk=>{
-    let items;
-    if(sk==='cases') items = filterCases();
-    else if(sk==='tools') items = filterTools();
-    else if(sk==='methodology') items = filterMethodology();
-    else if(sk==='templates') items = filterTemplates();
-    typeCounts[sk] = items.length;
-    allItems = allItems.concat(items.map(i=>({...i,_section:sk})));
-  });
-
-  let items = allItems;
   if(!isAll){
+    let allItems = [];
+    VISIBLE_SECTIONS.forEach(sk=>{
+      let list;
+      if(sk==='cases') list = filterCases();
+      else if(sk==='tools') list = filterTools();
+      else if(sk==='methodology') list = filterMethodology();
+      else if(sk==='templates') list = filterTemplates();
+      else list = [];
+      allItems = allItems.concat(list.map(i=>({...i,_section:sk})));
+    });
+    const items = allItems.filter(i=>i._section===key);
     const s = SECTIONS[key];
-    items = allItems.filter(i=>i._section===key);
     const filterPanels = {
       cases: filterPanelCases, tools: filterPanelTools, methodology: filterPanelMethodology,
       templates: filterPanelTemplates
@@ -2790,15 +2787,15 @@ function renderSection(key){
   }
 
   /* ALL view: unified catalog */
-  const q = new URLSearchParams(window.location.hash.split('?')[1]||'').get('q')||'';
-  const typeParam = new URLSearchParams(window.location.hash.split('?')[1]||'').get('type')||'';
   const params = new URLSearchParams(window.location.hash.split('?')[1]||'');
+  const q = params.get('q')||'';
+  const typeParam = params.get('type')||'';
+  const valueFilter = params.get('value')||null;
 
-  /* Apply type-specific filter params from URL to state.filters */
   if(typeParam && !state.filters[typeParam]) state.filters[typeParam] = {};
   if(typeParam){
-        const f = state.filters[typeParam];
-if(typeParam==='cases'){
+    const f = state.filters[typeParam];
+    if(typeParam==='cases'){
       f.projectType = params.get('projectType')||null;
       f.audienceType = params.get('audienceType')||null;
       f.region = params.get('region')||null;
@@ -2814,8 +2811,10 @@ if(typeParam==='cases'){
       f.value = params.get('value')||null;
     } else if(typeParam==='methodology'){
       f.sub = params.get('sub')||null;
+      f.value = params.get('value')||null;
     } else if(typeParam==='templates'){
       f.format = params.get('format')||null;
+      f.value = params.get('value')||null;
     } else if(typeParam==='assessmentDocs'){
       f.docType = params.get('docType')||null;
       f.projectType = params.get('projectType')||null;
@@ -2823,17 +2822,22 @@ if(typeParam==='cases'){
     }
   }
 
-  if(q){
-    const ql = q.toLowerCase();
-    items = allItems.filter(i=>(i.title+i.shortDesc+i.org+(i.description||'')).toLowerCase().includes(ql));
-  }
-  const valueFilter = params.get('value')||null;
-  if(valueFilter){
-    items = items.filter(i=>i.values && i.values.includes(valueFilter));
-  }
+  const typeCounts = {};
+  let allItems = [];
+  VISIBLE_SECTIONS.forEach(sk=>{
+    const base = sk==='cases'?CASES:sk==='tools'?TOOLS:sk==='methodology'?METHODOLOGY:TEMPLATES;
+    let list = base.map(i=>({...i,_section:sk}));
+    if(valueFilter) list = list.filter(i=>i.values && i.values.includes(valueFilter));
+    if(q){
+      const ql = q.toLowerCase();
+      list = list.filter(i=>(i.title+i.shortDesc+(i.org||'')+(i.description||'')).toLowerCase().includes(ql));
+    }
+    typeCounts[sk] = list.length;
+    allItems = allItems.concat(list);
+  });
+  let items = allItems;
   if(typeParam){
     items = items.filter(i=>i._section===typeParam);
-    /* Apply type-specific filters */
     const f = state.filters[typeParam]||{};
     if(typeParam==='cases'){
       items = items.filter(i=>(!f.projectType||i.projectType===f.projectType)&&(!f.audienceType||(i.audienceType&&i.audienceType.includes(f.audienceType)))&&(!f.region||(i.region||i.geo||'')===f.region)&&(!f.evalStage||i.evalStage===f.evalStage)&&(!f.value||(i.values&&i.values.includes(f.value))));
@@ -2853,9 +2857,10 @@ if(typeParam==='cases'){
     templates: filterPanelTemplatesAll
   };
   const typePanelHtml = typeParam && allFilterPanels[typeParam] ? allFilterPanels[typeParam]() : '';
+  const valTitle = valueFilter ? ((byId(VALUES,valueFilter)||{}).title||valueFilter) : '';
+  const activeN = activeFilterCount(state.filters[typeParam])+(valueFilter?1:0);
 
   const sLabel = 'Все материалы';
-  const sDesc = 'Единый каталог всех разделов базы знаний';
   app.innerHTML = `
   <div class="wrap wrap-narrow fade-in">
     <div class="crumbs"><a href="#/">ЯККИ</a><span class="sep">/</span><span>${sLabel}</span></div>
@@ -2863,7 +2868,7 @@ if(typeParam==='cases'){
       <h1 style="margin-top:0;">${sLabel}</h1>
     </div>
     <div class="catalog-body">
-      <button class="btn btn-ghost btn-sm filter-toggle" style="display:none;width:100%;margin-bottom:8px;" data-closed="Показать фильтры (${activeFilterCount(state.filters[typeParam])}) ▼" onclick="const t=this;if(t.textContent.includes('Показать')){t.dataset.closed=t.textContent;t.textContent='Скрыть фильтры ▲';}else{t.textContent=t.dataset.closed;}document.querySelector('.filters').classList.toggle('filter-open')">Показать фильтры (${activeFilterCount(state.filters[typeParam])}) ▼</button>
+      <button class="btn btn-ghost btn-sm filter-toggle" style="display:none;width:100%;margin-bottom:8px;" data-closed="Показать фильтры (${activeN}) ▼" onclick="const t=this;if(t.textContent.includes('Показать')){t.dataset.closed=t.textContent;t.textContent='Скрыть фильтры ▲';}else{t.textContent=t.dataset.closed;}document.querySelector('.filters').classList.toggle('filter-open')">Показать фильтры (${activeN}) ▼</button>
       <div class="filters">
         <div class="local-search">
           <input id="allLocalSearch" placeholder="Поиск по всем материалам…" value="${esc(q)}" oninput="localSearchFilter('all')">
@@ -2875,9 +2880,16 @@ if(typeParam==='cases'){
             ${VISIBLE_SECTIONS.map(sk=>`<option value="${sk}" ${typeParam===sk?'selected':''}>${SECTIONS[sk].label} (${typeCounts[sk]})</option>`).join('')}
           </select>
         </div>
+        <div class="filter-group"><label>Ценность</label>
+          <select id="allValueFilter" onchange="filterAllByValue()">
+            <option value="">Любая ценность</option>
+            ${VALUES.map(v=>`<option value="${v.id}" ${valueFilter===v.id?'selected':''}>${v.title}</option>`).join('')}
+          </select>
+        </div>
         ${typePanelHtml}
         <div class="actions">
-          <button class="btn btn-ghost btn-sm" onclick="go('#/section/all${q?'?q='+encodeURIComponent(q):''}')">Сбросить фильтры</button>
+          ${valueFilter?`<span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;background:var(--navy);color:#fff;border-radius:999px;padding:4px 10px;margin-right:8px;">Ценность: ${esc(valTitle)} <button type="button" onclick="filterAllClearValue()" style="background:none;border:none;color:#fff;cursor:pointer;font-size:14px;line-height:1;padding:0;" aria-label="Сбросить">×</button></span>`:''}
+          <button class="btn btn-ghost btn-sm" onclick="go('#/section/all')">Сбросить фильтры</button>
         </div>
       </div>
       <div>
@@ -2921,7 +2933,8 @@ function localSearchFilter(key){
   if(key==='all'){
     const q = document.getElementById('allLocalSearch').value;
     const typeFilter = document.getElementById('allTypeFilter')?.value||'';
-    go('#/section/all?q='+encodeURIComponent(q)+(typeFilter?'&type='+typeFilter:''));
+    const value = new URLSearchParams(window.location.hash.split('?')[1]||'').get('value')||'';
+    go('#/section/all?q='+encodeURIComponent(q)+(value?'&value='+encodeURIComponent(value):'')+(typeFilter?'&type='+typeFilter:''));
     return;
   }
   if(!state.filters[key]) state.filters[key] = {};
@@ -2941,6 +2954,19 @@ function filterAllByType(){
   const value = new URLSearchParams(window.location.hash.split('?')[1]||'').get('value')||'';
   const type = document.getElementById('allTypeFilter').value;
   go('#/section/all?q='+encodeURIComponent(q)+(value?'&value='+encodeURIComponent(value):'')+(type?'&type='+type:''));
+}
+function filterAllByValue(){
+  const params = new URLSearchParams(window.location.hash.split('?')[1]||'');
+  const value = document.getElementById('allValueFilter').value;
+  if(value) params.set('value', value); else params.delete('value');
+  const qs = params.toString();
+  go('#/section/all'+(qs?'?'+qs:''));
+}
+function filterAllClearValue(){
+  const params = new URLSearchParams(window.location.hash.split('?')[1]||'');
+  params.delete('value');
+  const qs = params.toString();
+  go('#/section/all'+(qs?'?'+qs:''));
 }
 
 function renderCardListAll(items){
@@ -3155,7 +3181,7 @@ function filterAllApply(){
   if(type && state.filters[type]){
     const f = state.filters[type];
     Object.entries(f).forEach(([k,v])=>{
-      if(v && k!=='q'){
+      if(v && k!=='q' && k!=='value'){
         const paramKey = (type==='tools'&&k==='type')?'toolType':k;
         hash += '&'+paramKey+'='+encodeURIComponent(v);
       }
@@ -3188,11 +3214,6 @@ function filterPanelCasesAll(){
     <select onchange="state.filters.cases.evalStage=this.value||null;filterAllApply()">
       <option value="">Все этапы</option>
       ${caseEvalStages.map(s=>`<option ${f.evalStage===s?'selected':''}>${s}</option>`).join('')}
-    </select></div>
-  <div class="filter-group"><label>Ценность</label>
-    <select onchange="state.filters.cases.value=this.value||null;filterAllApply()">
-      <option value="">Любая ценность</option>
-      ${VALUES.map(v=>`<option value="${v.id}" ${f.value===v.id?'selected':''}>${v.title}</option>`).join('')}
     </select></div>`;
 }
 function filterPanelToolsAll(){
@@ -3225,11 +3246,6 @@ function filterPanelToolsAll(){
     <select onchange="state.filters.tools.evalStage=this.value||null;filterAllApply()">
       <option value="">Все этапы</option>
       ${toolEvalStages.map(s=>`<option ${f.evalStage===s?'selected':''}>${s}</option>`).join('')}
-    </select></div>
-  <div class="filter-group"><label>Ценность</label>
-    <select onchange="state.filters.tools.value=this.value||null;filterAllApply()">
-      <option value="">Любая ценность</option>
-      ${VALUES.map(v=>`<option value="${v.id}" ${f.value===v.id?'selected':''}>${v.title}</option>`).join('')}
     </select></div>`;
 }
 function filterPanelMethodologyAll(){
@@ -3240,11 +3256,6 @@ function filterPanelMethodologyAll(){
     <select onchange="state.filters.methodology.sub=this.value||null;filterAllApply()">
       <option value="">Все разделы</option>
       ${subs.map(s=>`<option ${f.sub===s?'selected':''}>${s}</option>`).join('')}
-    </select></div>
-  <div class="filter-group"><label>Ценность</label>
-    <select onchange="state.filters.methodology.value=this.value||null;filterAllApply()">
-      <option value="">Любая ценность</option>
-      ${VALUES.map(v=>`<option value="${v.id}" ${f.value===v.id?'selected':''}>${v.title}</option>`).join('')}
     </select></div>`;
 }
 function filterPanelTemplatesAll(){
@@ -3876,7 +3887,7 @@ function renderValueDetail(id){
   const bestCases = keyCases.slice(0,5);
   const bestTools = tools.slice(0,5);
   const bestMethodologies = methodologies.slice(0,5);
-  const totalMaterials = keyCases.length + tools.length + linkedResults.length;
+  const totalMaterials = keyCases.length + tools.length;
   app.innerHTML = `<div class="wrap wrap-narrow fade-in">
     <div class="crumbs"><a href="#/">ЯККИ</a><span class="sep">/</span><a href="#/values">Ценности</a><span class="sep">/</span><span>${v.title}</span></div>
     ${detailHero({pill:SECTIONS.values.pill,badge:'Ценность',topExtra:'',title:v.title,lead:v.desc,cta:'',meta:'',tint:'#2E7FC2',grad:'linear-gradient(90deg,#0A3A6B 0%,#2E7FC2 55%,#63ADF2 100%)'})}
