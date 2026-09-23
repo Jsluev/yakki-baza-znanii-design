@@ -3986,7 +3986,7 @@ function renderResults(){
         <div class="tree-col-h">Подход</div>
         ${selA === null ? '<div style="padding:12px;font-size:13px;color:var(--ink-soft);">Выберите подход, чтобы увидеть области влияния</div>' : ''}
         ${RESULTS_TREE.map((a,i)=>`<button class="tree-opt ${i===selA?'sel':''}" onclick="selResultsApproach(${i})">${a.approach}<span class="cnt">${a.influenceAreas.reduce((s,ar)=>s+ar.results.length,0)}</span></button>`).join('')}
-        <button class="tree-opt ${valuesMode?'sel':''}" onclick="selResultsApproach('values')">♦ Ценности<span class="cnt">${VALUES.length}</span></button>
+        <button class="tree-opt ${valuesMode?'sel':''}" onclick="selResultsApproach('values')">Фокус на ценностях<span class="cnt">${VALUES.length}</span></button>
       </div>
       <div class="tree-col" ${col2Off?'style="opacity:.4;pointer-events:none;"':''}>
         <div class="tree-col-h">${valuesMode?'Ценность':'Область влияния'}</div>
