@@ -313,7 +313,8 @@ main{min-height:60vh;padding-bottom:100px;}
 .local-search input::placeholder{color:var(--color-placeholder);font-weight:400;}
 .local-search button{border:none;background:transparent;padding:0 14px;font-size:14px;font-weight:600;color:var(--color-purple-dark);font-family:var(--font-body);cursor:pointer;white-space:nowrap;}
 
-.card-list{display:grid;grid-template-columns:repeat(3,minmax(0,390px));gap:18px;justify-content:start;}
+.card-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;justify-content:start;}
+.pg-values .card-list,.pg-result .card-list{grid-template-columns:repeat(3,minmax(0,390px));}
 .search-results.card-list{display:flex;flex-direction:column;}
 .search-results .card-list{gap:8px;}
 .search-results.card-list{gap:8px;}
@@ -522,6 +523,7 @@ footer a:hover{color:#fff;}
 
 /* helper nav button */
 .fab-stack{position:fixed;bottom:22px;right:22px;z-index:70;display:flex;flex-direction:column;align-items:flex-end;gap:10px;}
+.fab-stack[hidden]{display:none;}
 .helper-fab{background:var(--navy);color:#fff;border-radius:30px;padding:12px 18px;font-size:13.5px;font-weight:600;box-shadow:var(--shadow);display:flex;align-items:center;gap:8px;cursor:pointer;}
 .helper-fab:hover{background:var(--navy-deep);}
 @media (max-width:640px){.fab-stack{right:14px;bottom:14px;}.helper-fab{font-size:12.5px;padding:10px 14px;}}
@@ -655,8 +657,9 @@ body.pg-case #strokeTr,body.pg-case #strokeBl{display:none;}
 }
 
 /* --- Catalog page --- */
-@media (max-width:1100px){
+  @media (max-width:1100px){
   .card-list{grid-template-columns:repeat(2,minmax(0,390px));}
+  .pg-values .card-list,.pg-result .card-list{grid-template-columns:repeat(2,minmax(0,390px));}
 }
 @media (max-width:860px){
   .catalog-body{gap:20px;}
@@ -886,10 +889,8 @@ body.pg-case #strokeTr,body.pg-case #strokeBl{display:none;}
       </div>
       <div>
         <h4>Навигация</h4>
-        <a href="#/start">С чего начать</a>
         <a href="#/results">Банк результатов</a>
         <a href="#/values">Ценности</a>
-        <a href="#/glossary">Справочник</a>
       </div>
       <div>
         <h4>Контакты</h4>
@@ -906,9 +907,7 @@ body.pg-case #strokeTr,body.pg-case #strokeBl{display:none;}
   </div>
 </footer>
 
-<div class="fab-stack">
-  <div class="helper-fab" data-nav="#/start">💡 Не знаю, с чего начать</div>
-</div>
+<div class="fab-stack" hidden></div>
 
 <script>
 /* ============================================================
@@ -2369,7 +2368,6 @@ function renderHome(){
       </ul>
     </details>
     <div class="audience-btns">
-      <a class="audience-btn" data-nav="#/start"><span class="ab-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></span><div><b>С чего начать</b><span>Ориентирующий путь для первого знакомства с оценкой</span></div></a>
       <a class="audience-btn" data-nav="#/section/tools"><span class="ab-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 8h10M18 8h2M4 16h4M12 16h8"/><circle cx="16" cy="8" r="2"/><circle cx="10" cy="16" r="2"/></svg></span><div><b>Для экспертов / оценщиков</b><span>Инструменты, шаблоны, методики и кейсы</span></div></a>
       <a class="audience-btn" data-nav="#/section/all?type=cases"><span class="ab-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 7-7 11L5 10l7-7z"/><path d="M5 10h14"/></svg></span><div><b>Для доноров / заказчиков</b><span>Кейсы, ценности и результаты</span></div></a>
     </div>
@@ -2398,12 +2396,6 @@ function renderHome(){
           <p>Ценности, с которыми могут быть связаны результаты творческих проектов, кейсы и инструменты оценки.</p>
           <span class="hc-links">→ Перейти к ценностям</span>
         </a>
-        <a class="home-card" data-nav="#/faq" style="text-decoration:none;">
-          <div class="hc-head" style="background:var(--paper-sunk);color:var(--ink-soft);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 012-2h13v16H6a2 2 0 00-2 2V5z"/><path d="M4 19a2 2 0 012-2h13"/></svg></div>
-          <h3>Справочник</h3>
-          <p>Термины, ответы на вопросы, промты и вспомогательные материалы для работы с базой.</p>
-          <span class="hc-links">→ Открыть справочник</span>
-        </a>
       </div>
     </div>
   </div>
@@ -2415,7 +2407,7 @@ function renderHome(){
       <div class="scenario-list" style="margin-top:16px;">
         <div class="scenario"><div class="num">01</div><h4>Найти похожий проект</h4><p>Отфильтруйте <a data-nav="#/section/cases" style="text-decoration:underline">кейсы</a> по типу проекта или аудитории, откройте карточку и посмотрите, как проект оценивали.</p></div>
         <div class="scenario"><div class="num">02</div><h4>Взять готовый инструмент</h4><p>Найдите <a data-nav="#/section/tools" style="text-decoration:underline">анкету или гайд</a> под свою аудиторию, скачайте файл и инструкцию по применению.</p></div>
-        <div class="scenario"><div class="num">03</div><h4>Разобраться в термине</h4><p>Откройте <a data-nav="#/glossary" style="text-decoration:underline">глоссарий</a>, посмотрите определение и перейдите к <a data-nav="#/section/methodology" style="text-decoration:underline">методике</a>, где термин раскрыт подробнее.</p></div>
+        <div class="scenario"><div class="num">03</div><h4>Разобраться в термине</h4><p>Посмотрите определение и перейдите к <a data-nav="#/section/all" style="text-decoration:underline">материалам</a>, где термин раскрыт подробнее.</p></div>
         <div class="scenario"><div class="num">04</div><h4>Скачать шаблон и применить у себя</h4><p>Возьмите <a data-nav="#/section/templates" style="text-decoration:underline">шаблон</a> плана оценки, ЛМП или отчёта — и адаптируйте под свой проект.</p></div>
       </div>
     </div>
@@ -2426,9 +2418,9 @@ function renderHome(){
     <div style="padding-top:36px;">
       <h2 style="font-size:22px;">Когда база может помочь</h2>
       <div class="use-grid" style="margin-top:18px;">
-        <div class="use-item"><div class="use-num">01</div><h4>Вы готовите проект или пишете заявку</h4><p>Сформулировать ожидаемые результаты, выбрать приоритеты оценки и собрать черновик плана.</p><a data-nav="#/start?open=1" style="font-size:13px;color:var(--navy);text-decoration:underline;cursor:pointer;">Начать с проекта на старте →</a></div>
-        <div class="use-item"><div class="use-num">02</div><h4>Проект уже идёт</h4><p>Понять, какие данные уже есть, чего не хватает и что ещё можно успеть собрать.</p><a data-nav="#/start?open=2" style="font-size:13px;color:var(--navy);text-decoration:underline;cursor:pointer;">Разобраться с текущим проектом →</a></div>
-        <div class="use-item"><div class="use-num">03</div><h4>Нужно подвести итоги</h4><p>Понять, что можно сказать по имеющимся данным, какие есть ограничения и как использовать выводы.</p><a data-nav="#/start?open=3" style="font-size:13px;color:var(--navy);text-decoration:underline;cursor:pointer;">Подготовить итоги →</a></div>
+        <div class="use-item"><div class="use-num">01</div><h4>Вы готовите проект или пишете заявку</h4><p>Сформулировать ожидаемые результаты, выбрать приоритеты оценки и собрать черновик плана.</p><a data-nav="#/section/all" style="font-size:13px;color:var(--navy);text-decoration:underline;cursor:pointer;">Перейти к материалам →</a></div>
+        <div class="use-item"><div class="use-num">02</div><h4>Проект уже идёт</h4><p>Понять, какие данные уже есть, чего не хватает и что ещё можно успеть собрать.</p><a data-nav="#/section/tools" style="font-size:13px;color:var(--navy);text-decoration:underline;cursor:pointer;">Смотреть инструменты →</a></div>
+        <div class="use-item"><div class="use-num">03</div><h4>Нужно подвести итоги</h4><p>Понять, что можно сказать по имеющимся данным, какие есть ограничения и как использовать выводы.</p><a data-nav="#/results" style="font-size:13px;color:var(--navy);text-decoration:underline;cursor:pointer;">Смотреть результаты →</a></div>
         <div class="use-item"><div class="use-num">04</div><h4>Вы оцениваете чужой проект</h4><p>Найти методики, инструменты, шаблоны и похожие кейсы для профессиональной оценки.</p><a data-nav="#/section/all" style="font-size:13px;color:var(--navy);text-decoration:underline;cursor:pointer;">Подобрать материалы для оценки →</a></div>
         <div class="use-item"><div class="use-num">05</div><h4>Нужно понять результаты и вклад проекта</h4><p>Посмотреть, какие изменения создают творческие проекты и с какими ценностями они связаны.</p><a data-nav="#/results" style="font-size:13px;color:var(--navy);text-decoration:underline;cursor:pointer;">Исследовать результаты и ценности →</a></div>
       </div>
@@ -2476,9 +2468,9 @@ function renderHome(){
     <div style="padding-top:36px;">
       <h2 style="font-size:22px;">Куда перейти дальше</h2>
       <div class="scenario-list" style="margin-top:16px;">
-        <div class="scenario"><div class="num">→</div><h4>С чего начать</h4><p>Если вы хотите понять общую логику оценки или разобраться со своим проектом.</p><a data-nav="#/start" style="font-size:13px;color:var(--navy);text-decoration:underline;cursor:pointer;">С чего начать →</a></div>
         <div class="scenario"><div class="num">→</div><h4>База материалов</h4><p>Если вы ищете кейсы, инструменты, шаблоны или методики.</p><a data-nav="#/section/all" style="font-size:13px;color:var(--navy);text-decoration:underline;cursor:pointer;">Перейти в базу материалов →</a></div>
         <div class="scenario"><div class="num">→</div><h4>Банк результатов</h4><p>Если вы хотите подобрать результаты, показатели и связанные ценности.</p><a data-nav="#/results" style="font-size:13px;color:var(--navy);text-decoration:underline;cursor:pointer;">Открыть банк результатов →</a></div>
+        <div class="scenario"><div class="num">→</div><h4>Ценности</h4><p>Чтобы посмотреть, с какими ценностями связаны результаты и материалы.</p><a data-nav="#/values" style="font-size:13px;color:var(--navy);text-decoration:underline;cursor:pointer;">Перейти к ценностям →</a></div>
       </div>
     </div>
   </div>
@@ -4178,7 +4170,7 @@ function renderResultDetail(apprIdx,areaIdx,resultIdx){
 
   document.getElementById('app').innerHTML = `<div class="wrap wrap-narrow fade-in">
     <div class="crumbs"><a href="#/">ЯККИ</a><span class="sep">/</span><a href="#/results">Банк результатов</a><span class="sep">/</span><span>${resultText}</span></div>
-    ${detailHero({pill:SECTIONS.results.pill,badge:'Результат',topExtra:'',title:resultText,lead:result.text!==result.title?result.text:'',cta:`<button class="btn btn-primary" onclick="exportResultsForAI()">Скачать для ИИ (JSON)</button>`,meta:valNames.join(''),tint:'#2E7FC2',grad:'var(--gradient-results)',titleSize:'40px'})}
+    ${detailHero({pill:SECTIONS.results.pill,badge:'Результат',topExtra:'',title:resultText,lead:result.text!==result.title?result.text:'',cta:`<button class="btn btn-primary" onclick="exportResultsForAI()">Скачать для ИИ (JSON)</button>`,meta:'',tint:'#2E7FC2',grad:'var(--gradient-results)',titleSize:'40px'})}
     <div class="detail-grid case-grid">
       <div>
         <div class="block"><h2>Характеристика результата</h2>
@@ -4188,6 +4180,7 @@ function renderResultDetail(apprIdx,areaIdx,resultIdx){
             <dt>Область влияния</dt><dd>${area.name}</dd>
             <dt>Название</dt><dd>${result.title||result.text}</dd>
             <dt>Общая формулировка</dt><dd>${result.text}</dd>
+            ${valNames.length?`<dt>Ценности</dt><dd>${valNames.join(' ')}</dd>`:''}
           </dl>
         </div>
         ${otherList.length ? `<div class="block" style="margin-top:16px;">
@@ -4237,12 +4230,13 @@ function pageClass(parts){
   if(a==='section' && b==='templates') return 'pg-templates';
   if(a==='values' || a==='value') return 'pg-values';
   if(a==='results') return 'pg-results';
+  if(a==='result') return 'pg-result';
   if(a==='card' && b==='case') return 'pg-case';
   return '';
 }
   if(parts.length===0){ location.hash='#/section/all'; return; }
   const [a,b,c] = parts;
-  if(a==='start') return renderStart(query.open);
+  if(a==='start'||a==='faq'||a==='glossary'){ location.hash='#/section/all'; return; }
   if(a==='section' && (b==='methodology'||b==='templates')){ location.hash='#/section/all'; return; }
   if(a==='section' && (b==='all' || CATALOG_SECTIONS.includes(b))) return renderSection(b);
   if(a==='card'){
