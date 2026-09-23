@@ -372,6 +372,7 @@ main{min-height:60vh;padding-bottom:100px;}
 .block h2{font-size:30px;font-weight:700;color:var(--color-ink);margin-bottom:20px;}
 .block h2 .n{color:var(--ink);}
 .kv{display:grid;grid-template-columns:170px 1fr;gap:8px 16px;font-size:16px;line-height:1.3;}
+.chip-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;}
 .kv dt,.kv dd{border-bottom:1px solid #EFEFEF;padding-top:8px;padding-bottom:8px;}
 .kv dt{color:var(--ink-faint);}
 .kv dd{margin:0;}
@@ -3411,6 +3412,7 @@ function renderCaseDetail(id){
   const questionsHtml = c.questions.length ? `<ul class="q-list">${c.questions.map(q=>`<li>${esc(q).replace(/\n/g,'<br>')}</li>`).join('')}</ul>` : '';
   const annotHtml = c.shortDesc ? `<p class="case-annot">${c.shortDesc.replace(/\n/g,'<br>')}</p>` : FIELD_PH;
   const valuesChips = c.values.map(v=>{const val=byId(VALUES,v);return val?`<span class="chip">♦ ${esc(val.title)}</span>`:'';}).filter(Boolean).join('');
+  const valuesChipsHtml = valuesChips?`<div class="chip-row">${valuesChips}</div>`:'';
   const resultsChips = c.results.length ? `<div class="detail-meta">${resultChipsHtml(c.results)}</div>` : '';
   const collChips = c.collectionMethods.length ? `<div class="detail-meta">${c.collectionMethods.map(m=>`<span class="chip">${esc(m)}</span>`).join('')}</div>` : '';
   const anChips = c.analysisMethods.length ? `<div class="detail-meta">${c.analysisMethods.map(m=>`<span class="chip">${esc(m)}</span>`).join('')}</div>` : '';
@@ -3443,7 +3445,7 @@ function renderCaseDetail(id){
         <div class="block"><h2>О проекте</h2>
           <dl class="kv">
             ${kvRow('Название проекта', c.title)}
-            ${kvRow('Ценности', valuesChips)}
+            ${kvRow('Ценности', valuesChipsHtml)}
             ${kvRow('Тип проекта/продукта', c.projectType)}
             ${kvRow('Целевая аудитория .', c.audienceType.length?c.audienceType.join(' · '):(c.audience||''))}
             ${kvRow('Регион', c.region)}
@@ -3533,6 +3535,7 @@ function renderToolDetail(id){
   t.analysisTz=t.analysisTz||''; t.updated=t.updated||'';
 
   const valuesChips = t.values.map(v=>{const val=byId(VALUES,v);return val?`<span class="chip">♦ ${esc(val.title)}</span>`:'';}).filter(Boolean).join('');
+  const valuesChipsHtml = valuesChips?`<div class="chip-row">${valuesChips}</div>`:'';
   const resultsChips = t.results.length ? `<div class="detail-meta">${resultChipsHtml(t.results)}</div>` : '';
   app.innerHTML = `
   <div class="wrap wrap-narrow fade-in">
@@ -3547,7 +3550,7 @@ function renderToolDetail(id){
             ${kvRow('Статус инструмента', t.status)}
             ${kvRow('Метод', t.method)}
             ${kvRow('Тип инструмента', t.toolType)}
-            ${kvRow('Ценности', valuesChips)}
+            ${kvRow('Ценности', valuesChipsHtml)}
             ${kvRow('Результаты', resultsChips)}
             ${kvRow('Тип проекта', t.projectType)}
             ${kvRow('Целевая группа', t.audience)}
@@ -4196,7 +4199,7 @@ function renderResultDetail(apprIdx,areaIdx,resultIdx){
             <dt>Область влияния</dt><dd>${area.name}</dd>
             <dt>Название</dt><dd>${result.title||result.text}</dd>
             <dt>Общая формулировка</dt><dd>${result.text}</dd>
-            ${valNames.length?`<dt>Ценности</dt><dd>${valNames.join(' ')}</dd>`:''}
+            ${valNames.length?`<dt>Ценности</dt><dd>${`<div class="chip-row">${valNames.join('')}</div>`}</dd>`:''}
           </dl>
         </div>
         ${otherList.length ? `<div class="block" style="margin-top:16px;">
