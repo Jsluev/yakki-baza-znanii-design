@@ -35,7 +35,6 @@
   --c-faq:#6D6858; --c-faq-bg:#EFEBE0;
   --c-glossary:#976E2B; --c-glossary-bg:#F5ECDA;
   --blue:#2E7FC2; --blue-bg:#E5F1FA; --green:#1C8798; --green-bg:#E4F3F5; --warm:#D96C1E; --warm-bg:#FDEEDF;
-  --hero-cta:#5B4BC7; --hero-cta-deep:#4F2B85;
   --blue-soft:#DCEEFF; --blue-soft-ink:#174F80;
   --green-soft:#E5F6E2; --red-soft:#FFE5E5;
   --lavender-soft:#E9E7FF; --pink-soft:#FCE4EC; --pink-soft-ink:#A3175C; --orange-soft:#FFF0E1;
@@ -179,10 +178,8 @@ nav.mainnav .dd:last-child .dd-menu{left:auto;right:0;}
 .case-hero h1{font-family:var(--font-display);font-weight:400;font-size:clamp(36px,4.6vw,54px);line-height:1.08;}
 .case-hero-lead{font-size:17px;line-height:1.45;font-weight:300;max-width:820px;}
 .case-hero .btn-primary,
-.case-hero-cta .btn-primary{background:var(--hero-cta)!important;background-image:none!important;border:none;color:#fff;font-weight:700;padding:11px 20px;}
-.case-hero .btn-primary:hover{background:var(--hero-cta-deep)!important;filter:none;}
-.case-hero .btn-ghost{background:transparent;border-color:rgba(255,255,255,.55);color:#fff;}
-.case-hero .btn-ghost:hover{background:rgba(255,255,255,.12);}
+.case-hero-cta .btn-primary{background:var(--gradient-primary)!important;color:#fff;font-weight:700;padding:11px 20px;border:none;}
+.case-hero .btn-primary:hover{filter:brightness(.9);}
 .section-number{display:none!important;}
 .block{border:none;border-radius:12px;padding:30px;box-shadow:none;}
 .sidebar-box{border:none;border-radius:12px;padding:22px;}
@@ -227,8 +224,8 @@ nav.mainnav .dd:last-child .dd-menu{left:auto;right:0;}
 .block .doc-group{background:#FBFBFD;}
 .block .doc-group>summary{font-size:14.5px;}
 .filerow{background:#F4F1F8;}
-.filerow button{background:var(--hero-cta);background-image:none;}
-.filerow button:hover{background:var(--hero-cta-deep);filter:none;}
+.filerow button{background:var(--gradient-primary);background-image:none;}
+.filerow button:hover{background:var(--navy-deep);filter:none;}
 .sidebar-box .filerow{background:#F4F1F8;}
 .sidebar-box h4{
   font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;
@@ -447,8 +444,8 @@ main{min-height:60vh;padding-bottom:100px;}
 .local-search input::placeholder{color:var(--color-placeholder);font-weight:400;}
 .local-search button{border:none;background:transparent;padding:0 14px;font-size:14px;font-weight:600;color:var(--color-purple-dark);font-family:var(--font-body);cursor:pointer;white-space:nowrap;}
 
-.card-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;justify-content:start;}
-.pg-values .card-list,.pg-result .card-list{grid-template-columns:repeat(3,minmax(0,390px));}
+.card-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;justify-content:start;}
+.pg-values .card-list,.pg-result .card-list,.related-collection .card-list{grid-template-columns:repeat(3,minmax(0,1fr));}
 .search-results.card-list{display:flex;flex-direction:column;}
 .search-results .card-list{gap:8px;}
 .search-results.card-list{gap:8px;}
@@ -794,8 +791,7 @@ body.pg-case #strokeTr,body.pg-case #strokeBl{display:none;}
 
 /* --- Catalog page --- */
   @media (max-width:1100px){
-  .card-list{grid-template-columns:repeat(2,minmax(0,390px));}
-  .pg-values .card-list,.pg-result .card-list{grid-template-columns:repeat(2,minmax(0,390px));}
+  .card-list,.related-collection .card-list,.pg-values .card-list,.pg-result .card-list{grid-template-columns:repeat(2,minmax(0,1fr));}
 }
 @media (max-width:860px){
   .catalog-body{gap:20px;}
@@ -2448,6 +2444,19 @@ function downloadAsMarkdown(type, id){
   const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
   a.download = `${type}-${id}.md`; a.click();
 }
+function exportForAI(type, id){
+  let obj = null, name = type;
+  if(type==='case'){ obj = byId(CASES,id); name='case'; }
+  else if(type==='tool'){ obj = byId(TOOLS,id); name='tool'; }
+  else if(type==='methodology'){ obj = byId(METHODOLOGY,id); name='methodology'; }
+  else if(type==='template'){ obj = byId(TEMPLATES,id); name='template'; }
+  if(!obj) return;
+  const blob = new Blob([JSON.stringify(obj, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'yakki-' + name + '-' + id + '.json'; a.click();
+  URL.revokeObjectURL(url);
+}
 window.addEventListener('hashchange', render);
 document.addEventListener('DOMContentLoaded', render);
 document.addEventListener('click', function(e){
@@ -3712,7 +3721,7 @@ function renderCaseDetail(id){
   app.innerHTML = `
   <div class="wrap wrap-narrow fade-in case-page">
     <div class="crumbs"><a href="#/">ЯККИ</a><span class="sep">/</span><a href="#/section/cases">Кейсы проектов</a><span class="sep">/</span><span>${c.title}</span></div>
-    ${detailHero({pill:SECTIONS.cases.pill,badge:'Кейс',topExtra:regionTop,title:c.title,lead:c.shortDesc,cta:`<button class="btn btn-primary" onclick="downloadAsMarkdown('case','${c.id}')">Скачать .md</button> <a class="btn btn-ghost" href="#documents">Скачать материалы</a>`,meta:'',tint:'#A038B0',grad:'var(--gradient-cases)'})}
+    ${detailHero({pill:SECTIONS.cases.pill,badge:'Кейс',topExtra:regionTop,title:c.title,lead:c.shortDesc,cta:`<button class="btn btn-primary" onclick="exportForAI('case','${c.id}')">Скачать для ИИ</button>`,meta:'',tint:'#A038B0',grad:'var(--gradient-cases)'})}
     <div class="detail-grid case-grid">
       <div>
         <div class="block" id="profile">
@@ -3816,7 +3825,7 @@ function renderToolDetail(id){
   app.innerHTML = `
   <div class="wrap wrap-narrow fade-in case-page">
     <div class="crumbs"><a href="#/">ЯККИ</a><span class="sep">/</span><a href="#/section/all">Все материалы</a><span class="sep">/</span><a href="#/section/tools">Инструменты</a><span class="sep">/</span><span>${t.title}</span></div>
-    ${detailHero({pill:SECTIONS.tools.pill,badge:'Инструмент',topExtra:methodTop,title:t.title,lead:t.shortDesc,cta:`<a class="btn btn-primary" href="#files">Скачать для ИИ</a> <button class="btn btn-ghost" onclick="downloadAsMarkdown('tool','${t.id}')">Скачать .md</button>`,meta:'',tint:'#F78E45',grad:'linear-gradient(100deg,#E85A00 0%,#F07A20 45%,#F79740 100%)'})}
+    ${detailHero({pill:SECTIONS.tools.pill,badge:'Инструмент',topExtra:methodTop,title:t.title,lead:t.shortDesc,cta:`<button class="btn btn-primary" onclick="exportForAI('tool','${t.id}')">Скачать для ИИ</button>`,meta:'',tint:'#F78E45',grad:'linear-gradient(100deg,#E85A00 0%,#F07A20 45%,#F79740 100%)'})}
     <div class="detail-grid case-grid">
       <div>
         <div class="block" id="characteristics">
@@ -3890,7 +3899,7 @@ function renderMethodologyDetail(id){
   app.innerHTML = `
   <div class="wrap wrap-narrow fade-in">
     <div class="crumbs"><a href="#/">ЯККИ</a><span class="sep">/</span><a href="#/section/all">Все материалы</a><span class="sep">/</span><a href="#/section/methodology">Методики</a><span class="sep">/</span><span>${m.title}</span></div>
-    ${detailHero({pill:SECTIONS.methodology.pill,badge:m.sub,topExtra:originHtml,title:m.title,lead:m.shortDesc,cta:`<button class="btn btn-primary" onclick="downloadAsMarkdown('methodology','${m.id}')">Скачать .md</button>`,meta:valuesHtml,tint:'#4F2B85',grad:'linear-gradient(90deg,#2A1547 0%,#7B5BBF 100%)'})}
+    ${detailHero({pill:SECTIONS.methodology.pill,badge:m.sub,topExtra:originHtml,title:m.title,lead:m.shortDesc,cta:`<button class="btn btn-primary" onclick="exportForAI('methodology','${m.id}')">Скачать для ИИ</button>`,meta:valuesHtml,tint:'#4F2B85',grad:'linear-gradient(90deg,#2A1547 0%,#7B5BBF 100%)'})}
     <div class="detail-grid case-grid">
       <div>
         ${m.fullDesc ? `<div class="block"><h2>О подходе</h2><p style="font-size:14px;line-height:1.6;">${m.fullDesc}</p></div>` : ''}
@@ -3920,7 +3929,7 @@ function renderTemplateDetail(id){
   app.innerHTML = `
   <div class="wrap wrap-narrow fade-in">
     <div class="crumbs"><a href="#/">ЯККИ</a><span class="sep">/</span><a href="#/section/all">Все материалы</a><span class="sep">/</span><a href="#/section/templates">Шаблоны и образцы</a><span class="sep">/</span><span>${t.title}</span></div>
-    ${detailHero({pill:SECTIONS.templates.pill,badge:'Шаблон',topExtra:levelHtml,title:t.title,lead:t.shortDesc,cta:`<button class="btn btn-primary" onclick="downloadAsMarkdown('template','${t.id}')">Скачать .md</button>${t.promptLink?` <a class="btn btn-ghost" href="${t.promptLink}" target="_blank" rel="noopener">Скачать промт →</a>`:''}`,meta:'',tint:'#1E9E8F',grad:'linear-gradient(90deg,#0F5F5A 0%,#2FBFB0 100%)'})}
+    ${detailHero({pill:SECTIONS.templates.pill,badge:'Шаблон',topExtra:levelHtml,title:t.title,lead:t.shortDesc,cta:`<button class="btn btn-primary" onclick="exportForAI('template','${t.id}')">Скачать для ИИ</button>`,meta:'',tint:'#1E9E8F',grad:'linear-gradient(90deg,#0F5F5A 0%,#2FBFB0 100%)'})}
     <div class="detail-grid case-grid">
       <div>
         <div class="block"><h2>Когда использовать</h2><p style="font-size:14px;">${t.when}</p></div>
