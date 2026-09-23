@@ -130,6 +130,16 @@ nav.mainnav .dd:last-child .dd-menu{left:auto;right:0;}
 .badge{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:600;font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.03em;padding:4px 9px;border-radius:6px;}
 .chip{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;padding:6px 12px;border-radius:20px;border:1px solid var(--line-strong);background:var(--paper-raised);color:var(--ink-soft);font-weight:500;}
 .chip.active{background:var(--navy);color:#fff;border-color:var(--navy);}
+.value-pill{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;padding:6px 12px;border-radius:999px;background:var(--blue-bg);color:#0A2463;border:1px solid #B5D0EB;font-weight:500;text-decoration:none;}
+.value-pill:hover{border-color:var(--navy);}
+.case-hero .detail-meta .value-pill{background:rgba(255,255,255,.92);border-color:rgba(255,255,255,.65);color:#0A2463;}
+.result-card{display:block;background:var(--paper-raised);border:1px solid var(--line);border-radius:var(--radius);padding:16px 20px;text-decoration:none;color:inherit;transition:border-color .15s;min-width:0;overflow-wrap:anywhere;}
+.result-card:hover{border-color:var(--navy);}
+.result-card .rc-title{font-size:16px;font-weight:600;line-height:1.35;}
+.result-card .rc-meta{font-size:13px;color:var(--ink-faint);margin-top:6px;}
+.related-collection{margin-top:8px;}
+.nav-links{display:flex;flex-direction:column;gap:6px;font-size:13.5px;}
+.nav-links a{text-decoration:none;}
 .tag{font-size:12px;background:#F1E9FA;padding:3px 9px;border-radius:6px;color:#5B2E8A;font-weight:600;}
 .origin-tag{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;font-family:var(--font-mono);padding:3px 9px;border-radius:6px;text-transform:uppercase;letter-spacing:.02em;}
 .origin-tag.origin-domestic{background:#E6F5ED;color:#1a7a50;}
@@ -2998,8 +3008,11 @@ function renderCardListAll(items){
     const s = SECTIONS[it._section];
     const routeKey = it._section==='cases'?'case':it._section==='tools'?'tool':it._section==='methodology'?'methodology':'template';
     let meta = '';
+    let regionHtml = '';
     if(it._section==='cases'){
-      meta = [it.org || '', it.region || it.geo || ''].filter(Boolean).join(' · ');
+      meta = it.org || '';
+      const region = it.region || it.geo || '';
+      regionHtml = region ? `<span class="card-region"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-5.5-7-11a7 7 0 0114 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.6"/></svg>${region}</span>` : '';
     } else if(it._section==='tools'){
       meta = it.toolType || it.subType || it.method || '';
     } else {
@@ -3009,6 +3022,7 @@ function renderCardListAll(items){
     const markerHtml = firstVal ? `<div class="value-marker" style="color:${s.pill};">${firstVal.title}</div>` : '';
     return `<a class="item-card" data-nav="#/card/${routeKey}/${it.id}" style="text-decoration:none;">
       <div class="card-body">
+        <div class="card-topline"><span class="type-badge" style="background:${s.pill};">${s.badge}</span>${regionHtml}</div>
         <div class="card-head"><h3>${it.title}</h3></div>
         ${meta?`<div class="org-line">${meta}</div>`:''}
         <div class="desc">${it.shortDesc}</div>
@@ -3335,8 +3349,11 @@ function renderCardList(key, items){
   const routeKey = key==='cases'?'case':key==='tools'?'tool':key==='methodology'?'methodology':'template';
   return items.map(it=>{
     let meta = '';
+    let regionHtml = '';
     if(key==='cases'){
-      meta = [it.org || '', it.region || it.geo || ''].filter(Boolean).join(' · ');
+      meta = it.org || '';
+      const region = it.region || it.geo || '';
+      regionHtml = region ? `<span class="card-region"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-5.5-7-11a7 7 0 0114 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.6"/></svg>${region}</span>` : '';
     } else if(key==='tools'){
       meta = it.toolType || it.subType || it.method || '';
     } else {
@@ -3346,6 +3363,7 @@ function renderCardList(key, items){
     const markerHtml = firstVal ? `<div class="value-marker" style="color:${s.pill};">${firstVal.title}</div>` : '';
     return `<a class="item-card" data-nav="#/card/${routeKey}/${it.id}" style="text-decoration:none;">
       <div class="card-body">
+        <div class="card-topline"><span class="type-badge" style="background:${s.pill};">${s.badge}</span>${regionHtml}</div>
         <div class="card-head"><h3>${it.title}</h3></div>
         ${meta?`<div class="org-line">${meta}</div>`:''}
         <div class="desc">${it.shortDesc}</div>
@@ -3375,6 +3393,61 @@ function relatedBlockHtml(title, list, type, force){
   </div>`;
 }
 
+function sidebarNavBox(links){
+  if(!links||!links.length) return '';
+  return `<div class="sidebar-box"><h4>Навигация</h4><div class="nav-links">${links.map(l=>`<a href="${l.href}"${l.style?` style="${l.style}"`:''}>${l.prefix||''}${l.label}</a>`).join('')}</div></div>`;
+}
+function sidebarQuickBox(quickFiles){
+  if(!quickFiles||!quickFiles.length) return '';
+  return `<div class="sidebar-box"><h4>Скачать быстро</h4><div class="filelist">${quickFiles.map(([lab,n])=>{
+    const isUrl = /^https?:\/\//.test(String(n));
+    const isHash = String(n).startsWith('#/');
+    const ext = isUrl?'URL':(isHash?'PDF':(String(n).includes('.')?String(n).split('.').pop().toUpperCase():'FILE'));
+    if(isUrl||isHash) return `<a class="filerow" href="${esc(n)}"${isUrl?' target="_blank" rel="noopener"':''} style="text-decoration:none;color:inherit;"><div class="name"><span class="ext">${ext}</span>${esc(lab)}</div></a>`;
+    return `<div class="filerow"><div class="name"><span class="ext">${ext}</span>${esc(lab)}</div><button onclick="alert('Демо-прототип: файл ещё не прикреплён')">Скачать</button></div>`;
+  }).join('')}</div></div>`;
+}
+function sidebarUpdatedBox(date){
+  if(!date) return '';
+  return `<div class="sidebar-box"><h4>Обновлено</h4><div class="updated-note" style="margin:0;">${esc(date)}</div></div>`;
+}
+function sidebarContactsBox(html){
+  if(!html) return '';
+  return `<div class="sidebar-box"><h4>Контакты</h4>${html}</div>`;
+}
+function sidebarMediaBox(html, title){
+  if(!html) return '';
+  return `<div class="sidebar-box"><h4>${title||'Медиа'}</h4>${html}</div>`;
+}
+function valuePillHtml(vid){
+  const val = byId(VALUES, vid);
+  if(!val) return '';
+  return `<a class="value-pill" data-nav="#/value/${val.id}" href="#/value/${val.id}">♦ ${esc(val.title)}</a>`;
+}
+function valuePillsHtml(ids){
+  if(!ids||!ids.length) return '';
+  return `<div class="chip-row">${ids.map(id=>valuePillHtml(id)).filter(Boolean).join('')}</div>`;
+}
+function resultCardHtml(rid, labelOverride, posOverride){
+  const pos = posOverride || RESULT_POS[rid];
+  const node = pos ? RESULTS_TREE[pos.ai].influenceAreas[pos.ari].results[pos.ri] : null;
+  const label = labelOverride || (node ? (node.title||node.text) : ('Результат №'+rid));
+  const meta = pos ? `${RESULTS_TREE[pos.ai].approach} → ${RESULTS_TREE[pos.ai].influenceAreas[pos.ari].name}` : '';
+  if(pos) return `<a class="result-card" href="#/result/${pos.ai}/${pos.ari}/${pos.ri}"><div class="rc-title">${esc(label)}</div>${meta?`<div class="rc-meta">${esc(meta)}</div>`:''}</a>`;
+  return `<div class="result-card"><div class="rc-title">${esc(label)}</div></div>`;
+}
+function resultCardsHtml(ids){
+  if(!ids||!ids.length) return '';
+  return `<div class="value-cards-grid">${ids.map(id=>resultCardHtml(id)).join('')}</div>`;
+}
+function relatedCollectionHtml(title, items, sectionKey, btnLabel, btnHref){
+  if(!items||!items.length) return '';
+  return `<div class="related-collection">
+    <div class="subhead" style="font-size:16px;margin-bottom:12px;">${title}</div>
+    <div class="card-list">${renderCardList(sectionKey, items)}</div>
+    ${btnLabel&&btnHref?`<div style="margin-top:12px;"><a class="btn btn-ghost btn-sm" href="${btnHref}">${btnLabel}</a></div>`:''}
+  </div>`;
+}
 function shadeHex(hex,amt){
   var h=String(hex).replace('#',''); if(h.length===3) h=h.split('').map(c=>c+c).join('');
   var r=parseInt(h.slice(0,2),16)||0,g=parseInt(h.slice(2,4),16)||0,b=parseInt(h.slice(4,6),16)||0;
@@ -3456,14 +3529,13 @@ function renderCaseDetail(id){
   const valueImpactHtml = c.valueImpact ? `<div class="truncated" id="valueImpactBlock">${parasHtml(c.valueImpact)}</div><button class="truncated-toggle" onclick="this.previousElementSibling.classList.toggle('expanded');this.textContent=this.textContent==='Показать полностью ▾'?'Свернуть ▴':'Показать полностью ▾'">Показать полностью ▾</button>` : '';
   const questionsHtml = c.questions.length ? `<ul class="q-list">${c.questions.map(q=>`<li>${esc(q).replace(/\n/g,'<br>')}</li>`).join('')}</ul>` : '';
   const annotHtml = c.shortDesc ? `<p class="case-annot">${c.shortDesc.replace(/\n/g,'<br>')}</p>` : FIELD_PH;
-  const valuesChips = c.values.map(v=>{const val=byId(VALUES,v);return val?`<span class="chip">♦ ${esc(val.title)}</span>`:'';}).filter(Boolean).join('');
-  const valuesChipsHtml = valuesChips?`<div class="chip-row">${valuesChips}</div>`:'';
-  const resultsChips = c.results.length ? `<div class="detail-meta">${resultChipsHtml(c.results)}</div>` : '';
+  const valuesChipsHtml = valuePillsHtml(c.values);
+  const resultsCards = resultCardsHtml(c.results);
   const collChips = c.collectionMethods.length ? `<div class="detail-meta">${c.collectionMethods.map(m=>`<span class="chip">${esc(m)}</span>`).join('')}</div>` : '';
   const anChips = c.analysisMethods.length ? `<div class="detail-meta">${c.analysisMethods.map(m=>`<span class="chip">${esc(m)}</span>`).join('')}</div>` : '';
   const docRow = (label, items) => `<div class="subhead">${label}</div>` + (items && items.length ? `<div class="filelist">${items.map(n=>fileRow({name:n, ext:(String(n).includes('.')?String(n).split('.').pop().toUpperCase():'FILE')})).join('')}</div>` : FIELD_PH);
   const reportHtml = c.reportUrl ? `<p><a href="${esc(c.reportUrl)}" target="_blank" rel="noopener" style="text-decoration:underline;">${esc(c.reportUrl)}</a></p>` : FIELD_PH;
-  const contactHtml = c.contact ? (/^https?:\/\//.test(c.contact) ? `<a href="${esc(c.contact)}" target="_blank" rel="noopener" style="text-decoration:underline;">${esc(c.contact)}</a>` : esc(c.contact)) : FIELD_PH;
+  const contactHtml = c.contact ? (/^https?:\/\//.test(c.contact) ? `<a href="${esc(c.contact)}" target="_blank" rel="noopener" style="text-decoration:underline;">${esc(c.contact)}</a>` : esc(c.contact)) : '';
   const quickFiles = [
     ...c.docs.brief.map(n=>['Краткий отчёт',n]),
     ...c.docs.plan.map(n=>['План оценки',n]),
@@ -3471,20 +3543,22 @@ function renderCaseDetail(id){
     ...(c.reportUrl?[['Полный отчёт',c.reportUrl]]:[]),
     ...ASSESSMENT_DOCS.filter(d=>d.caseId===id).map(d=>[d.docType||d.title, '#/card/assessmentDoc/'+d.id])
   ];
-  const quickHtml = quickFiles.length
-    ? `<div class="sidebar-box"><h4>Скачать быстро</h4><div class="filelist">${quickFiles.map(([lab,n])=>{
-        const isUrl = /^https?:\/\//.test(String(n));
-        const isHash = String(n).startsWith('#/');
-        const ext = isUrl?'URL':(isHash?'PDF':(String(n).includes('.')?String(n).split('.').pop().toUpperCase():'FILE'));
-        if(isUrl||isHash) return `<a class="filerow" href="${esc(n)}"${isUrl?' target="_blank" rel="noopener"':''} style="text-decoration:none;color:inherit;"><div class="name"><span class="ext">${ext}</span>${esc(lab)}</div></a>`;
-        return `<div class="filerow"><div class="name"><span class="ext">${ext}</span>${esc(lab)}</div><button onclick="alert('Демо-прототип: файл ещё не прикреплён')">Скачать</button></div>`;
-      }).join('')}</div></div>`
+  const quickHtml = sidebarQuickBox(quickFiles);
+  const mediaHtml = c.docs.video.length
+    ? `<div class="filelist">${c.docs.video.map(n=>`<div class="filerow"><div class="name"><span class="ext">MP4</span>${esc(n)}</div><button onclick="alert('Демо-прототип: файл ещё не прикреплён')">Скачать</button></div>`).join('')}</div>`
     : '';
+  const relatedCasesList = c.relatedCases.map(cid=>byId(CASES,cid)).filter(Boolean);
+  const caseNav = sidebarNavBox([
+    {label:'Все кейсы', href:'#/section/cases', prefix:'← '},
+    {label:'Все материалы', href:'#/section/all', prefix:'→ '},
+    {label:'Банк результатов', href:'#/results', prefix:'→ '},
+    ...(c.values.length?[{label:'Все материалы по ценности', href:'#/section/all?value='+c.values[0], prefix:'→ '}]:[])
+  ]);
 
   app.innerHTML = `
   <div class="wrap wrap-narrow fade-in case-page">
     <div class="crumbs"><a href="#/">ЯККИ</a><span class="sep">/</span><a href="#/section/cases">Кейсы проектов</a><span class="sep">/</span><span>${c.title}</span></div>
-    ${detailHero({pill:SECTIONS.cases.pill,badge:'Кейс проекта',topExtra:(c.values.length&&byId(VALUES,c.values[0]))?`<span class="case-hero-value">${byId(VALUES,c.values[0]).title}</span>`:'',title:c.title,lead:c.shortDesc,cta:`<button class="btn btn-primary" onclick="downloadAsMarkdown('case','${c.id}')">Скачать .md</button>`,meta:c.values.map(v=>{const val=byId(VALUES,v);return val?`<a class="chip" data-nav="#/value/${val.id}">♦ ${val.title}</a>`:'';}).filter(Boolean).join(''),tint:'#A038B0',grad:'var(--gradient-cases)'})}
+    ${detailHero({pill:SECTIONS.cases.pill,badge:'Кейс',topExtra:'',title:c.title,lead:c.shortDesc,cta:`<button class="btn btn-primary" onclick="downloadAsMarkdown('case','${c.id}')">Скачать .md</button>`,meta:valuePillsHtml(c.values),tint:'#A038B0',grad:'var(--gradient-cases)'})}
     <div class="detail-grid case-grid">
       <div>
         <div class="block"><h2>О проекте</h2>
@@ -3527,7 +3601,7 @@ function renderCaseDetail(id){
           <div class="subhead" style="margin-top:18px;">Рекомендации для будущих проектов</div>
           ${linesUl(c.lessons.reco)||FIELD_PH}
         </div>
-        <div class="block"><h2>Результат</h2>${resultsChips||FIELD_PH}</div>
+        ${resultsCards?`<div class="block"><h2>Результат</h2>${resultsCards}</div>`:''}
         <div class="block"><h2>Документы</h2>
           <div class="subhead">Ссылка на полный отчет об оценки</div>${reportHtml}
           ${docRow('План оценки', c.docs.plan)}
@@ -3537,18 +3611,17 @@ function renderCaseDetail(id){
           ${docRow('ТЗ на анализ данных', c.docs.analysisTz)}
           ${docRow('Инструменты сбора данных', c.docs.tools)}
           ${docRow('Краткий отчёт об оценке', c.docs.brief)}
-          ${docRow('Видео о проекте', c.docs.video)}
           ${docRow('Презентация', c.docs.pres)}
         </div>
-        <div class="block"><h2>Контакты</h2>
-          <dl class="kv"><dt>Контакты</dt><dd>${contactHtml}</dd></dl>
-        </div>
+        ${relatedCollectionHtml('Похожие кейсы', relatedCasesList.slice(0,5), 'cases', 'Все кейсы →', '#/section/cases')}
       </div>
       <div>
+        ${caseNav}
         ${quickHtml}
         ${relatedBlockHtml('Инструменты сбора данных', c.relatedTools, 'tool')}
-        ${relatedBlockHtml('Похожие кейсы', c.relatedCases, 'case')}
-        ${(() => { const caseDocs = ASSESSMENT_DOCS.filter(d => d.caseId === id); return caseDocs.length ? `<div class="sidebar-box"><h4>Документы оценки этого проекта</h4><div class="filelist">${caseDocs.map(d => `<a class="filerow" href="#/card/assessmentDoc/${d.id}" style="text-decoration:none;color:inherit;"><div class="name"><span class="ext">${d.format||'PDF'}</span>${d.title}</div></a>`).join('')}</div></div>` : ''; })()}
+        ${sidebarMediaBox(mediaHtml)}
+        ${sidebarContactsBox(contactHtml?`<div style="font-size:13.5px;">${contactHtml}</div>`:'')}
+        ${sidebarUpdatedBox(c.updated)}
       </div>
     </div>
     <a class="back-link" href="#/section/cases">← Ко всем кейсам</a>
@@ -3579,13 +3652,20 @@ function renderToolDetail(id){
   t.oppLimits=t.oppLimits||''; t.otherProjects=t.otherProjects||'';
   t.analysisTz=t.analysisTz||''; t.updated=t.updated||'';
 
-  const valuesChips = t.values.map(v=>{const val=byId(VALUES,v);return val?`<span class="chip">♦ ${esc(val.title)}</span>`:'';}).filter(Boolean).join('');
-  const valuesChipsHtml = valuesChips?`<div class="chip-row">${valuesChips}</div>`:'';
-  const resultsChips = t.results.length ? `<div class="detail-meta">${resultChipsHtml(t.results)}</div>` : '';
+  const valuesChipsHtml = valuePillsHtml(t.values);
+  const resultsCards = resultCardsHtml(t.results);
+  const quickFiles = t.file ? [[t.file.name || t.title, t.file.name || t.title]] : [];
+  const relatedToolsList = t.related.map(tid=>byId(TOOLS,tid)).filter(Boolean);
+  const toolNav = sidebarNavBox([
+    {label:'Все инструменты', href:'#/section/tools', prefix:'← '},
+    {label:'Все материалы', href:'#/section/all', prefix:'→ '},
+    {label:'Банк результатов', href:'#/results', prefix:'→ '},
+    ...(t.values.length?[{label:'Все материалы по ценности', href:'#/section/all?value='+t.values[0], prefix:'→ '}]:[])
+  ]);
   app.innerHTML = `
   <div class="wrap wrap-narrow fade-in">
     <div class="crumbs"><a href="#/">ЯККИ</a><span class="sep">/</span><a href="#/section/all">Все материалы</a><span class="sep">/</span><a href="#/section/tools">Инструменты</a><span class="sep">/</span><span>${t.title}</span></div>
-    ${detailHero({pill:SECTIONS.tools.pill,badge:(t.toolType||t.type||'Инструмент'),topExtra:'',title:t.title,lead:t.shortDesc,cta:`<button class="btn btn-primary" onclick="downloadAsMarkdown('tool','${t.id}')">Скачать .md</button>`,meta:t.values.map(v=>{const val=byId(VALUES,v);return val?`<a class="chip" data-nav="#/value/${val.id}">♦ ${val.title}</a>`:'';}).filter(Boolean).join(''),tint:'#F78E45',grad:'var(--gradient-tools)'})}
+    ${detailHero({pill:SECTIONS.tools.pill,badge:'Инструмент',topExtra:'',title:t.title,lead:t.shortDesc,cta:`<button class="btn btn-primary" onclick="downloadAsMarkdown('tool','${t.id}')">Скачать .md</button>`,meta:valuePillsHtml(t.values),tint:'#F78E45',grad:'var(--gradient-tools)'})}
     <div class="detail-grid case-grid">
       <div>
         <div class="block"><h2>Характеристика</h2>
@@ -3596,41 +3676,43 @@ function renderToolDetail(id){
             ${kvRow('Метод', t.method)}
             ${kvRow('Тип инструмента', t.toolType)}
             ${kvRow('Ценности', valuesChipsHtml)}
-            ${kvRow('Результаты', resultsChips)}
+            ${kvRow('Результаты', resultsCards)}
             ${kvRow('Тип проекта', t.projectType)}
             ${kvRow('Целевая группа', t.audience)}
             ${kvRow('Стадия оценки', t.evalStage)}
             ${kvRow('Тип данных', t.dataType)}
           </dl>
         </div>
-        <div class="block"><h2>Развернутое описание</h2>${parasHtml(t.fullDesc)||FIELD_PH}</div>
-        <div class="block"><h2>Для кого предназначен</h2>${parasHtml(t.forWhom)||FIELD_PH}</div>
-        <div class="block"><h2>Ситуация применения</h2>${parasHtml(t.situation)||FIELD_PH}</div>
-        <div class="block"><h2>Подготовка к применению</h2>${linesUl(t.prep)||FIELD_PH}</div>
-        <div class="block"><h2>Порядок применения</h2>${linesUl(t.procedure)||FIELD_PH}</div>
-        <div class="block"><h2>Ресурсы</h2>
+        ${t.fullDesc?`<div class="block"><h2>Развернутое описание</h2>${parasHtml(t.fullDesc)}</div>`:''}
+        ${t.forWhom?`<div class="block"><h2>Для кого предназначен</h2>${parasHtml(t.forWhom)}</div>`:''}
+        ${t.situation?`<div class="block"><h2>Ситуация применения</h2>${parasHtml(t.situation)}</div>`:''}
+        ${t.prep.length?`<div class="block"><h2>Подготовка к применению</h2>${linesUl(t.prep)}</div>`:''}
+        ${t.procedure.length?`<div class="block"><h2>Порядок применения</h2>${linesUl(t.procedure)}</div>`:''}
+        ${(t.effort||t.timeEstimate)?`<div class="block"><h2>Ресурсы</h2>
           <dl class="kv">
             ${kvRow('Трудоемкость проведения', t.effort)}
             ${kvRow('Ориентировочное время проведения', t.timeEstimate)}
           </dl>
-        </div>
-        <div class="block"><h2>Возможности и ограничения</h2>${parasHtml(t.oppLimits)||FIELD_PH}</div>
-        <div class="block"><h2>Возможности для применения в других проектах</h2>${parasHtml(t.otherProjects)||FIELD_PH}</div>
-        <div class="block"><h2>Ограничения и риски</h2>${linesUl(t.limitations)||FIELD_PH}</div>
-        <div class="block"><h2>Таблица связи</h2>
+        </div>`:''}
+        ${t.oppLimits?`<div class="block"><h2>Возможности и ограничения</h2>${parasHtml(t.oppLimits)}</div>`:''}
+        ${t.otherProjects?`<div class="block"><h2>Возможности для применения в других проектах</h2>${parasHtml(t.otherProjects)}</div>`:''}
+        ${t.limitations.length?`<div class="block"><h2>Ограничения и риски</h2>${linesUl(t.limitations)}</div>`:''}
+        ${t.table.length?`<div class="block"><h2>Таблица связи</h2>
           <table class="qtable"><thead><tr><th>Таблица связи  столбец  “Оценочный вопрос</th><th>Таблица связи столбец “ - индикатор -"</th><th>Таблица связи столбец  “- позиция в инструменте”</th></tr></thead>
-          <tbody>${t.table.length ? t.table.map(r=>`<tr><td>${esc(r[0]||'').replace(/\n/g,'<br>')}</td><td>${esc(r[1]||'').replace(/\n/g,'<br>')}</td><td>${esc(r[2]||'').replace(/\n/g,'<br>')}</td></tr>`).join('') : `<tr><td colspan="3">${FIELD_PH}</td></tr>`}</tbody></table>
-        </div>
-        <div class="block"><h2>Методы анализа данных</h2>${linesUl(t.analysisMethods)||FIELD_PH}</div>
-        <div class="block"><h2>Техническое задание на анализ данных</h2>${parasHtml(t.analysisTz)||FIELD_PH}</div>
-        <div class="block"><h2>Файл инструмента</h2>${t.file?`<div class="filelist">${fileRow(t.file)}</div>`:FIELD_PH}</div>
+          <tbody>${t.table.map(r=>`<tr><td>${esc(r[0]||'').replace(/\n/g,'<br>')}</td><td>${esc(r[1]||'').replace(/\n/g,'<br>')}</td><td>${esc(r[2]||'').replace(/\n/g,'<br>')}</td></tr>`).join('')}</tbody></table>
+        </div>`:''}
+        ${t.analysisMethods.length?`<div class="block"><h2>Методы анализа данных</h2>${linesUl(t.analysisMethods)}</div>`:''}
+        ${t.analysisTz?`<div class="block"><h2>Техническое задание на анализ данных</h2>${parasHtml(t.analysisTz)}</div>`:''}
+        ${t.file?`<div class="block"><h2>Файл инструмента</h2><div class="filelist">${fileRow(t.file)}</div></div>`:''}
+        ${relatedCollectionHtml('Похожие инструменты', relatedToolsList.slice(0,5), 'tools', 'Все инструменты →', '#/section/tools')}
+        ${t.relatedMethodology.length?relatedCollectionHtml('Подробнее о методологии', t.relatedMethodology.map(mid=>byId(METHODOLOGY,mid)).filter(Boolean).slice(0,5), 'methodology', 'Все методики →', '#/section/methodology'):''}
+        ${t.relatedTemplates.length?relatedCollectionHtml('Подходящие шаблоны', t.relatedTemplates.map(tid=>byId(TEMPLATES,tid)).filter(Boolean).slice(0,5), 'templates', 'Все шаблоны →', '#/section/templates'):''}
       </div>
       <div>
-        <div class="sidebar-box"><h4>Дата публикации/обновления</h4><div class="updated-note" style="margin:0;">${t.updated||FIELD_PH}</div></div>
-        ${relatedBlockHtml('Пример применения', t.examples, 'case', true)}
-        ${relatedBlockHtml('Похожие инструменты', t.related, 'tool', true)}
-        ${relatedBlockHtml('Подробнее о методологии', t.relatedMethodology, 'methodology', true)}
-        ${relatedBlockHtml('Подходящие шаблоны', t.relatedTemplates, 'template', true)}
+        ${toolNav}
+        ${sidebarQuickBox(quickFiles)}
+        ${relatedBlockHtml('Связанные кейсы', t.examples, 'case')}
+        ${sidebarUpdatedBox(t.updated)}
       </div>
     </div>
     <a class="back-link" href="#/section/tools">← Ко всем инструментам</a>
@@ -3920,30 +4002,40 @@ function renderValueDetail(id){
   cases.forEach(c=>{ if(!seenCases.has(c.id)){ seenCases.add(c.id); keyCases.push(c); }});
   const bestCases = keyCases.slice(0,5);
   const bestTools = tools.slice(0,5);
-  const bestMethodologies = methodologies.slice(0,5);
   const totalMaterials = keyCases.length + tools.length;
+  const valueNavHtml = sidebarNavBox([
+    {label:'Все ценности', href:'#/values', prefix:'← '},
+    {label:'Банк результатов', href:'#/results', prefix:'→ '},
+    {label:'Все результаты по ценности', href:'#/results', prefix:'→ ', style:'cursor:pointer;'},
+    {label:'Все материалы по ценности', href:'#/section/all?value='+id, prefix:'→ '}
+  ]).replace('href="#/results" style="cursor:pointer;"', `href="#/results" onclick="goToResultsForValue('${id}');return false;" style="cursor:pointer;"`);
   app.innerHTML = `<div class="wrap wrap-narrow fade-in">
     <div class="crumbs"><a href="#/">ЯККИ</a><span class="sep">/</span><a href="#/values">Ценности</a><span class="sep">/</span><span>${v.title}</span></div>
     ${detailHero({pill:SECTIONS.values.pill,badge:'Ценность',topExtra:'',title:v.title,lead:v.desc,cta:'',meta:'',tint:'#2E7FC2',grad:'linear-gradient(90deg,#0A3A6B 0%,#2E7FC2 55%,#63ADF2 100%)'})}
-    <div class="section-pad" style="padding-top:32px;">
-      ${linkedResults.length ? `<div class="subhead" style="font-size:16px;margin-bottom:12px;">Ключевые результаты</div>
-      <div class="value-cards-grid">
-        ${linkedResults.slice(0,5).map(r=>`<a href="#/result/${r.ai}/${r.ari}/${r.ri}" style="text-decoration:none;color:inherit;background:var(--paper-raised);border:1px solid var(--line);border-radius:var(--radius);padding:16px 20px;display:block;transition:all .15s;" onmouseover="this.style.borderColor='var(--navy)'" onmouseout="this.style.borderColor='var(--line)'">
-          <div style="font-size:16px;font-weight:600;line-height:1.35;">${r.text}</div>
-          <div style="font-size:13px;color:var(--ink-faint);margin-top:6px;">${r.approach} → ${r.area}</div>
-        </a>`).join('')}
+    <div class="detail-grid case-grid">
+      <div>
+        ${linkedResults.length ? `<div class="block"><h2>Ключевые результаты</h2>
+        <div class="value-cards-grid">
+          ${linkedResults.slice(0,5).map(r=>`<a class="result-card" href="#/result/${r.ai}/${r.ari}/${r.ri}">
+            <div class="rc-title">${r.text}</div>
+            <div class="rc-meta">${r.approach} → ${r.area}</div>
+          </a>`).join('')}
+        </div>
+        <div style="margin-top:16px;"><button class="btn btn-ghost btn-sm" onclick="goToResultsForValue('${id}')">Посмотреть все результаты (${linkedResults.length}) →</button></div>
+        </div>` : ''}
+        ${bestCases.length ? `<div class="block"><h2>Ключевые кейсы</h2>
+        <div class="card-list">${renderCardList('cases',bestCases)}</div>
+        <div style="margin-top:12px;"><a class="btn btn-ghost btn-sm" href="#/section/cases?value=${id}">Посмотреть все кейсы (${keyCases.length}) →</a></div>
+        </div>` : ''}
+        ${bestTools.length ? `<div class="block"><h2>Ключевые инструменты</h2>
+        <div class="card-list">${renderCardList('tools',bestTools)}</div>
+        <div style="margin-top:12px;"><a class="btn btn-ghost btn-sm" href="#/section/tools?value=${id}">Посмотреть все инструменты (${tools.length}) →</a></div>
+        </div>` : ''}
+        <div style="margin-top:8px;"><a class="btn btn-primary btn-sm" href="#/section/all?value=${id}">Все материалы по этой ценности (${totalMaterials}) →</a></div>
       </div>
-      <div style="margin-top:16px;margin-bottom:28px;"><button class="btn btn-ghost btn-sm" onclick="goToResultsForValue('${id}')">Посмотреть все результаты (${linkedResults.length}) →</button></div>` : ''}
-      ${bestCases.length ? `<div class="subhead" style="font-size:16px;margin-bottom:12px;">Ключевые кейсы</div>
-      <div class="card-list">${renderCardList('cases',bestCases)}</div>
-      <div style="margin-top:12px;"><a class="btn btn-ghost btn-sm" href="#/section/cases?value=${id}">Посмотреть все кейсы (${keyCases.length}) →</a></div>` : ''}
-      ${bestTools.length ? `<div class="subhead" style="font-size:16px;margin-top:32px;margin-bottom:12px;">Ключевые инструменты</div>
-      <div class="card-list">${renderCardList('tools',bestTools)}</div>
-      <div style="margin-top:12px;"><a class="btn btn-ghost btn-sm" href="#/section/tools?value=${id}">Посмотреть все инструменты (${tools.length}) →</a></div>` : ''}
-      ${bestMethodologies.length ? `<div class="subhead" style="font-size:16px;margin-top:32px;margin-bottom:12px;">Ключевые методики</div>
-      <div class="card-list">${renderCardList('methodology',bestMethodologies)}</div>
-      <div style="margin-top:12px;"><a class="btn btn-ghost btn-sm" href="#/section/all?type=methodology&value=${id}">Посмотреть все методики (${methodologies.length}) →</a></div>` : ''}
-      <div style="margin-top:32px;"><a class="btn btn-primary btn-sm" href="#/section/all?value=${id}">Все материалы по этой ценности (${totalMaterials}) →</a></div>
+      <div>
+        ${valueNavHtml}
+      </div>
     </div>
     <a class="back-link" href="#/values">← Ко всем ценностям</a>
   </div>`;
@@ -4242,7 +4334,7 @@ function renderResultDetail(apprIdx,areaIdx,resultIdx){
   const result = area.results[resultIdx];
   if(!result){ document.getElementById('app').innerHTML = notFound(); return; }
 
-  const valNames = (result.values||[]).map(vid=>{const v=VALUES.find(x=>x.id===vid);return v?`<a class="chip" href="#/value/${v.id}" style="text-decoration:none;">♦ ${v.title}</a>`:'';}).filter(Boolean);
+  const valNames = (result.values||[]).map(vid=>valuePillHtml(vid)).filter(Boolean);
   const keyCaseIds = (result.keyCases&&result.keyCases.length) ? result.keyCases : [];
   const keyToolIds = (result.keyTools&&result.keyTools.length) ? result.keyTools : [];
   const relatedCases = keyCaseIds.map(cid=>byId(CASES,cid)).filter(Boolean);
@@ -4282,27 +4374,18 @@ function renderResultDetail(apprIdx,areaIdx,resultIdx){
             ${result.indicators.map(ind=>`<li>${ind}</li>`).join('')}
           </ul>
         </div>` : ''}
+        ${relatedCollectionHtml('Ключевые кейсы', relatedCases.slice(0,5), 'cases', 'Все кейсы →', '#/section/cases?q='+encodeURIComponent(resultText))}
+        ${relatedCollectionHtml('Ключевые инструменты', relatedTools.slice(0,5), 'tools', 'Все инструменты →', '#/section/tools?q='+encodeURIComponent(resultText))}
       </div>
       <div>
-        <div class="sidebar-box"><h4>Навигация</h4>
-          <div style="display:flex;flex-direction:column;gap:6px;font-size:13.5px;">
-            <a href="#/results" style="text-decoration:none;">← Банк результатов</a>
-            ${relatedCases.length ? `<a href="${relatedCases[0]?`#/card/case/${relatedCases[0].id}`:'#/results'}" style="text-decoration:none;">→ Связанные кейсы</a>` : ''}
-            ${relatedTools.length ? `<a href="${relatedTools[0]?`#/card/tool/${relatedTools[0].id}`:'#/results'}" style="text-decoration:none;">→ Связанные инструменты</a>` : ''}
-          </div>
-        </div>
+        ${sidebarNavBox([
+          {label:'Банк результатов', href:'#/results', prefix:'← '},
+          {label:'Все кейсы', href:'#/section/cases', prefix:'→ '},
+          {label:'Все инструменты', href:'#/section/tools', prefix:'→ '},
+          {label:'Все материалы', href:'#/section/all', prefix:'→ '}
+        ])}
       </div>
     </div>
-    ${relatedCases.length ? `<div style="margin-top:8px;">
-      <div class="subhead" style="margin-bottom:12px;">Ключевые кейсы</div>
-      <div class="card-list">${renderCardList('cases',relatedCases.slice(0,5))}</div>
-      <div style="margin-top:12px;"><a class="btn btn-ghost btn-sm" href="#/section/cases?q=${encodeURIComponent(resultText)}">Посмотреть все кейсы →</a></div>
-    </div>` : ''}
-    ${relatedTools.length ? `<div style="margin-top:32px;">
-      <div class="subhead" style="margin-bottom:12px;">Ключевые инструменты оценки</div>
-      <div class="card-list">${renderCardList('tools',relatedTools.slice(0,5))}</div>
-      <div style="margin-top:12px;"><a class="btn btn-ghost btn-sm" href="#/section/tools?q=${encodeURIComponent(resultText)}">Посмотреть все инструменты →</a></div>
-    </div>` : ''}
   </div>`;
 }
 
