@@ -101,7 +101,7 @@ nav.mainnav .dd:last-child .dd-menu{left:auto;right:0;}
   nav.mainnav{gap:0;}
 }
 @media (max-width:980px){nav.mainnav{display:none;}.hsearch{display:none;}}
-.hamburger{display:none;background:none;border:none;cursor:pointer;padding:8px;flex-shrink:0;align-self:center;}
+.hamburger{display:none;background:none;border:none;cursor:pointer;padding:8px;flex-shrink:0;align-self:center;margin-left:auto;}
 .hamburger span{display:block;width:20px;height:2px;background:var(--ink);margin:4px 0;border-radius:2px;transition:all .2s;}
 .hamburger.open span:nth-child(1){transform:rotate(45deg) translate(4px,4px);}
 .hamburger.open span:nth-child(2){opacity:0;}
@@ -219,8 +219,8 @@ nav.mainnav .dd:last-child .dd-menu{left:auto;right:0;}
 .lesson-col.good{background:var(--green-soft);}
 .lesson-col.bad{background:var(--red-soft);}
 .lesson-col.reco{background:#EBE1F7;}
-.lesson-col.good h4{color:#1A7A50;}
-.lesson-col.bad h4{color:#C0392B;}
+.lesson-col.good h4{color:#007C00;}
+.lesson-col.bad h4{color:#7C0000;}
 .lesson-col.reco h4{color:var(--yakki-purple);}
 .case-page .subhead + .lesson-cols{margin-top:8px;}
 .lesson-cols + .subhead{margin-top:18px;}
@@ -527,8 +527,8 @@ table.qtable td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-al
 .lesson-cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
 @media (max-width:640px){.lesson-cols{grid-template-columns:1fr;}}
 .lesson-col h4{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.03em;color:var(--color-section-label);margin-bottom:10px;}
-.lesson-col.good h4{color:var(--c-tools);}
-.lesson-col.bad h4{color:var(--c-templates);}
+.lesson-col.good h4{color:#007C00;}
+.lesson-col.bad h4{color:#7C0000;}
 .sidebar-box{background:var(--paper-raised);border:1px solid var(--line);border-radius:12px;padding:24px;margin-bottom:14px;}
 .sidebar-box h4{font-size:16px;font-weight:700;text-transform:uppercase;color:var(--color-section-label);margin-bottom:12px;}
 .related-item{display:block;padding:10px 0;border-bottom:1px solid var(--line);font-size:13px;}
@@ -571,7 +571,8 @@ table.qtable td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-al
 .block .collapsible-body{max-height:0;overflow:hidden;transition:max-height .25s ease;}
 .block.open .collapsible-body{max-height:2000px;}
 .value-cards-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
-@media(max-width:860px){.value-cards-grid{grid-template-columns:1fr;}}
+.case-page .value-cards-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+@media(max-width:860px){.value-cards-grid,.case-page .value-cards-grid{grid-template-columns:1fr;}}
 .value-cards-grid>a{min-width:0;overflow-wrap:anywhere;}
 
 /* Truncated text */
@@ -690,6 +691,7 @@ body.pg-values #strokeBl{display:none;}
 /* pg home/methodology/templates — единая система выше (коммит 51d4c7c) */
 body.pg-case #strokeTr,body.pg-case #strokeBl{display:none;}
 @media (max-width:760px){.paint-stroke.tr{width:240px;height:280px;right:-30px;top:-20px;}.paint-stroke.bl{display:none;}}
+@media (max-width:640px){.paint-stroke{display:none!important;}}
 
 .fade-in{animation:fadeIn .25s ease both;}
 @keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
@@ -704,6 +706,7 @@ body.pg-case #strokeTr,body.pg-case #strokeBl{display:none;}
   .hamburger{display:block;}
   .site-back{display:none;}
   header.main .wrap{position:relative;}
+  .hamburger{margin-left:auto;}
   nav.mainnav{
     display:none;
     position:absolute;top:100%;left:0;right:0;
@@ -970,7 +973,7 @@ body.pg-case #strokeTr,body.pg-case #strokeBl{display:none;}
 }
 
 /* --- Filter toggle (mobile) --- */
-.filter-toggle{display:none;width:100%;margin-bottom:8px;min-height:44px;justify-content:center;}
+.filter-toggle{display:none;width:100%;margin-bottom:8px;min-height:44px;justify-content:center;background:#fff!important;border-color:var(--line-strong)!important;color:var(--ink)!important;box-shadow:0 1px 2px rgba(10,36,99,.06);}
 @media (max-width:860px){
   .filter-toggle{display:flex;}
   .filters{display:none;}
@@ -2317,6 +2320,12 @@ const RESULTS_TREE = [
 ];
 const RESULT_POS={};
 RESULTS_TREE.forEach((a,ai)=>a.influenceAreas.forEach((ar,ari)=>ar.results.forEach((r,ri)=>{if(RESULT_POS[r.id]===undefined)RESULT_POS[r.id]={ai:ai,ari:ari,ri:ri};})));
+function _resultNode(rid){const p=RESULT_POS[rid];return p?RESULTS_TREE[p.ai].influenceAreas[p.ari].results[p.ri]:null;}
+function _syncResultLinks(){
+  CASES.forEach(c=>{(c.results||[]).forEach(rid=>{const r=_resultNode(rid);if(!r)return;r.keyCases=r.keyCases||[];if(r.keyCases.indexOf(c.id)===-1)r.keyCases.push(c.id);});});
+  TOOLS.forEach(t=>{(t.results||[]).forEach(rid=>{const r=_resultNode(rid);if(!r)return;r.keyTools=r.keyTools||[];if(r.keyTools.indexOf(t.id)===-1)r.keyTools.push(t.id);});});
+}
+_syncResultLinks();
 
 const ASSESSMENT_DOCS = [
  {id:'doc-muzeinyi-plan', title:'План оценки проекта «Музейный эксперимент»', docType:'План оценки', shortDesc:'План оценки арт-резиденций для подростков: цель, вопросы, методы, график и дерево результатов.', caseId:'muzeinyi-eksperiment', projectName:'Музейный эксперимент', org:'МБУК «Добрянский историко-краеведческий музей»', projectType:'Музейные проекты', geo:'г. Добрянка, Пермский край', audience:'Подростки и молодёжь, сотрудники музея, жители города', evalStage:'Планирование', prepPeriod:'октябрь 2025', author:'АНО «Эволюция и Филантропия»', orgAuthor:'АНО «Эволюция и Филантропия»', annotation:'Документ описывает процедуру оценки проекта «Музейный эксперимент»: определены четыре уточняющих оценочных вопроса (КОВ), описаны целевые аудитории, методы сбора данных и календарный план.', contents:'1. Контекст проекта. 2. Цель и задачи оценки. 3. Оценочные вопросы. 4. Методы сбора данных. 5. Выборка и этапы. 6. График. 7. Этические условия.', evalQuestions:['Какие изменения в знаниях, навыках, отношении подростков?','В какой степени сотрудники музея ощутили профессиональный рост?','Удалось ли выставке стать резонансным событием?','Вызвал ли проект интерес к адаптации модели?'], dataCollectionMethods:['Интервью (селфи-интервью, три волны)','Анкеты (онлайн-опрос кураторов, сотрудников, жителей, профессионального сообщества)','Анализ документов (описания арт-объектов)'], dataAnalysisMethods:['Тематический анализ (кодирование и группировка)','Описательная статистика','Триангуляция данных'], effects:['Изменение отношения и ценностей','Формирование сообществ','Развитие компетенций'],   values:['istoricheskaya-pamyat','patriotism'], mainFile:{name:'План оценки — Музейный эксперимент.pdf', ext:'PDF'}, additionalFiles:[], format:'PDF', language:'Русский', relatedTools:['anketa-muzeinyi-eksperiment'], relatedMethodology:['theory-of-change'], relatedTemplates:['tpl-plan'], relatedDocs:[], tags:['план оценки','музей','подростки'], previewImage:null, publishDate:'2025-10-15', updated:'2025-10-15', status:'published', sortOrder:1},
@@ -2928,7 +2937,7 @@ function renderSection(key){
         </div>
         <div>
           <div class="results-topline">
-            <span class="count">Найдено проектов: ${items.length}</span>
+            <span class="count">Найдено: ${items.length}</span>
           </div>
           <div class="card-list" id="cardList">${renderCardList(key, items)}</div>
         </div>
@@ -3044,7 +3053,7 @@ function renderSection(key){
       </div>
       <div>
         <div class="results-topline">
-          <span class="count">Найдено проектов: ${items.length}</span>
+          <span class="count">Найдено: ${items.length}</span>
         </div>
         <div class="card-list" id="allCardList">${renderCardListAll(items)}</div>
       </div>
@@ -3756,7 +3765,7 @@ function renderCaseDetail(id){
         </div>
         <div class="block" id="usage">
           <h2><span class="section-number">03 ·</span>Использование результатов</h2>
-          ${parasHtml(c.useResults)||FIELD_PH}
+          ${ddetails('Рекомендации для внесения изменений в проект по результатам оценки', parasHtml(c.useResults)||FIELD_PH)}
           <div class="lesson-cols" style="margin-top:16px;">
             <div class="lesson-col good"><h4>Что сработало</h4>${linesUl(c.lessons.good)||FIELD_PH}</div>
             <div class="lesson-col bad"><h4>Что не сработало</h4>${linesUl(c.lessons.bad)||FIELD_PH}</div>
@@ -3774,12 +3783,12 @@ function renderCaseDetail(id){
       <div>
         ${caseNav}
         ${sidebarQuickBox(quickFiles)}
-        ${relatedBlockHtml('Инструменты сбора данных', c.relatedTools, 'tool')}
+        ${relatedBlockHtml('Инструменты', c.relatedTools, 'tool')}
         ${sidebarContactsBox(contactHtml?`<div style="font-size:13.5px;">${contactHtml}</div>`:'')}
         ${sidebarUpdatedBox(c.updated)}
       </div>
     </div>
-    ${relatedCollectionHtml('Похожие кейсы', relatedCasesList.slice(0,5), 'cases', 'Все кейсы', '#/section/cases')}
+    ${relatedCollectionHtml('Похожие кейсы', relatedCasesList.slice(0,5), 'cases', '', '')}
     <a class="back-link" href="#/section/cases">← Ко всем кейсам</a>
   </div>`;
 }
@@ -3875,15 +3884,12 @@ function renderToolDetail(id){
       </div>
       <div>
         ${toolNav}
-        ${t.status?`<div class="sidebar-box"><h4>Статус</h4><div class="updated-note" style="margin:0;">${esc(t.status)}</div></div>`:''}
         ${sidebarQuickBox(quickFiles)}
         ${relatedBlockHtml('Связанные кейсы', t.examples, 'case')}
         ${sidebarUpdatedBox(t.updated)}
       </div>
     </div>
-    ${relatedCollectionHtml('Похожие инструменты', t.related.map(tid=>byId(TOOLS,tid)).filter(Boolean).slice(0,5), 'tools', 'Все инструменты', '#/section/tools')}
-    ${t.relatedMethodology.length?relatedCollectionHtml('Подробнее о методологии', t.relatedMethodology.map(mid=>byId(METHODOLOGY,mid)).filter(Boolean).slice(0,5), 'methodology', 'Все методики', '#/section/methodology'):''}
-    ${t.relatedTemplates.length?relatedCollectionHtml('Подходящие шаблоны', t.relatedTemplates.map(tid=>byId(TEMPLATES,tid)).filter(Boolean).slice(0,5), 'templates', 'Все шаблоны', '#/section/templates'):''}
+    ${relatedCollectionHtml('Похожие инструменты', t.related.map(tid=>byId(TOOLS,tid)).filter(Boolean).slice(0,5), 'tools', '', '')}
     <a class="back-link" href="#/section/tools">← Ко всем инструментам</a>
   </div>`;
 }
@@ -3915,7 +3921,6 @@ function renderMethodologyDetail(id){
         <div class="sidebar-box"><h4>Обновлено</h4><div class="updated-note" style="margin:0;">${m.updated}</div></div>
         ${relatedBlockHtml('Инструменты', m.related?m.related.tools:null, 'tool')}
         ${relatedBlockHtml('Кейсы', m.related?m.related.cases:null, 'case')}
-        ${relatedBlockHtml('Шаблоны', m.related?m.related.templates:null, 'template')}
         ${relatedBlockHtml('Обучающие материалы', m.related?m.related.learning:null, 'learning')}
       </div>
     </div>
@@ -3940,7 +3945,6 @@ function renderTemplateDetail(id){
       </div>
       <div>
         <div class="sidebar-box"><h4>Обновлено</h4><div class="updated-note" style="margin:0;">${t.updated}</div></div>
-        ${relatedBlockHtml('Методики', t.related?t.related.methodology:null, 'methodology')}
         ${relatedBlockHtml('Примеры кейсов', t.related?t.related.cases:null, 'case')}
         ${relatedBlockHtml('Инструменты', t.related?t.related.tools:null, 'tool')}
         ${relatedBlockHtml('Обучающие материалы', t.related?t.related.learning:null, 'learning')}
@@ -4012,8 +4016,6 @@ function renderAssessmentDocDetail(id){
       <div>
         <div class="sidebar-box"><h4>Обновлено</h4><div class="updated-note" style="margin:0;">${d.updated}</div></div>
         ${relatedBlockHtml('Связанные инструменты', d.relatedTools, 'tool')}
-        ${relatedBlockHtml('Методики', d.relatedMethodology, 'methodology')}
-        ${relatedBlockHtml('Шаблоны', d.relatedTemplates, 'template')}
         ${relatedBlockHtml('Связанные документы', d.relatedDocs, 'assessmentDoc')}
       </div>
     </div>
@@ -4171,7 +4173,6 @@ function renderValueDetail(id){
   cases.forEach(c=>{ if(!seenCases.has(c.id)){ seenCases.add(c.id); keyCases.push(c); }});
   const bestCases = keyCases.slice(0,5);
   const bestTools = tools.slice(0,5);
-  const totalMaterials = keyCases.length + tools.length;
   const valueNavHtml = sidebarNavBox([
     {label:'Все ценности', href:'#/values', prefix:'← '},
     {label:'Банк результатов', href:'#/results', prefix:'→ '},
@@ -4190,16 +4191,14 @@ function renderValueDetail(id){
             <div class="rc-meta">${r.approach} → ${r.area}</div>
           </a>`).join('')}
         </div>
-        <div style="margin-top:16px;"><button class="btn btn-ghost btn-sm" onclick="goToResultsForValue('${id}')">Все результаты</button></div>
         </div>` : ''}
       </div>
       <div>
         ${valueNavHtml}
       </div>
     </div>
-    ${bestCases.length ? relatedCollectionHtml('Ключевые кейсы', bestCases, 'cases', 'Все кейсы', '#/section/cases?value='+id) : ''}
-    ${bestTools.length ? relatedCollectionHtml('Ключевые инструменты', bestTools, 'tools', 'Все инструменты', '#/section/tools?value='+id) : ''}
-    <div style="margin-top:16px;"><a class="btn btn-primary btn-sm" href="#/section/all?value=${id}">Все материалы по этой ценности (${totalMaterials}) →</a></div>
+    ${bestCases.length ? relatedCollectionHtml('Ключевые кейсы', bestCases, 'cases', '', '') : ''}
+    ${bestTools.length ? relatedCollectionHtml('Ключевые инструменты', bestTools, 'tools', '', '') : ''}
     <a class="back-link" href="#/values">← Ко всем ценностям</a>
   </div>`;
 }
@@ -4529,7 +4528,6 @@ function renderResultDetail(apprIdx,areaIdx,resultIdx){
       <div>
         <div class="block"><h2>Характеристика результата</h2>
           <dl class="kv">
-            <dt>ID</dt><dd>${result.id}</dd>
             <dt>Подход</dt><dd>${appr.approach}</dd>
             <dt>Область влияния</dt><dd>${area.name}</dd>
             <dt>Название</dt><dd>${result.title||result.text}</dd>
