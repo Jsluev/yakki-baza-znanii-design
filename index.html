@@ -224,6 +224,9 @@ nav.mainnav .dd:last-child .dd-menu{left:auto;right:0;}
 .lesson-col.reco h4{color:var(--yakki-purple);}
 .case-page .subhead + .lesson-cols{margin-top:8px;}
 .lesson-cols + .subhead{margin-top:18px;}
+.case-page .block .ddetails + .subhead,
+.case-page .block .kov-row + .subhead,
+.case-page .block .resource-tags + .subhead{margin-top:28px;}
 .block .doc-group{background:#FBFBFD;}
 .block .doc-group>summary{font-size:14.5px;}
 .filerow{background:#F4F1F8;}
@@ -237,8 +240,14 @@ nav.mainnav .dd:last-child .dd-menu{left:auto;right:0;}
 .related-collection{margin-top:8px;}
 .related-collection .subhead,
 .related-full .subhead{
-  font-size:20px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;
-  color:var(--ink);margin:0 0 14px !important;
+  font-family:var(--font-body);
+  font-size:20px !important;font-weight:700;text-transform:uppercase;letter-spacing:.04em;
+  line-height:1.2;color:var(--color-ink);margin:28px 0 20px !important;
+}
+.case-page .related-collection .subhead,
+.case-page .related-full .subhead{
+  font-size:30px !important;
+  text-transform:none;letter-spacing:0;line-height:1.2;
 }
 .case-page .related-collection{margin-top:8px;}
 .type-badge{border-radius:4px;}
@@ -481,8 +490,8 @@ main{min-height:60vh;padding-bottom:100px;}
 .case-hero-top{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-bottom:18px;position:relative;z-index:1;}
 .case-hero-top .type-badge{border-radius:6px;padding:6px 7px;background:rgba(255,255,255,.22)!important;color:#fff!important;}
 .case-hero-value{font-size:14px;font-weight:500;color:rgba(255,255,255,.85);opacity:1;}
-.case-hero h1{font-size:54px;max-width:696px;position:relative;z-index:1;color:#fff;}
-.case-hero-lead{font-size:18px;font-weight:300;max-width:696px;line-height:22px;margin-top:14px;color:rgba(255,255,255,.92);position:relative;z-index:1;}
+.case-hero h1{font-size:54px;max-width:860px;position:relative;z-index:1;color:#fff;}
+.case-hero-lead{font-size:18px;font-weight:300;max-width:860px;line-height:22px;margin-top:14px;color:rgba(255,255,255,.92);position:relative;z-index:1;}
 .case-hero-cta{margin-top:22px;position:relative;z-index:1;}
 .case-hero-cta .btn{padding:12px 24px;font-size:16px;}
 .case-hero .detail-meta{margin-top:18px;position:relative;z-index:1;}
@@ -3588,7 +3597,7 @@ function resultCardsHtml(ids){
 function relatedCollectionHtml(title, items, sectionKey, btnLabel, btnHref){
   if(!items||!items.length) return '';
   return `<div class="related-collection">
-    <div class="subhead" style="font-size:16px;margin-bottom:12px;">${title}</div>
+    <div class="subhead">${title}</div>
     <div class="card-list">${renderCardList(sectionKey, items)}</div>
     ${btnLabel&&btnHref?`<div style="margin-top:12px;"><a class="btn btn-ghost btn-sm" href="${btnHref}">${btnLabel}</a></div>`:''}
   </div>`;
@@ -3612,7 +3621,7 @@ function detailHero(o){
 }
 function parasHtml(text){
   if(!text) return '';
-  return String(text).replace(/\r\n/g,'\n').split(/\n\s*\n/).filter(p=>p.trim()).map(p=>`<p style="font-size:15px;line-height:1.55;color:var(--ink-soft);margin:0 0 10px;">${p.trim().replace(/\n/g,'<br>')}</p>`).join('');
+  return String(text).replace(/\r\n/g,'\n').split(/\n\s*\n/).filter(p=>p.trim()).map(p=>`<p style="font-size:16px;line-height:1.55;color:var(--ink-soft);margin:0 0 10px;">${p.trim().replace(/\n/g,'<br>')}</p>`).join('');
 }
 function linesUl(arr){
   if(!arr||!arr.length) return '';
@@ -3721,7 +3730,15 @@ function renderCaseDetail(id){
     ...(c.reportUrl?[['Полный отчёт',c.reportUrl]]:[]),
     ...ASSESSMENT_DOCS.filter(d=>d.caseId===id).map(d=>[d.docType||d.title, '#/card/assessmentDoc/'+d.id])
   ];
-  const relatedCasesList = c.relatedCases.map(cid=>byId(CASES,cid)).filter(Boolean);
+  let relatedCasesList = c.relatedCases.map(cid=>byId(CASES,cid)).filter(Boolean);
+  if(!relatedCasesList.length){
+    relatedCasesList = CASES.filter(x=>x.id!==c.id).map(x=>{
+      let s=0;
+      (x.results||[]).forEach(rid=>{ if((c.results||[]).indexOf(rid)>-1) s+=3; });
+      (x.values||[]).forEach(vid=>{ if((c.values||[]).indexOf(vid)>-1) s+=1; });
+      return {x:x,s:s};
+    }).filter(o=>o.s>0).sort((a,b)=>b.s-a.s).map(o=>o.x).slice(0,5);
+  }
   const caseNav = sidebarNavBox([
     {label:'Все кейсы', href:'#/section/cases', prefix:'← '},
     {label:'Все материалы', href:'#/section/all', prefix:'→ '},
@@ -3732,7 +3749,7 @@ function renderCaseDetail(id){
 
   app.innerHTML = `
   <div class="wrap wrap-narrow fade-in case-page">
-    <div class="crumbs"><a href="#/">ЯККИ</a><span class="sep">/</span><a href="#/section/cases">Кейсы проектов</a><span class="sep">/</span><span>${c.title}</span></div>
+    <div class="crumbs"><a href="#/">ЯККИ</a><span class="sep">/</span><a href="#/section/all">Все материалы</a><span class="sep">/</span><a href="#/section/cases">Кейсы проектов</a><span class="sep">/</span><span>${c.title}</span></div>
     ${detailHero({pill:SECTIONS.cases.pill,badge:'Кейс',topExtra:regionTop,title:c.title,lead:c.shortDesc,cta:`<button class="btn btn-primary" onclick="exportForAI('case','${c.id}')">Скачать для ИИ</button>`,meta:'',tint:'#A038B0',grad:'var(--gradient-cases)'})}
     <div class="detail-grid case-grid">
       <div>
@@ -3760,8 +3777,8 @@ function renderCaseDetail(id){
           ${ddetails('Подход к оценке', c.evalApproach?parasHtml(c.evalApproach):'')}
           <div class="subhead">Критерии оценки</div>${critTags||FIELD_PH}
           <div class="subhead">Ключевые оценочные вопросы</div>${questionsHtml||FIELD_PH}
-          ${ddetails('Методы сбора данных', collChips+(c.collectionMethodsDesc?`<div style="margin-top:12px;">${parasHtml(c.collectionMethodsDesc)}</div>`:''))}
-          ${ddetails('Методы анализа данных', anChips+(c.analysisMethodsDesc?`<div style="margin-top:12px;">${parasHtml(c.analysisMethodsDesc)}</div>`:''))}
+          ${ddetails('Методы сбора данных', collChips+`<div class="subhead">Описание методов сбора данных</div>${parasHtml(c.collectionMethodsDesc)||FIELD_PH}`)}
+          ${ddetails('Методы анализа данных', anChips+`<div class="subhead">Описание методов анализа</div>${parasHtml(c.analysisMethodsDesc)||FIELD_PH}`)}
         </div>
         <div class="block" id="usage">
           <h2><span class="section-number">03 ·</span>Использование результатов</h2>
@@ -3879,8 +3896,11 @@ function renderToolDetail(id){
           <h2><span class="section-number">05 ·</span>Файл инструмента</h2>
           <div class="filelist">${t.file?fileRow(t.file):FIELD_PH}</div>
         </div>
-        <div class="block"><h2>Методы анализа данных</h2>${linesUl(t.analysisMethods)||FIELD_PH}</div>
-        ${t.analysisTz?`<div class="block"><h2>Техническое задание на анализ данных</h2>${parasHtml(t.analysisTz)}</div>`:''}
+        <div class="block" id="analysis-data">
+          <h2><span class="section-number">06 ·</span>Анализ данных</h2>
+          ${ddetails('Методы анализа данных', linesUl(t.analysisMethods))}
+          ${ddetails('Техническое задание на анализ данных', parasHtml(t.analysisTz))}
+        </div>
       </div>
       <div>
         ${toolNav}
@@ -3910,8 +3930,8 @@ function renderMethodologyDetail(id){
     ${detailHero({pill:SECTIONS.methodology.pill,badge:m.sub,topExtra:originHtml,title:m.title,lead:m.shortDesc,cta:`<button class="btn btn-primary" onclick="exportForAI('methodology','${m.id}')">Скачать для ИИ</button>`,meta:valuesHtml,tint:'#4F2B85',grad:'linear-gradient(90deg,#2A1547 0%,#7B5BBF 100%)'})}
     <div class="detail-grid case-grid">
       <div>
-        ${m.fullDesc ? `<div class="block"><h2>О подходе</h2><p style="font-size:14px;line-height:1.6;">${m.fullDesc}</p></div>` : ''}
-        <div class="block"><h2>Объяснение простым языком</h2><p style="font-size:14px;line-height:1.6;">${m.explain}</p></div>
+        ${m.fullDesc ? `<div class="block"><h2>О подходе</h2><p style="font-size:15px;line-height:1.6;">${m.fullDesc}</p></div>` : ''}
+        <div class="block"><h2>Объяснение простым языком</h2><p style="font-size:15px;line-height:1.6;">${m.explain}</p></div>
         ${m.principles ? `<div class="block"><h2>Ключевые принципы</h2><ul class="plain">${m.principles.map(x=>`<li>${x}</li>`).join('')}</ul></div>` : ''}
         <div class="block"><h2>Как это делать — шаг за шагом</h2><ul class="plain">${m.steps.map(x=>`<li>${x}</li>`).join('')}</ul></div>
         <div class="block"><h2>Типичные ошибки</h2><ul class="plain">${m.mistakes.map(x=>`<li>${x}</li>`).join('')}</ul></div>
@@ -3939,8 +3959,8 @@ function renderTemplateDetail(id){
     ${detailHero({pill:SECTIONS.templates.pill,badge:'Шаблон',topExtra:levelHtml,title:t.title,lead:t.shortDesc,cta:`<button class="btn btn-primary" onclick="exportForAI('template','${t.id}')">Скачать для ИИ</button>`,meta:'',tint:'#1E9E8F',grad:'linear-gradient(90deg,#0F5F5A 0%,#2FBFB0 100%)'})}
     <div class="detail-grid case-grid">
       <div>
-        <div class="block"><h2>Когда использовать</h2><p style="font-size:14px;">${t.when}</p></div>
-        ${t.instruction ? `<div class="block"><h2>Инструкция по использованию</h2><p style="font-size:13.5px;line-height:1.55;color:var(--ink-soft);">${t.instruction}</p></div>` : ''}
+        <div class="block"><h2>Когда использовать</h2><p style="font-size:15px;">${t.when}</p></div>
+        ${t.instruction ? `<div class="block"><h2>Инструкция по использованию</h2><p style="font-size:15px;line-height:1.55;color:var(--ink-soft);">${t.instruction}</p></div>` : ''}
         <div class="block"><h2>Скачать</h2><div class="filelist">${t.formats.map(f=>fileRow({name:t.title+'.'+f.toLowerCase(),ext:f})).join('')}</div></div>
       </div>
       <div>
@@ -3987,10 +4007,10 @@ function renderAssessmentDocDetail(id){
           </dl>
         </div>
         <div class="block"><h2>Аннотация</h2>
-          <p style="font-size:13.5px;line-height:1.55;">${d.annotation}</p>
+          <p style="font-size:15px;line-height:1.55;">${d.annotation}</p>
         </div>
         <div class="block"><h2>Содержание</h2>
-          <p style="font-size:13.5px;line-height:1.55;color:var(--ink-soft);">${d.contents}</p>
+          <p style="font-size:15px;line-height:1.55;color:var(--ink-soft);">${d.contents}</p>
         </div>
         ${d.evalQuestions.length ? `<div class="block"><h2>Оценочные вопросы</h2><ul class="plain">${d.evalQuestions.map(q=>`<li>${q}</li>`).join('')}</ul></div>` : ''}
         ${d.dataCollectionMethods.length ? `<div class="block"><h2>Методы сбора данных</h2><ul class="plain">${d.dataCollectionMethods.map(m=>`<li>${m}</li>`).join('')}</ul></div>` : ''}
