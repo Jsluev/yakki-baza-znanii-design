@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Банк результатов — выпадающие списки (демо) — ЯККИ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<style>
+:root{
+  --paper:#FFFFFF; --paper-raised:#FFFFFF; --paper-sunk:#F5EFFB;
+  --ink:#0b132b; --ink-soft:#322b4a; --ink-faint:#8f89a3;
+  --line:#D9D9D9; --line-strong:#C9BEE2;
+  --navy:#4F2B85; --navy-deep:#2A1650; --navy-soft:#F0E9F9;
+  --yakki-violet:#4F2B85; --yakki-ink:#2A1650; --yakki-purple:#A038B0; --yakki-purple-deep:#7E2A8A;
+  --yakki-orange:#F78E45; --yakki-orange-deep:#D96C1E; --yakki-peach:#FFDDBE;
+  --accent:#A038B0; --accent-light:#F3E7F7;
+  --yakki-pink:#C2437F; --yakki-blue:#2E7FC2; --yakki-teal:#1C8798;
+  --color-page:#f5f3f8; --color-surface:#ffffff; --color-ink:#0b132b; --color-text-muted:#322b4a; --color-section-label:#4a4360; --color-border:#d9d9d9; --color-placeholder:#8f89a3;
+  --color-purple:#a038b0; --color-purple-dark:#4f2b85; --color-orange:#f78e45; --color-blue:#63adf2; --color-mint:#1b998b; --color-mint-dark:#20a57a; --color-mint-light:#c5dfdc; --color-footer:#1e293b;
+  --gradient-primary:linear-gradient(90deg,#4f2b85,#a038b0); --gradient-active:linear-gradient(90deg,#20a57a,#1aa679);
+  --gradient-results:linear-gradient(100deg,#0A2463 0%,#224A8A 40%,#3668AA 70%,#5597DB 100%);
+  --c-results:#2E7FC2; --c-results-bg:#E5F1FA;
+  --radius:16px; --radius-sm:10px;
+  --shadow:0 2px 4px rgba(42,22,80,.05), 0 10px 28px -14px rgba(42,22,80,.2);
+  --font-display:'Georgia','Times New Roman',serif; --font-body:'Museo Sans Cyrl','Nunito Sans','Segoe UI',system-ui,-apple-system,'Helvetica Neue',Roboto,Arial,sans-serif; --font-mono:'Museo Sans Cyrl','Nunito Sans','Segoe UI',system-ui,-apple-system,sans-serif;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;overflow-x:clip;}
+body{margin:0;background:#F5F3F8;color:var(--ink);font-family:var(--font-body);line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:clip;}
+h1,h2,h3,h4{margin:0;}
+h1{font-family:var(--font-display);font-weight:400;font-size:54px;line-height:1.1;color:var(--color-ink);}
+h2{font-family:var(--font-body);font-weight:700;font-size:30px;line-height:1.1;}
+h3{font-family:var(--font-body);font-weight:700;line-height:1.2;}
+h4{font-family:var(--font-body);font-weight:700;}
+p{margin:0;}
+a{color:inherit;text-decoration:none;}
+button{font-family:var(--font-body);cursor:pointer;}
+:focus-visible{outline:2.5px solid var(--navy);outline-offset:2px;border-radius:4px;}
+::selection{background:#E0CBF7;}
+img{max-width:100%;display:block;}
+.wrap{max-width:1206px;margin:0 auto;padding:0 28px;}
+.wrap-narrow{max-width:1206px;}
+.wrap-wide{max-width:1206px;}
+@media (max-width:640px){.wrap{padding:0 16px;}}
+
+/* ---------- header ---------- */
+.site-back{font-size:16px;font-weight:500;color:var(--ink);background:#fff;border:1px solid #D9D9D9;border-radius:999px;width:198px;height:46px;justify-content:center;padding:0;text-decoration:none;display:inline-flex;align-items:center;gap:7px;white-space:nowrap;transition:all .15s;flex-shrink:0;align-self:center;}
+.site-back:hover{border-color:var(--navy);color:var(--navy);}
+.site-back.light{color:#fff;border-color:rgba(255,255,255,.45);background:transparent;}
+.site-back.light:hover{border-color:#fff;color:#fff;}
+header.main{background:var(--paper-raised);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50;}
+header.main .wrap{display:flex;align-items:stretch;gap:20px;height:88px;padding-top:0;padding-bottom:0;position:relative;}
+.brand{display:flex;align-items:center;gap:12px;flex-shrink:0;cursor:pointer;align-self:center;}
+.brand img{height:64px;width:auto;display:block;}
+nav.mainnav{flex:1;display:flex;align-items:stretch;justify-content:center;gap:36px;min-width:0;}
+@media (max-width:1180px){
+  header.main .wrap{gap:12px;}
+  .site-back{font-size:12.5px;padding:6px 10px;}
+}
+@media (max-width:980px){
+  nav.mainnav{display:none;}
+  .site-back{margin-left:auto;}
+}
+@media (max-width:640px){
+  header.main .wrap{height:72px;}
+  .brand img{height:44px;}
+  .site-back{width:auto;height:40px;padding:0 14px;font-size:13px;}
+}
+
+/* ---------- buttons ---------- */
+.btn{display:inline-flex;align-items:center;gap:6px;font-size:16px;font-weight:500;padding:10px 18px;border-radius:999px;border:1px solid transparent;background-origin:border-box;background-repeat:no-repeat;}
+.btn-primary{background:var(--gradient-primary);color:#fff;background-origin:border-box;}
+.btn-primary:hover{filter:brightness(.9);}
+.btn-ghost{background:transparent;border-color:var(--line-strong);color:var(--ink);}
+.btn-ghost:hover{background:var(--paper-sunk);}
+.btn-sm{padding:8px 14px;font-size:14px;}
+
+/* ---------- breadcrumbs ---------- */
+.crumbs{display:flex;align-items:center;flex-wrap:wrap;gap:8px;font-size:16px;font-weight:500;color:var(--color-ink);font-family:var(--font-mono);padding:30px 0 0;}
+.crumbs a{color:var(--color-ink);font-weight:500;}
+.crumbs a:hover{text-decoration:underline;}
+.crumbs .sep{opacity:.5;}
+.crumbs span:last-child{opacity:.5;}
+
+main{min-height:60vh;padding-bottom:100px;position:relative;z-index:1;}
+
+/* ---------- results head ---------- */
+.catalog-head{padding:8px 0 4px;}
+.catalog-head p{margin-top:10px;color:var(--ink-soft);font-size:16px;max-width:640px;}
+.results-top{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;}
+.ai-callout{max-width:340px;display:flex;flex-direction:column;align-items:flex-end;gap:10px;text-align:right;}
+.ai-callout p{font-size:14px;color:var(--color-text-muted);max-width:280px;}
+.ai-callout .btn{padding:12px 24px;font-size:16px;}
+
+/* ---------- tree (3 columns, как в текущем виде) ---------- */
+.tree-cols{display:grid;grid-template-columns:349px 349px minmax(0,1fr);gap:0;margin-top:22px;border:1px solid #E0E3EB;border-radius:6px;overflow:hidden;background:var(--color-surface);min-height:360px;}
+.tree-col{border-right:1px solid #E0E3EB;}
+.tree-col:last-child{border-right:none;}
+.tree-col-h{height:48px;display:flex;align-items:center;padding:0 18px;font-size:17px;font-weight:700;letter-spacing:0;text-transform:uppercase;color:#0B132B;border-bottom:1px solid #E0E3EB;background:#EEDBF1;}
+.result-line{display:flex;flex-direction:column;justify-content:center;gap:4px;min-height:56px;padding:12px 18px;border-bottom:1px solid #E0E3EB;font-size:16px;font-weight:500;line-height:1.4;transition:background .15s;}
+.result-line:hover{background:var(--paper-raised);}
+.result-line .ind{display:block;font-size:14px;color:#8934A4!important;font-weight:500;margin-top:4px;}
+
+/* ---------- dropdown additions ---------- */
+.dp-body{padding:16px 18px 20px;}
+.dp-select{width:100%;height:48px;padding:0 40px 0 14px;border:none;border-radius:6px;font-family:var(--font-body);font-size:16px;font-weight:500;background:#F5F3F8 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23767676' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 14px center;color:var(--color-ink);appearance:none;-webkit-appearance:none;cursor:pointer;}
+.dp-select:hover{background-color:#EFEBF5;}
+.dp-select:disabled{opacity:1;cursor:default;}
+.dp-hint{margin-top:10px;font-size:13.5px;color:var(--ink-faint);line-height:1.45;}
+.dp-results{margin-bottom:16px;border:1px solid #E0E3EB;border-radius:6px;overflow:hidden;background:var(--color-surface);}
+.dp-results .result-line:last-child{border-bottom:none;}
+.dp-empty{padding:14px 18px;font-size:14px;color:var(--ink-faint);}
+.dp-pick .dp-label{display:block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:8px;}
+.dp-off{opacity:.4;pointer-events:none;}
+body.pg-results-mobile-demo .ai-callout .btn{white-space:nowrap;}
+
+/* ---------- footer ---------- */
+footer{background:var(--color-footer);color:#C6CBD6;margin-top:0;min-height:315px;}
+footer .wrap{padding:48px 28px 26px;}
+.foot-logo{height:56px;width:auto;margin-bottom:18px;}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:24px;}
+@media (max-width:760px){.foot-grid{grid-template-columns:1fr 1fr;}}
+footer h4{color:#fff;font-size:12px;text-transform:uppercase;font-family:var(--font-mono);letter-spacing:.06em;margin-bottom:16px;}
+footer a{display:block;font-size:14px;color:#C6CBD6;margin-bottom:10px;}
+footer a:hover{color:#fff;}
+.social-row{display:flex;gap:12px;margin-top:2px;}
+.social-row a{margin:0;}
+.social-row .soc{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:transform .15s;}
+.social-row .soc:hover{transform:translateY(-2px);}
+.social-row .soc svg{width:40px;height:40px;display:block;}
+.foot-bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:32px;padding-top:18px;display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:24px;font-size:12.5px;color:#8B91A3;}
+
+.fade-in{animation:fadeIn .25s ease both;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;}}
+
+/* ---------- mobile ---------- */
+@media (max-width:800px){
+  .tree-cols{grid-template-columns:1fr;min-height:auto;}
+  .tree-col{border-right:none;border-bottom:1px solid #E0E3EB;scroll-margin-top:100px;}
+  .tree-col:last-child{border-bottom:none;}
+  .dp-body{padding:14px 16px 18px;}
+  .result-line{font-size:14px;padding:10px 18px;}
+  .results-top{align-items:flex-start;}
+  .ai-callout{align-items:flex-start;text-align:left;max-width:none;}
+  .ai-callout p{max-width:none;}
+}
+@media (max-width:760px){
+  footer .wrap{padding:32px 16px 24px;}
+  .foot-grid{gap:20px;}
+  footer h4{font-size:11px;margin-bottom:10px;}
+  footer a{font-size:12.5px;margin-bottom:7px;}
+}
+@media (max-width:640px){
+  h1{font-size:22px !important;}
+  h2{font-size:15px !important;}
+  h3{font-size:14px !important;}
+  .btn{font-size:12.5px;padding:8px 14px;}
+  .btn-sm{font-size:11.5px;padding:6px 10px;}
+  .catalog-head{padding:20px 0 4px;}
+  .catalog-head h1{font-size:22px !important;}
+  .catalog-head p{font-size:14px;}
+  .tree-col-h{font-size:14px;height:44px;}
+  .dp-select{font-size:14px;height:44px;}
+  .ai-callout .btn{padding:10px 18px;font-size:12.5px;}
+}
+@media (max-width:480px){
+  .foot-grid{grid-template-columns:1fr;gap:18px;}
+  .foot-bottom{grid-template-columns:1fr;gap:6px;text-align:center;}
+}
+</style>
+</head>
+<body class="pg-results-mobile-demo">
+
+<header class="main">
+  <div class="wrap">
+    <a class="brand" href="index.html" aria-label="ЯККИ — база знаний">
+      <img src="assets/logo-main.png" alt="ЯККИ — Яркие краски креативных индустрий">
+    </a>
+    <nav class="mainnav" aria-label="Основная навигация"></nav>
+    <a href="index.html#/results" class="site-back">← Банк результатов</a>
+  </div>
+</header>
+
+<main id="main">
+  <div class="wrap wrap-wide fade-in">
+    <div class="crumbs"><a href="index.html">ЯККИ</a><span class="sep">/</span><a href="index.html#/results">Банк результатов</a><span class="sep">/</span><span>Выпадающие списки (демо)</span></div>
+    <div class="results-top" style="margin-top:18px;">
+      <div class="catalog-head">
+        <h1>Банк результатов</h1>
+        <p>Вариант с выпадающими списками: выберите подход, область влияния и результат. Выбор результата сразу открывает его страницу.</p>
+      </div>
+      <div class="ai-callout">
+        <p>Демо-страница мобильного варианта. Текущий вид — по кнопке «К текущему виду».</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;">
+          <button class="btn btn-ghost" id="btnReset" type="button">Сбросить</button>
+          <a class="btn btn-primary" href="index.html#/results">К текущему виду</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="tree-cols">
+      <div class="tree-col" id="colApproach">
+        <div class="tree-col-h">Подход</div>
+        <div class="dp-body">
+          <select class="dp-select" id="selApproach" aria-label="Подход"></select>
+          <div class="dp-hint" id="hintApproach">4 подхода и режим «Фокус на ценностях».</div>
+        </div>
+      </div>
+      <div class="tree-col" id="colArea">
+        <div class="tree-col-h" id="hArea">Область влияния</div>
+        <div class="dp-body">
+          <select class="dp-select" id="selArea" aria-label="Область влияния"></select>
+          <div class="dp-hint" id="hintArea"></div>
+        </div>
+      </div>
+      <div class="tree-col" id="colResult">
+        <div class="tree-col-h" id="hResult">Результаты</div>
+        <div class="dp-body">
+          <div class="dp-results" id="resultList"></div>
+          <div class="dp-pick">
+            <label class="dp-label" for="selResult">Перейти к результату</label>
+            <select class="dp-select" id="selResult" aria-label="Перейти к результату"></select>
+            <div class="dp-hint" id="hintResult"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap wrap-wide">
+    <div class="foot-grid">
+      <div>
+        <img class="foot-logo" src="assets/logo-white.png" alt="ЯККИ — Яркие краски креативных индустрий">
+        <div><a class="site-back light" href="https://creative-industries.su/" target="_blank" rel="noopener" style="text-decoration:none;">↩ К основному сайту</a></div>
+      </div>
+      <div>
+        <h4>База материалов</h4>
+        <a href="index.html#/section/cases">Кейсы</a>
+        <a href="index.html#/section/tools">Инструменты</a>
+      </div>
+      <div>
+        <h4>Навигация</h4>
+        <a href="index.html#/results">Банк результатов</a>
+        <a href="index.html#/values">Ценности</a>
+      </div>
+      <div>
+        <h4>Контакты</h4>
+        <div class="social-row">
+          <a class="soc" href="https://vk.com/" target="_blank" rel="noopener" aria-label="ЯККИ во ВКонтакте" title="ВКонтакте"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" fill="#0077FF"/><text x="20" y="26.5" text-anchor="middle" fill="#fff" font-size="14" font-weight="800" font-family="Arial,sans-serif">VK</text></svg></a>
+          <a class="soc" href="https://t.me/" target="_blank" rel="noopener" aria-label="ЯККИ в Telegram" title="Telegram"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" fill="#29A9EB"/><path d="M8.5 20.2l4.2 1.6 1.6 5.2 2.4-3.4 4.6 3.4 7.2-12.5-13.4 5.5 3.4.2z" fill="#fff"/><path d="M12.7 21.8l14-6.8-9.5 11.5-1.2-3.4-3.3-1.3z" fill="#B9E0F7"/></svg></a>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© ООО «ЯККИ», 2026</span>
+      <span>Пользовательское соглашение</span>
+    </div>
+  </div>
+</footer>
+
+<script src="dropdown-results-data.js"></script>
+<script>
+(function(){
+  'use strict';
+  var TREE = DR_TREE, VALUES = DR_VALUES;
+
+  var RESULT_POS = {};
+  TREE.forEach(function(a,ai){a.influenceAreas.forEach(function(ar,ari){ar.results.forEach(function(r,ri){
+    if(RESULT_POS[r.id]===undefined)RESULT_POS[r.id]={ai:ai,ari:ari,ri:ri};
+  });});});
+
+  function nodeCount(a){return a.influenceAreas.reduce(function(s,ar){return s+ar.results.length;},0);}
+  function valueNodeCount(vid){
+    var cnt=0;
+    TREE.forEach(function(a){a.influenceAreas.forEach(function(ar){ar.results.forEach(function(r){
+      if(r.values&&r.values.indexOf(vid)>=0)cnt++;
+    });});});
+    return cnt;
+  }
+  function valNames(r){
+    return (r.values||[]).map(function(vid){
+      var v=VALUES.find(function(x){return x.id===vid;});
+      return v?v.title:'';
+    }).filter(Boolean).join(', ');
+  }
+  function valueResultIds(vid){
+    var rows=[], seen=new Set();
+    var ordered=((VALUES.find(function(v){return v.id===vid;})||{}).keyResults)||[];
+    ordered.forEach(function(rid){ if(RESULT_POS[rid]&&!seen.has(rid)){ seen.add(rid); rows.push(rid); } });
+    TREE.forEach(function(a){a.influenceAreas.forEach(function(ar){ar.results.forEach(function(r){
+      if(r.values&&r.values.indexOf(vid)>=0&&!seen.has(r.id)){ seen.add(r.id); rows.push(r.id); }
+    });});});
+    return rows;
+  }
+
+  var sel={approach:null, area:null, value:null};
+  var els={
+    approach:document.getElementById('selApproach'),
+    area:document.getElementById('selArea'),
+    result:document.getElementById('selResult'),
+    hArea:document.getElementById('hArea'),
+    hResult:document.getElementById('hResult'),
+    colArea:document.getElementById('colArea'),
+    colResult:document.getElementById('colResult'),
+    list:document.getElementById('resultList'),
+    hintArea:document.getElementById('hintArea'),
+    hintResult:document.getElementById('hintResult')
+  };
+
+  function setOptions(select, items, placeholder){
+    select.innerHTML='';
+    var ph=document.createElement('option');
+    ph.value=''; ph.textContent=placeholder;
+    select.appendChild(ph);
+    items.forEach(function(it){
+      var o=document.createElement('option');
+      o.value=it.value; o.textContent=it.label;
+      select.appendChild(o);
+    });
+  }
+
+  function collectRows(){
+    if(sel.approach===null) return null;
+    if(sel.approach==='values'){
+      if(!sel.value) return null;
+      return valueResultIds(sel.value).map(function(rid){
+        var p=RESULT_POS[rid];
+        var r=TREE[p.ai].influenceAreas[p.ari].results[p.ri];
+        return {url:'index.html#/result/'+p.ai+'/'+p.ari+'/'+p.ri, title:r.title||r.text, vals:valNames(r)};
+      });
+    }
+    if(sel.area===null) return null;
+    return TREE[sel.approach].influenceAreas[sel.area].results.map(function(r,ri){
+      return {url:'index.html#/result/'+sel.approach+'/'+sel.area+'/'+ri, title:r.title||r.text, vals:valNames(r)};
+    });
+  }
+
+  function render(){
+    var valuesMode = sel.approach==='values';
+    var appr = (typeof sel.approach==='number') ? TREE[sel.approach] : null;
+
+    setOptions(els.approach,
+      TREE.map(function(a,i){return {value:String(i), label:a.approach+' ('+nodeCount(a)+')'};})
+        .concat([{value:'values', label:'♦ Фокус на ценностях ('+VALUES.length+')'}]),
+      'Выберите подход…');
+    els.approach.value = sel.approach===null?'':String(sel.approach);
+
+    var areaOff = sel.approach===null;
+    els.colArea.classList.toggle('dp-off', areaOff);
+    els.hArea.textContent = valuesMode ? 'Ценность' : 'Область влияния';
+    els.area.disabled = areaOff;
+    if(areaOff){
+      setOptions(els.area, [], 'Сначала выберите подход');
+      els.hintArea.textContent='Сначала выберите подход — появится список областей влияния.';
+    } else if(valuesMode){
+      setOptions(els.area,
+        VALUES.map(function(v){return {value:v.id, label:'♦ '+v.title+' ('+valueNodeCount(v.id)+')'};}),
+        'Выберите ценность…');
+      els.area.value = sel.value||'';
+      els.hintArea.textContent='Выберите ценность — увидите связанные результаты.';
+    } else {
+      setOptions(els.area,
+        appr.influenceAreas.map(function(ar,i){return {value:String(i), label:ar.name+' ('+ar.results.length+')'};}),
+        'Выберите область влияния…');
+      els.area.value = sel.area===null?'':String(sel.area);
+      els.hintArea.textContent='Выберите область влияния — увидите список результатов.';
+    }
+
+    var rows = collectRows();
+    var resultOff = rows===null;
+    els.colResult.classList.toggle('dp-off', resultOff);
+    els.result.disabled = resultOff;
+    els.list.innerHTML='';
+    if(resultOff){
+      els.hResult.textContent='Результаты';
+      els.hintResult.textContent = valuesMode ? 'Сначала выберите ценность.' : 'Сначала выберите область влияния.';
+      setOptions(els.result, [], valuesMode?'Сначала выберите ценность':'Сначала выберите область влияния');
+      return;
+    }
+    els.hResult.textContent='Результаты ('+rows.length+')';
+    els.hintResult.textContent='Выберите результат — сразу откроется его страница.';
+    rows.forEach(function(row){
+      var a=document.createElement('a');
+      a.className='result-line'; a.href=row.url; a.textContent=row.title;
+      if(row.vals){var s=document.createElement('span');s.className='ind';s.textContent='♦ '+row.vals;a.appendChild(s);}
+      els.list.appendChild(a);
+    });
+    if(!rows.length){
+      var em=document.createElement('div');
+      em.className='dp-empty'; em.textContent='Нет результатов';
+      els.list.appendChild(em);
+    }
+    setOptions(els.result, rows.map(function(r){return {value:r.url, label:r.title};}), 'Выберите результат…');
+  }
+
+  function scrollToCol(col){
+    if(window.innerWidth<=800 && col.scrollIntoView){
+      col.scrollIntoView({behavior:'smooth', block:'start'});
+    }
+  }
+
+  els.approach.addEventListener('change', function(){
+    var v=this.value;
+    if(v==='') sel={approach:null,area:null,value:null};
+    else if(v==='values') sel={approach:'values',area:null,value:null};
+    else sel={approach:parseInt(v,10),area:null,value:null};
+    render();
+    scrollToCol(els.colArea);
+  });
+  els.area.addEventListener('change', function(){
+    var v=this.value;
+    if(sel.approach==='values') sel.value = v||null;
+    else sel.area = v===''?null:parseInt(v,10);
+    render();
+    scrollToCol(els.colResult);
+  });
+  els.result.addEventListener('change', function(){
+    if(this.value) window.location.href=this.value;
+  });
+  document.getElementById('btnReset').addEventListener('click', function(){
+    sel={approach:null,area:null,value:null};
+    render();
+    scrollToCol(els.colArea);
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
