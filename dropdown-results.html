@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Банк результатов — выпадающие списки (демо) — ЯККИ</title>
+<title>Банк результатов — мобильные выпадающие списки (демо) — ЯККИ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&display=swap" rel="stylesheet">
@@ -96,27 +96,32 @@ main{min-height:60vh;padding-bottom:100px;position:relative;z-index:1;}
 .ai-callout p{font-size:14px;color:var(--color-text-muted);max-width:280px;}
 .ai-callout .btn{padding:12px 24px;font-size:16px;}
 
-/* ---------- tree (3 columns, как в текущем виде) ---------- */
+/* ---------- tree (десктоп — как в текущем виде) ---------- */
 .tree-cols{display:grid;grid-template-columns:349px 349px minmax(0,1fr);gap:0;margin-top:22px;border:1px solid #E0E3EB;border-radius:6px;overflow:hidden;background:var(--color-surface);min-height:360px;}
 .tree-col{border-right:1px solid #E0E3EB;}
 .tree-col:last-child{border-right:none;}
 .tree-col-h{height:48px;display:flex;align-items:center;padding:0 18px;font-size:17px;font-weight:700;letter-spacing:0;text-transform:uppercase;color:#0B132B;border-bottom:1px solid #E0E3EB;background:#EEDBF1;}
+.tree-opt{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;text-align:left;padding:0 18px;border:none;background:none;font-size:16px;font-weight:500;font-family:var(--font-body);min-height:48px;border-bottom:1px solid #E0E3EB;color:var(--color-ink);cursor:pointer;}
+.tree-opt:hover{background:#F3EFF7;}
+.tree-opt.sel{background:#082060;color:#fff;font-weight:700;min-height:50px;border-bottom-color:transparent;}
+.tree-opt .cnt{font-size:14px;color:var(--color-ink);opacity:.24;flex-shrink:0;}
+.tree-opt.sel .cnt{color:#fff;opacity:1;}
 .result-line{display:flex;flex-direction:column;justify-content:center;gap:4px;min-height:56px;padding:12px 18px;border-bottom:1px solid #E0E3EB;font-size:16px;font-weight:500;line-height:1.4;transition:background .15s;}
 .result-line:hover{background:var(--paper-raised);}
 .result-line .ind{display:block;font-size:14px;color:#8934A4!important;font-weight:500;margin-top:4px;}
 
-/* ---------- dropdown additions ---------- */
-.dp-body{padding:16px 18px 20px;}
+/* ---------- mobile dropdown additions ---------- */
+.dp-m{display:none;}
+.dp-d{display:block;}
+.dp-m{padding:14px 16px 18px;}
 .dp-select{width:100%;height:48px;padding:0 40px 0 14px;border:none;border-radius:6px;font-family:var(--font-body);font-size:16px;font-weight:500;background:#F5F3F8 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23767676' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 14px center;color:var(--color-ink);appearance:none;-webkit-appearance:none;cursor:pointer;}
 .dp-select:hover{background-color:#EFEBF5;}
 .dp-select:disabled{opacity:1;cursor:default;}
-.dp-hint{margin-top:10px;font-size:13.5px;color:var(--ink-faint);line-height:1.45;}
-.dp-results{margin-bottom:16px;border:1px solid #E0E3EB;border-radius:6px;overflow:hidden;background:var(--color-surface);}
-.dp-results .result-line:last-child{border-bottom:none;}
+.dp-hint{font-size:13.5px;color:var(--ink-faint);line-height:1.45;}
+.dp-m .dp-hint{margin-top:10px;}
+.dp-d .dp-hint{padding:12px 18px;}
 .dp-empty{padding:14px 18px;font-size:14px;color:var(--ink-faint);}
-.dp-pick .dp-label{display:block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:8px;}
 .dp-off{opacity:.4;pointer-events:none;}
-body.pg-results-mobile-demo .ai-callout .btn{white-space:nowrap;}
 
 /* ---------- footer ---------- */
 footer{background:var(--color-footer);color:#C6CBD6;margin-top:0;min-height:315px;}
@@ -138,12 +143,13 @@ footer a:hover{color:#fff;}
 @keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;}}
 
-/* ---------- mobile ---------- */
+/* ---------- responsive: мобильные списки-селекты ---------- */
 @media (max-width:800px){
   .tree-cols{grid-template-columns:1fr;min-height:auto;}
   .tree-col{border-right:none;border-bottom:1px solid #E0E3EB;scroll-margin-top:100px;}
   .tree-col:last-child{border-bottom:none;}
-  .dp-body{padding:14px 16px 18px;}
+  .dp-m{display:block;}
+  .dp-d{display:none;}
   .result-line{font-size:14px;padding:10px 18px;}
   .results-top{align-items:flex-start;}
   .ai-callout{align-items:flex-start;text-align:left;max-width:none;}
@@ -174,7 +180,7 @@ footer a:hover{color:#fff;}
 }
 </style>
 </head>
-<body class="pg-results-mobile-demo">
+<body>
 
 <header class="main">
   <div class="wrap">
@@ -188,11 +194,11 @@ footer a:hover{color:#fff;}
 
 <main id="main">
   <div class="wrap wrap-wide fade-in">
-    <div class="crumbs"><a href="index.html">ЯККИ</a><span class="sep">/</span><a href="index.html#/results">Банк результатов</a><span class="sep">/</span><span>Выпадающие списки (демо)</span></div>
+    <div class="crumbs"><a href="index.html">ЯККИ</a><span class="sep">/</span><a href="index.html#/results">Банк результатов</a><span class="sep">/</span><span>Мобильные выпадающие списки (демо)</span></div>
     <div class="results-top" style="margin-top:18px;">
       <div class="catalog-head">
         <h1>Банк результатов</h1>
-        <p>Вариант с выпадающими списками: выберите подход, область влияния и результат. Выбор результата сразу открывает его страницу.</p>
+        <p>На мобильных — выпадающие списки: выберите подход и область влияния, ниже появятся результаты. На десктопе — текущий вид с колонками. Выбор результата сразу открывает его страницу.</p>
       </div>
       <div class="ai-callout">
         <p>Демо-страница мобильного варианта. Текущий вид — по кнопке «К текущему виду».</p>
@@ -206,28 +212,25 @@ footer a:hover{color:#fff;}
     <div class="tree-cols">
       <div class="tree-col" id="colApproach">
         <div class="tree-col-h">Подход</div>
-        <div class="dp-body">
+        <div class="dp-m">
           <select class="dp-select" id="selApproach" aria-label="Подход"></select>
-          <div class="dp-hint" id="hintApproach">4 подхода и режим «Фокус на ценностях».</div>
+          <div class="dp-hint">4 подхода и режим «Фокус на ценностях».</div>
         </div>
+        <div class="dp-d" id="listApproach"></div>
       </div>
       <div class="tree-col" id="colArea">
         <div class="tree-col-h" id="hArea">Область влияния</div>
-        <div class="dp-body">
+        <div class="dp-m">
           <select class="dp-select" id="selArea" aria-label="Область влияния"></select>
           <div class="dp-hint" id="hintArea"></div>
         </div>
+        <div class="dp-d" id="listArea"></div>
       </div>
       <div class="tree-col" id="colResult">
         <div class="tree-col-h" id="hResult">Результаты</div>
-        <div class="dp-body">
-          <div class="dp-results" id="resultList"></div>
-          <div class="dp-pick">
-            <label class="dp-label" for="selResult">Перейти к результату</label>
-            <select class="dp-select" id="selResult" aria-label="Перейти к результату"></select>
-            <div class="dp-hint" id="hintResult"></div>
-          </div>
-        </div>
+        <div class="dp-m dp-hint" id="hintResultMob"></div>
+        <div class="dp-hint" id="hintResultOff"></div>
+        <div id="resultList"></div>
       </div>
     </div>
   </div>
@@ -276,6 +279,9 @@ footer a:hover{color:#fff;}
     if(RESULT_POS[r.id]===undefined)RESULT_POS[r.id]={ai:ai,ari:ari,ri:ri};
   });});});
 
+  function esc(s){
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
   function nodeCount(a){return a.influenceAreas.reduce(function(s,ar){return s+ar.results.length;},0);}
   function valueNodeCount(vid){
     var cnt=0;
@@ -302,16 +308,18 @@ footer a:hover{color:#fff;}
 
   var sel={approach:null, area:null, value:null};
   var els={
-    approach:document.getElementById('selApproach'),
-    area:document.getElementById('selArea'),
-    result:document.getElementById('selResult'),
+    selApproach:document.getElementById('selApproach'),
+    selArea:document.getElementById('selArea'),
+    listApproach:document.getElementById('listApproach'),
+    listArea:document.getElementById('listArea'),
     hArea:document.getElementById('hArea'),
     hResult:document.getElementById('hResult'),
     colArea:document.getElementById('colArea'),
     colResult:document.getElementById('colResult'),
     list:document.getElementById('resultList'),
     hintArea:document.getElementById('hintArea'),
-    hintResult:document.getElementById('hintResult')
+    hintResultMob:document.getElementById('hintResultMob'),
+    hintResultOff:document.getElementById('hintResultOff')
   };
 
   function setOptions(select, items, placeholder){
@@ -346,46 +354,59 @@ footer a:hover{color:#fff;}
     var valuesMode = sel.approach==='values';
     var appr = (typeof sel.approach==='number') ? TREE[sel.approach] : null;
 
-    setOptions(els.approach,
+    els.listApproach.innerHTML =
+      TREE.map(function(a,i){
+        return '<button type="button" class="tree-opt'+(i===sel.approach?' sel':'')+'" data-approach="'+i+'">'+esc(a.approach)+'<span class="cnt">'+nodeCount(a)+'</span></button>';
+      }).join('') +
+      '<button type="button" class="tree-opt'+(valuesMode?' sel':'')+'" data-approach="values">♦ Фокус на ценностях<span class="cnt">'+VALUES.length+'</span></button>';
+
+    setOptions(els.selApproach,
       TREE.map(function(a,i){return {value:String(i), label:a.approach+' ('+nodeCount(a)+')'};})
         .concat([{value:'values', label:'♦ Фокус на ценностях ('+VALUES.length+')'}]),
       'Выберите подход…');
-    els.approach.value = sel.approach===null?'':String(sel.approach);
+    els.selApproach.value = sel.approach===null?'':String(sel.approach);
 
     var areaOff = sel.approach===null;
     els.colArea.classList.toggle('dp-off', areaOff);
     els.hArea.textContent = valuesMode ? 'Ценность' : 'Область влияния';
-    els.area.disabled = areaOff;
+    els.selArea.disabled = areaOff;
     if(areaOff){
-      setOptions(els.area, [], 'Сначала выберите подход');
+      setOptions(els.selArea, [], 'Сначала выберите подход');
       els.hintArea.textContent='Сначала выберите подход — появится список областей влияния.';
+      els.listArea.innerHTML='<div class="dp-hint">Сначала выберите подход</div>';
     } else if(valuesMode){
-      setOptions(els.area,
+      setOptions(els.selArea,
         VALUES.map(function(v){return {value:v.id, label:'♦ '+v.title+' ('+valueNodeCount(v.id)+')'};}),
         'Выберите ценность…');
-      els.area.value = sel.value||'';
+      els.selArea.value = sel.value||'';
       els.hintArea.textContent='Выберите ценность — увидите связанные результаты.';
+      els.listArea.innerHTML = VALUES.map(function(v){
+        return '<button type="button" class="tree-opt'+(sel.value===v.id?' sel':'')+'" data-value="'+esc(v.id)+'">♦ '+esc(v.title)+'<span class="cnt">'+valueNodeCount(v.id)+'</span></button>';
+      }).join('');
     } else {
-      setOptions(els.area,
+      setOptions(els.selArea,
         appr.influenceAreas.map(function(ar,i){return {value:String(i), label:ar.name+' ('+ar.results.length+')'};}),
         'Выберите область влияния…');
-      els.area.value = sel.area===null?'':String(sel.area);
+      els.selArea.value = sel.area===null?'':String(sel.area);
       els.hintArea.textContent='Выберите область влияния — увидите список результатов.';
+      els.listArea.innerHTML = appr.influenceAreas.map(function(ar,i){
+        return '<button type="button" class="tree-opt'+(i===sel.area?' sel':'')+'" data-area="'+i+'">'+esc(ar.name)+'<span class="cnt">'+ar.results.length+'</span></button>';
+      }).join('');
     }
 
     var rows = collectRows();
     var resultOff = rows===null;
     els.colResult.classList.toggle('dp-off', resultOff);
-    els.result.disabled = resultOff;
     els.list.innerHTML='';
     if(resultOff){
       els.hResult.textContent='Результаты';
-      els.hintResult.textContent = valuesMode ? 'Сначала выберите ценность.' : 'Сначала выберите область влияния.';
-      setOptions(els.result, [], valuesMode?'Сначала выберите ценность':'Сначала выберите область влияния');
+      els.hintResultMob.textContent='';
+      els.hintResultOff.textContent = valuesMode ? 'Сначала выберите ценность' : 'Сначала выберите область влияния';
       return;
     }
     els.hResult.textContent='Результаты ('+rows.length+')';
-    els.hintResult.textContent='Выберите результат — сразу откроется его страница.';
+    els.hintResultOff.textContent='';
+    els.hintResultMob.textContent='Нажмите на результат — откроется его страница.';
     rows.forEach(function(row){
       var a=document.createElement('a');
       a.className='result-line'; a.href=row.url; a.textContent=row.title;
@@ -397,7 +418,6 @@ footer a:hover{color:#fff;}
       em.className='dp-empty'; em.textContent='Нет результатов';
       els.list.appendChild(em);
     }
-    setOptions(els.result, rows.map(function(r){return {value:r.url, label:r.title};}), 'Выберите результат…');
   }
 
   function scrollToCol(col){
@@ -406,24 +426,42 @@ footer a:hover{color:#fff;}
     }
   }
 
-  els.approach.addEventListener('change', function(){
-    var v=this.value;
-    if(v==='') sel={approach:null,area:null,value:null};
-    else if(v==='values') sel={approach:'values',area:null,value:null};
+  function setApproach(v){
+    if(v==='values') sel={approach:'values',area:null,value:null};
     else sel={approach:parseInt(v,10),area:null,value:null};
     render();
-    scrollToCol(els.colArea);
-  });
-  els.area.addEventListener('change', function(){
-    var v=this.value;
-    if(sel.approach==='values') sel.value = v||null;
-    else sel.area = v===''?null:parseInt(v,10);
+  }
+  function setArea(v){
+    sel.area=parseInt(v,10);
     render();
-    scrollToCol(els.colResult);
+  }
+  function setValue(v){
+    sel.value=v;
+    render();
+  }
+
+  els.listApproach.addEventListener('click', function(e){
+    var b=e.target.closest('[data-approach]');
+    if(b) setApproach(b.getAttribute('data-approach'));
   });
-  els.result.addEventListener('change', function(){
-    if(this.value) window.location.href=this.value;
+  els.listArea.addEventListener('click', function(e){
+    var bv=e.target.closest('[data-value]');
+    if(bv){ setValue(bv.getAttribute('data-value')); return; }
+    var ba=e.target.closest('[data-area]');
+    if(ba) setArea(ba.getAttribute('data-area'));
   });
+
+  els.selApproach.addEventListener('change', function(){
+    var v=this.value;
+    if(v===''){ sel={approach:null,area:null,value:null}; render(); }
+    else { setApproach(v); scrollToCol(els.colArea); }
+  });
+  els.selArea.addEventListener('change', function(){
+    var v=this.value;
+    if(sel.approach==='values'){ sel.value=v||null; render(); scrollToCol(els.colResult); }
+    else { sel.area = v===''?null:parseInt(v,10); render(); scrollToCol(els.colResult); }
+  });
+
   document.getElementById('btnReset').addEventListener('click', function(){
     sel={approach:null,area:null,value:null};
     render();
